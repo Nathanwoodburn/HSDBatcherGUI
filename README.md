@@ -10,9 +10,14 @@ If you don't yu might not be able to reveal your bid.
     For example look at example-domains.txt
 2. Select file in GUI app.
 3. Check in list to make sure all domains are selected
-4. Set bid and blind in HNS values
+4. Set bid and blind in HNS values (If using BID mode)
 5. Set API key and Wallet name
 6. Test using the Test button. (It should spit out your accounts. This Gui only uses default account at the moment)
 7. Add passphrase
-8. Option set bidding interval
-9. Press start to begin sending bids
+8. Option set transaction sending interval
+9. Set transaction mode
+   1. OPEN: Opens domains
+   2. BID: Sends bid with specified bid and blind
+   3. REVEAL: Reveals bid
+   4. REDEEM: Redeems lost auction bids
+10. Press start to begin sending bids
