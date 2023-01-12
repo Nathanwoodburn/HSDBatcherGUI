@@ -94,7 +94,6 @@ namespace BidderGUI
             if (domainslistBox.Items.Count > 0)
             {
                 string domain = domainslistBox.Items[0].ToString();
-                domainslistBox.Items.Remove(domain);
                 logtextBox.Text = logtextBox.Text + "Sending "+ modecomboBox.Text + " for: " + domain + Environment.NewLine;
 
                 if (modecomboBox.Text == "OPEN")
@@ -103,7 +102,8 @@ namespace BidderGUI
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                     string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
                     request.Content = new StringContent(curltext);
-                    sendapicall(request);
+                    sendapicall(request,domain);
+                    
                 }
                 else if (modecomboBox.Text == "BID")
                 {
@@ -111,7 +111,8 @@ namespace BidderGUI
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                     string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
                     request.Content = new StringContent(curltext);
-                    sendapicall(request);
+                    sendapicall(request, domain);
+                    
                 }
                 else if (modecomboBox.Text == "REVEAL")
                 {
@@ -119,7 +120,8 @@ namespace BidderGUI
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                     string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
                     request.Content = new StringContent(curltext);
-                    sendapicall(request);
+                    sendapicall(request, domain);
+                    
                 }
                 else if (modecomboBox.Text == "REDEEM")
                 {
@@ -127,7 +129,7 @@ namespace BidderGUI
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                     string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
                     request.Content = new StringContent(curltext);
-                    sendapicall(request);
+                    sendapicall(request, domain);
                 }
                 else
                 {
@@ -149,7 +151,7 @@ namespace BidderGUI
             }
 
         }
-        async void sendapicall(HttpRequestMessage request)
+        async void sendapicall(HttpRequestMessage request,string domain)
         {
             try
             {
@@ -158,6 +160,7 @@ namespace BidderGUI
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                domainslistBox.Items.Remove(domain);
             }
             catch (Exception error)
             {
