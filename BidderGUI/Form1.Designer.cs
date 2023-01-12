@@ -34,7 +34,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.domainslistBox = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,8 +53,12 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.intervalnumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // filetextbox
@@ -95,15 +99,15 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // listBox1
+            // domainslistBox
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(668, 41);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 394);
-            this.listBox1.TabIndex = 4;
-            this.listBox1.TabStop = false;
+            this.domainslistBox.FormattingEnabled = true;
+            this.domainslistBox.ItemHeight = 15;
+            this.domainslistBox.Location = new System.Drawing.Point(668, 41);
+            this.domainslistBox.Name = "domainslistBox";
+            this.domainslistBox.Size = new System.Drawing.Size(120, 394);
+            this.domainslistBox.TabIndex = 4;
+            this.domainslistBox.TabStop = false;
             // 
             // label2
             // 
@@ -136,18 +140,29 @@
             // 
             this.bidnumericUpDown.DecimalPlaces = 3;
             this.bidnumericUpDown.Location = new System.Drawing.Point(51, 71);
+            this.bidnumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.bidnumericUpDown.Name = "bidnumericUpDown";
             this.bidnumericUpDown.Size = new System.Drawing.Size(120, 23);
             this.bidnumericUpDown.TabIndex = 1;
+            this.bidnumericUpDown.ThousandsSeparator = true;
             // 
             // blindnumericUpDown
             // 
             this.blindnumericUpDown.DecimalPlaces = 3;
             this.blindnumericUpDown.Location = new System.Drawing.Point(51, 99);
+            this.blindnumericUpDown.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.blindnumericUpDown.Name = "blindnumericUpDown";
             this.blindnumericUpDown.Size = new System.Drawing.Size(120, 23);
             this.blindnumericUpDown.TabIndex = 2;
-            this.blindnumericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            this.blindnumericUpDown.ThousandsSeparator = true;
             // 
             // button3
             // 
@@ -194,7 +209,6 @@
             this.logtextBox.Size = new System.Drawing.Size(651, 97);
             this.logtextBox.TabIndex = 13;
             this.logtextBox.TabStop = false;
-            this.logtextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label7
             // 
@@ -267,11 +281,55 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(18, 237);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(69, 15);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Bid Interval:";
+            // 
+            // intervalnumericUpDown
+            // 
+            this.intervalnumericUpDown.Location = new System.Drawing.Point(89, 235);
+            this.intervalnumericUpDown.Maximum = new decimal(new int[] {
+            1215752192,
+            23,
+            0,
+            0});
+            this.intervalnumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.intervalnumericUpDown.Name = "intervalnumericUpDown";
+            this.intervalnumericUpDown.Size = new System.Drawing.Size(100, 23);
+            this.intervalnumericUpDown.TabIndex = 22;
+            this.intervalnumericUpDown.TabStop = false;
+            this.intervalnumericUpDown.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(195, 237);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(23, 15);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "ms";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.intervalnumericUpDown);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.passtextBox);
@@ -289,7 +347,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.domainslistBox);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
@@ -298,9 +356,9 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AUTO Bidder";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -312,7 +370,7 @@
         private Button button1;
         private Label label1;
         private Button button2;
-        private ListBox listBox1;
+        private ListBox domainslistBox;
         private Label label2;
         private Label label3;
         private Label label4;
@@ -331,5 +389,8 @@
         private System.Windows.Forms.Timer timer1;
         private Button button5;
         private Button button6;
+        private Label label9;
+        private NumericUpDown intervalnumericUpDown;
+        private Label label10;
     }
 }

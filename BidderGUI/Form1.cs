@@ -33,7 +33,7 @@ namespace BidderGUI
                 StreamReader filereader = new StreamReader(filetextbox.Text);
                 while (!filereader.EndOfStream)
                 {
-                    listBox1.Items.Add(filereader.ReadLine());
+                    domainslistBox.Items.Add(filereader.ReadLine());
                 }
                 filereader.Close();
             }
@@ -45,47 +45,23 @@ namespace BidderGUI
 
         }
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
         async void test()
         {
-            //curl http://127.0.0.1:14037/
-
-            
-
-           
-
-            // Create the HttpContent for the form to be posted.
-            //var requestContent = new FormUrlEncodedContent(new[] {new KeyValuePair<string, string>("text", "This is a block of text"),});
-
-            // Get the response.
-            string apiurl = "http://x:" + apitextBox.Text + "@127.0.0.1:12039";
-            logtextBox.Text = logtextBox.Text + "Testing: "+apiurl + Environment.NewLine;
-
-            //curl http://x:api-key@127.0.0.1:14039/wallet/$id/name
-
+            //curl http://x:api-key@127.0.0.1:12039/wallet/$id/account
+            logtextBox.Text = logtextBox.Text + "Testing: http://x:" + apitextBox.Text + "@127.0.0.1:12039" + Environment.NewLine;
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://127.0.0.1:12039/wallet/"+wallettextBox.Text+ "/account");
-
             request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
-
             try
             {
                 HttpResponseMessage response = await httpClient.SendAsync(request);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
             }
             catch (Exception error)
             {
                 logtextBox.Text = logtextBox.Text + "Error: "+ error.Message+ Environment.NewLine;
-
             }
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -93,16 +69,8 @@ namespace BidderGUI
             test();
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         HttpClient httpClient = new HttpClient();
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-        }
-
+       
         private void button4_Click(object sender, EventArgs e)
         {
             logtextBox.Text = "";
@@ -115,17 +83,18 @@ namespace BidderGUI
 
         private void button5_Click(object sender, EventArgs e)
         {
+            timer1.Interval = (int)intervalnumericUpDown.Value;
             timer1.Start();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
-            if (listBox1.Items.Count > 0)
+            if (domainslistBox.Items.Count > 0)
             {
 
 
-                string domain = listBox1.Items[0].ToString();
-                listBox1.Items.Remove(domain);
+                string domain = domainslistBox.Items[0].ToString();
+                domainslistBox.Items.Remove(domain);
                 logtextBox.Text = logtextBox.Text + "Sending bid for: " + domain + Environment.NewLine;
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
 
