@@ -7,6 +7,7 @@ If you don't yu might not be able to reveal your bid.
 ## Instructions
 1. Create a file for domains to bid on.
     This file should contain a domain per line. They should not contain any trailing slash or dot.
+    For example look at example-domains.txt
 2. Select file in GUI app.
 3. Check in list to make sure all domains are selected
 4. Set bid and blind in HNS values
