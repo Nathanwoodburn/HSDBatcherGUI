@@ -7,10 +7,27 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>NJW Icon 512.ico</ApplicationIcon>
+    <Title>HSD Bidder GUI</Title>
+    <PackageProjectUrl>https://github.com/Nathanwoodburn/HSDBidderGUI</PackageProjectUrl>
+    <PackageIcon>NJW Icon 512.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Nathanwoodburn/HSDBidderGUI</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="NJW Icon 512.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\NJW Icon 512.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
