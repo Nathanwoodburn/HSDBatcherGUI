@@ -56,6 +56,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.intervalnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
+            this.modecomboBox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
@@ -206,6 +208,7 @@
             this.logtextBox.Multiline = true;
             this.logtextBox.Name = "logtextBox";
             this.logtextBox.ReadOnly = true;
+            this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.logtextBox.Size = new System.Drawing.Size(651, 97);
             this.logtextBox.TabIndex = 13;
             this.logtextBox.TabStop = false;
@@ -261,18 +264,18 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(18, 289);
+            this.button5.Location = new System.Drawing.Point(18, 312);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(90, 23);
             this.button5.TabIndex = 19;
             this.button5.TabStop = false;
-            this.button5.Text = "Start Bidding";
+            this.button5.Text = "Start";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(114, 289);
+            this.button6.Location = new System.Drawing.Point(114, 312);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 20;
@@ -284,7 +287,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(18, 237);
+            this.label9.Location = new System.Drawing.Point(15, 235);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(69, 15);
             this.label9.TabIndex = 21;
@@ -292,7 +295,7 @@
             // 
             // intervalnumericUpDown
             // 
-            this.intervalnumericUpDown.Location = new System.Drawing.Point(89, 235);
+            this.intervalnumericUpDown.Location = new System.Drawing.Point(81, 233);
             this.intervalnumericUpDown.Maximum = new decimal(new int[] {
             1215752192,
             23,
@@ -316,17 +319,43 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(195, 237);
+            this.label10.Location = new System.Drawing.Point(184, 235);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(23, 15);
             this.label10.TabIndex = 23;
             this.label10.Text = "ms";
+            // 
+            // modecomboBox
+            // 
+            this.modecomboBox.FormattingEnabled = true;
+            this.modecomboBox.Items.AddRange(new object[] {
+            "OPEN",
+            "BID",
+            "REVEAL",
+            "REDEEM"});
+            this.modecomboBox.Location = new System.Drawing.Point(60, 269);
+            this.modecomboBox.Name = "modecomboBox";
+            this.modecomboBox.Size = new System.Drawing.Size(147, 23);
+            this.modecomboBox.TabIndex = 24;
+            this.modecomboBox.TabStop = false;
+            this.modecomboBox.Text = "BID";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(15, 272);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 15);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Mode:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.modecomboBox);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.intervalnumericUpDown);
             this.Controls.Add(this.label9);
@@ -392,5 +421,7 @@
         private Label label9;
         private NumericUpDown intervalnumericUpDown;
         private Label label10;
+        private ComboBox modecomboBox;
+        private Label label11;
     }
 }

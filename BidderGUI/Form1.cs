@@ -79,51 +79,91 @@ namespace BidderGUI
         private void button6_Click(object sender, EventArgs e)
         {
             timer1.Stop();
+            modecomboBox.Enabled = true;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             timer1.Interval = (int)intervalnumericUpDown.Value;
             timer1.Start();
+            modecomboBox.Enabled = false;
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
             if (domainslistBox.Items.Count > 0)
             {
-
-
                 string domain = domainslistBox.Items[0].ToString();
                 domainslistBox.Items.Remove(domain);
-                logtextBox.Text = logtextBox.Text + "Sending bid for: " + domain + Environment.NewLine;
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
+                logtextBox.Text = logtextBox.Text + "Sending "+ modecomboBox.Text + " for: " + domain + Environment.NewLine;
 
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
-                //logtextBox.Text = logtextBox.Text + curltext + Environment.NewLine;
-                request.Content = new StringContent(curltext);
-
-
-                try
+                if (modecomboBox.Text == "OPEN")
                 {
-                    HttpResponseMessage response = await httpClient.SendAsync(request);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/open");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
+                    request.Content = new StringContent(curltext);
+                    sendapicall(request);
                 }
-                catch (Exception error)
+                else if (modecomboBox.Text == "BID")
                 {
-                    logtextBox.Text = logtextBox.Text + "Error: " + error.Message + Environment.NewLine;
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
+                    request.Content = new StringContent(curltext);
+                    sendapicall(request);
+                }
+                else if (modecomboBox.Text == "REVEAL")
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/reveal");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
+                    request.Content = new StringContent(curltext);
+                    sendapicall(request);
+                }
+                else if (modecomboBox.Text == "REDEEM")
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/redeem");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
+                    request.Content = new StringContent(curltext);
+                    sendapicall(request);
+                }
+                else
+                {
                     timer1.Stop();
+                    modecomboBox.Enabled = true;
+                    logtextBox.Text = logtextBox.Text + "Invalid Mode" + Environment.NewLine;
+                    return;
                 }
+                
+
+
+                
             }
             else
             {
                 timer1.Stop();
-                logtextBox.Text = logtextBox.Text + "Sent all bids. Stoping bidding"+ Environment.NewLine;
+                modecomboBox.Enabled = true;
+                logtextBox.Text = logtextBox.Text + "Sent all domains. Stopped sending transactions" + Environment.NewLine;
             }
 
+        }
+        async void sendapicall(HttpRequestMessage request)
+        {
+            try
+            {
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+            }
+            catch (Exception error)
+            {
+                logtextBox.Text = logtextBox.Text + "Error: " + error.Message + Environment.NewLine;
+                timer1.Stop();
+            }
         }
     }
 }
