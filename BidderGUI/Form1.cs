@@ -100,9 +100,8 @@ namespace BidderGUI
 
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                 string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
-                logtextBox.Text = logtextBox.Text + curltext + Environment.NewLine;
+                //logtextBox.Text = logtextBox.Text + curltext + Environment.NewLine;
                 request.Content = new StringContent(curltext);
-                //request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
 
                 try
@@ -116,7 +115,7 @@ namespace BidderGUI
                 catch (Exception error)
                 {
                     logtextBox.Text = logtextBox.Text + "Error: " + error.Message + Environment.NewLine;
-
+                    timer1.Stop();
                 }
             }
             else
