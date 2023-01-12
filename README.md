@@ -1,6 +1,8 @@
 # BidderGUI
-------------------------------------------------
-Easy to use HSD Bidder built on C# .net framework
+
+Easy to use HSD Bidder built on C# .net framework  
+**WARNING YOU NEED TO REMEMBER WHAT BID/BLIND YOU ADDED**  
+If you don't yu might not be able to reveal your bid.
 
 ## Instructions
 1. Create a file for domains to bid on.
