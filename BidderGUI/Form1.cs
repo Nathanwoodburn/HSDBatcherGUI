@@ -4,6 +4,8 @@ using System.Net.Http;
 using System.Security.Policy;
 using System.Net.Http.Headers;
 using System.DirectoryServices.ActiveDirectory;
+using System.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace BidderGUI
 {
@@ -35,7 +37,15 @@ namespace BidderGUI
                 StreamReader filereader = new StreamReader(file);
                 while (!filereader.EndOfStream)
                 {
-                    domainslistBox.Items.Add(filereader.ReadLine());
+                    string domain = filereader.ReadLine();
+                    if (!domainslistBox.Items.Contains(domain))
+                    {
+                        domainslistBox.Items.Add(domain);
+                    }
+                    else
+                    {
+                        logtextBox.Text += "Domain already in list: " + domain + Environment.NewLine;
+                    }
                 }
                 filereader.Close();
             }
@@ -80,22 +90,46 @@ namespace BidderGUI
 
         private void button6_Click(object sender, EventArgs e)
         {
+            //Stop sending
+            countdowntimer.Stop();
             timer1.Stop();
+            apitextBox.ReadOnly = false;
+            wallettextBox.ReadOnly = false;
+            passtextBox.ReadOnly = false;
+            batchsizenumericud.ReadOnly = false;
+            intervalnumericUpDown.ReadOnly = false;
             modecomboBox.Enabled = true;
-        }
+            bidnumericUpDown.ReadOnly = false;
+            blindnumericUpDown.ReadOnly = false;
+            timelabel.Text = "Time till next batch:";
 
+        }
+        int timetaken = 0;
         private void button5_Click(object sender, EventArgs e)
         {
-
+            // start sending
+            
+            timetaken = 0;
+            countdowntimer.Start();
             timer1.Interval = (int)intervalnumericUpDown.Value*1000*60;
             timer1.Start();
+
+            apitextBox.ReadOnly = true;
+            wallettextBox.ReadOnly = true;
+            passtextBox.ReadOnly = true;
+            batchsizenumericud.ReadOnly = true;
+            intervalnumericUpDown.ReadOnly = true;
             modecomboBox.Enabled = false;
+            bidnumericUpDown.ReadOnly = true;
+            blindnumericUpDown.ReadOnly = true;
+            
             sendtransaction();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
-            
+            timetaken = 0;
+            sendtransaction();
         }
         async void sendtransaction()
         {
@@ -130,6 +164,8 @@ namespace BidderGUI
                 {
 
                     string[] domains = domainslistBox.Items.OfType<string>().ToArray();
+                    domains = domains.Take((int)batchsizenumericud.Value).ToArray();
+
                     if (modecomboBox.Text == "BID")
                     {
                         sendbatchbid(domains, modecomboBox.Text);
@@ -138,19 +174,19 @@ namespace BidderGUI
                     {
                         sendbatch(domains, modecomboBox.Text);
                     }
+                    
                 }
                 else
                 {
                     logtextBox.Text = logtextBox.Text + "No Domains Found. Cancelled Sending" + Environment.NewLine;
-                    timer1.Stop();
-                    modecomboBox.Enabled = true;
+                    stopbutton.PerformClick();
+
                 }
             }
             else
             { 
                 logtextBox.Text = logtextBox.Text + "Invalid Mode" + Environment.NewLine;
-                timer1.Stop();
-                modecomboBox.Enabled = true;
+                stopbutton.PerformClick();
             }
         }
         async void sendbatchbid(string[] domains,string method)
@@ -173,11 +209,21 @@ namespace BidderGUI
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+
+                foreach (string domain in domains)
+                {
+                    domainslistBox.Items.Remove(domain);
+                }
+                if (domainslistBox.Items.Count == 0)
+                {
+                    logtextBox.Text = logtextBox.Text + "All domains sent" + Environment.NewLine;
+                    stopbutton.PerformClick();
+                }
             }
             catch (Exception error)
             {
-
                 logtextBox.Text = logtextBox.Text + "ERROR: " + error.Message + Environment.NewLine;
+                stopbutton.PerformClick();
             }
             
         }
@@ -201,11 +247,20 @@ namespace BidderGUI
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                foreach (string domain in domains)
+                {
+                    domainslistBox.Items.Remove(domain);
+                }
+                if (domainslistBox.Items.Count == 0)
+                {
+                    logtextBox.Text = logtextBox.Text + "All domains sent" + Environment.NewLine;
+                    stopbutton.PerformClick();
+                }
             }
             catch (Exception error)
             {
                 logtextBox.Text = logtextBox.Text + "ERROR: " + error.Message + Environment.NewLine;
-
+                stopbutton.PerformClick();
             }
             
         }
@@ -230,7 +285,7 @@ namespace BidderGUI
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            if (domaintextBox.Text != "")
+            if (domaintextBox.Text != "" && !domainslistBox.Items.Contains(domaintextBox.Text))
             {
                 domainslistBox.Items.Add(domaintextBox.Text);
                 domaintextBox.Text = "";
@@ -291,6 +346,23 @@ namespace BidderGUI
                 }
                 
             }
+        }
+
+        private void domaintextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                button2_Click_1(sender, e);
+            }
+        }
+
+        private void countdowntimer_Tick(object sender, EventArgs e)
+        {
+            timetaken += 1;
+            int timeleftsec = (int)intervalnumericUpDown.Value * 60 - timetaken;
+            TimeSpan time = TimeSpan.FromSeconds(timeleftsec);
+
+            timelabel.Text = "Time till next batch: " + time.ToString(@"hh\:mm\:ss");
         }
     }
 }

@@ -47,36 +47,38 @@
             this.label8 = new System.Windows.Forms.Label();
             this.passtextBox = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.startbutton = new System.Windows.Forms.Button();
+            this.stopbutton = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.intervalnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.modecomboBox = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.walletgroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.removebutton = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.domaintextBox = new System.Windows.Forms.TextBox();
+            this.button8 = new System.Windows.Forms.Button();
             this.biddinggroupBox = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.batchsizenumericud = new System.Windows.Forms.NumericUpDown();
+            this.settingsgroupBox = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button8 = new System.Windows.Forms.Button();
+            this.timelabel = new System.Windows.Forms.Label();
+            this.countdowntimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.walletgroupBox.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.biddinggroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).BeginInit();
+            this.settingsgroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,10 +88,10 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Location = new System.Drawing.Point(6, 22);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(128, 23);
+            this.button1.Size = new System.Drawing.Size(80, 23);
             this.button1.TabIndex = 1;
             this.button1.TabStop = false;
-            this.button1.Text = "Import Domains";
+            this.button1.Text = "Import";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -100,9 +102,9 @@
             this.domainslistBox.ForeColor = System.Drawing.Color.White;
             this.domainslistBox.FormattingEnabled = true;
             this.domainslistBox.ItemHeight = 15;
-            this.domainslistBox.Location = new System.Drawing.Point(213, 19);
+            this.domainslistBox.Location = new System.Drawing.Point(230, 19);
             this.domainslistBox.Name = "domainslistBox";
-            this.domainslistBox.Size = new System.Drawing.Size(138, 334);
+            this.domainslistBox.Size = new System.Drawing.Size(188, 334);
             this.domainslistBox.TabIndex = 4;
             this.domainslistBox.TabStop = false;
             this.domainslistBox.SelectedIndexChanged += new System.EventHandler(this.domainslistBox_SelectedIndexChanged);
@@ -130,14 +132,14 @@
             this.bidnumericUpDown.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.bidnumericUpDown.DecimalPlaces = 3;
             this.bidnumericUpDown.ForeColor = System.Drawing.Color.White;
-            this.bidnumericUpDown.Location = new System.Drawing.Point(49, 17);
+            this.bidnumericUpDown.Location = new System.Drawing.Point(88, 11);
             this.bidnumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.bidnumericUpDown.Name = "bidnumericUpDown";
-            this.bidnumericUpDown.Size = new System.Drawing.Size(120, 23);
+            this.bidnumericUpDown.Size = new System.Drawing.Size(141, 23);
             this.bidnumericUpDown.TabIndex = 4;
             this.bidnumericUpDown.ThousandsSeparator = true;
             // 
@@ -146,14 +148,14 @@
             this.blindnumericUpDown.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.blindnumericUpDown.DecimalPlaces = 3;
             this.blindnumericUpDown.ForeColor = System.Drawing.Color.White;
-            this.blindnumericUpDown.Location = new System.Drawing.Point(49, 46);
+            this.blindnumericUpDown.Location = new System.Drawing.Point(88, 48);
             this.blindnumericUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.blindnumericUpDown.Name = "blindnumericUpDown";
-            this.blindnumericUpDown.Size = new System.Drawing.Size(120, 23);
+            this.blindnumericUpDown.Size = new System.Drawing.Size(141, 23);
             this.blindnumericUpDown.TabIndex = 5;
             this.blindnumericUpDown.ThousandsSeparator = true;
             // 
@@ -161,7 +163,7 @@
             // 
             this.button3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(349, 76);
+            this.button3.Location = new System.Drawing.Point(7, 111);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 9;
@@ -173,7 +175,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(175, 20);
+            this.label5.Location = new System.Drawing.Point(235, 19);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(31, 15);
             this.label5.TabIndex = 10;
@@ -192,9 +194,9 @@
             // 
             this.apitextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.apitextBox.ForeColor = System.Drawing.Color.White;
-            this.apitextBox.Location = new System.Drawing.Point(57, 19);
+            this.apitextBox.Location = new System.Drawing.Point(88, 19);
             this.apitextBox.Name = "apitextBox";
-            this.apitextBox.Size = new System.Drawing.Size(275, 23);
+            this.apitextBox.Size = new System.Drawing.Size(244, 23);
             this.apitextBox.TabIndex = 0;
             // 
             // logtextBox
@@ -202,7 +204,7 @@
             this.logtextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.logtextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.logtextBox.ForeColor = System.Drawing.Color.White;
-            this.logtextBox.Location = new System.Drawing.Point(3, 51);
+            this.logtextBox.Location = new System.Drawing.Point(3, 54);
             this.logtextBox.Multiline = true;
             this.logtextBox.Name = "logtextBox";
             this.logtextBox.ReadOnly = true;
@@ -255,9 +257,9 @@
             // 
             this.passtextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.passtextBox.ForeColor = System.Drawing.Color.White;
-            this.passtextBox.Location = new System.Drawing.Point(78, 77);
+            this.passtextBox.Location = new System.Drawing.Point(88, 77);
             this.passtextBox.Name = "passtextBox";
-            this.passtextBox.Size = new System.Drawing.Size(253, 23);
+            this.passtextBox.Size = new System.Drawing.Size(243, 23);
             this.passtextBox.TabIndex = 2;
             this.passtextBox.UseSystemPasswordChar = true;
             // 
@@ -266,29 +268,29 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // button5
+            // startbutton
             // 
-            this.button5.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(12, 345);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(90, 23);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "Start";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.startbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.startbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.startbutton.Location = new System.Drawing.Point(11, 370);
+            this.startbutton.Name = "startbutton";
+            this.startbutton.Size = new System.Drawing.Size(90, 23);
+            this.startbutton.TabIndex = 6;
+            this.startbutton.Text = "Start";
+            this.startbutton.UseVisualStyleBackColor = false;
+            this.startbutton.Click += new System.EventHandler(this.button5_Click);
             // 
-            // button6
+            // stopbutton
             // 
-            this.button6.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(108, 345);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(75, 23);
-            this.button6.TabIndex = 7;
-            this.button6.Text = "Stop";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.stopbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.stopbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.stopbutton.Location = new System.Drawing.Point(107, 370);
+            this.stopbutton.Name = "stopbutton";
+            this.stopbutton.Size = new System.Drawing.Size(75, 23);
+            this.stopbutton.TabIndex = 7;
+            this.stopbutton.Text = "Stop";
+            this.stopbutton.UseVisualStyleBackColor = false;
+            this.stopbutton.Click += new System.EventHandler(this.button6_Click);
             // 
             // label9
             // 
@@ -315,7 +317,7 @@
             0,
             0});
             this.intervalnumericUpDown.Name = "intervalnumericUpDown";
-            this.intervalnumericUpDown.Size = new System.Drawing.Size(99, 23);
+            this.intervalnumericUpDown.Size = new System.Drawing.Size(141, 23);
             this.intervalnumericUpDown.TabIndex = 4;
             this.intervalnumericUpDown.TabStop = false;
             this.intervalnumericUpDown.Value = new decimal(new int[] {
@@ -327,7 +329,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(193, 49);
+            this.label10.Location = new System.Drawing.Point(235, 46);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 15);
             this.label10.TabIndex = 23;
@@ -346,7 +348,7 @@
             "REDEEM"});
             this.modecomboBox.Location = new System.Drawing.Point(88, 75);
             this.modecomboBox.Name = "modecomboBox";
-            this.modecomboBox.Size = new System.Drawing.Size(99, 23);
+            this.modecomboBox.Size = new System.Drawing.Size(141, 23);
             this.modecomboBox.TabIndex = 3;
             this.modecomboBox.Text = "BID";
             this.modecomboBox.SelectedIndexChanged += new System.EventHandler(this.modecomboBox_SelectedIndexChanged);
@@ -360,23 +362,23 @@
             this.label11.TabIndex = 25;
             this.label11.Text = "Mode:";
             // 
-            // groupBox1
+            // walletgroupBox
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.Black;
-            this.groupBox1.Controls.Add(this.wallettextBox);
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.apitextBox);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label8);
-            this.groupBox1.Controls.Add(this.passtextBox);
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(11, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(453, 124);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Wallet";
+            this.walletgroupBox.BackColor = System.Drawing.Color.Black;
+            this.walletgroupBox.Controls.Add(this.wallettextBox);
+            this.walletgroupBox.Controls.Add(this.button3);
+            this.walletgroupBox.Controls.Add(this.label6);
+            this.walletgroupBox.Controls.Add(this.apitextBox);
+            this.walletgroupBox.Controls.Add(this.label7);
+            this.walletgroupBox.Controls.Add(this.label8);
+            this.walletgroupBox.Controls.Add(this.passtextBox);
+            this.walletgroupBox.ForeColor = System.Drawing.Color.White;
+            this.walletgroupBox.Location = new System.Drawing.Point(11, 12);
+            this.walletgroupBox.Name = "walletgroupBox";
+            this.walletgroupBox.Size = new System.Drawing.Size(367, 149);
+            this.walletgroupBox.TabIndex = 0;
+            this.walletgroupBox.TabStop = false;
+            this.walletgroupBox.Text = "Wallet";
             // 
             // groupBox2
             // 
@@ -390,9 +392,9 @@
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.domainslistBox);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(742, 12);
+            this.groupBox2.Location = new System.Drawing.Point(675, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(354, 356);
+            this.groupBox2.Size = new System.Drawing.Size(421, 356);
             this.groupBox2.TabIndex = 27;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Domains";
@@ -402,9 +404,9 @@
             this.removebutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.removebutton.Enabled = false;
             this.removebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removebutton.Location = new System.Drawing.Point(100, 175);
+            this.removebutton.Location = new System.Drawing.Point(114, 298);
             this.removebutton.Name = "removebutton";
-            this.removebutton.Size = new System.Drawing.Size(107, 23);
+            this.removebutton.Size = new System.Drawing.Size(110, 23);
             this.removebutton.TabIndex = 9;
             this.removebutton.TabStop = false;
             this.removebutton.Text = "Remove Selected";
@@ -415,9 +417,9 @@
             // 
             this.button7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(6, 175);
+            this.button7.Location = new System.Drawing.Point(114, 327);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
+            this.button7.Size = new System.Drawing.Size(110, 23);
             this.button7.TabIndex = 8;
             this.button7.TabStop = false;
             this.button7.Text = "Clear All";
@@ -430,7 +432,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Location = new System.Drawing.Point(114, 111);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(93, 23);
+            this.button2.Size = new System.Drawing.Size(110, 23);
             this.button2.TabIndex = 7;
             this.button2.TabStop = false;
             this.button2.Text = "Add to list";
@@ -452,9 +454,23 @@
             this.domaintextBox.ForeColor = System.Drawing.Color.White;
             this.domaintextBox.Location = new System.Drawing.Point(64, 82);
             this.domaintextBox.Name = "domaintextBox";
-            this.domaintextBox.Size = new System.Drawing.Size(143, 23);
+            this.domaintextBox.Size = new System.Drawing.Size(160, 23);
             this.domaintextBox.TabIndex = 5;
             this.domaintextBox.TabStop = false;
+            this.domaintextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.domaintextBox_KeyPress);
+            // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Location = new System.Drawing.Point(144, 22);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(80, 23);
+            this.button8.TabIndex = 1;
+            this.button8.TabStop = false;
+            this.button8.Text = "Export";
+            this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // biddinggroupBox
             // 
@@ -466,9 +482,9 @@
             this.biddinggroupBox.Controls.Add(this.label2);
             this.biddinggroupBox.Controls.Add(this.label5);
             this.biddinggroupBox.ForeColor = System.Drawing.Color.White;
-            this.biddinggroupBox.Location = new System.Drawing.Point(11, 253);
+            this.biddinggroupBox.Location = new System.Drawing.Point(11, 279);
             this.biddinggroupBox.Name = "biddinggroupBox";
-            this.biddinggroupBox.Size = new System.Drawing.Size(345, 85);
+            this.biddinggroupBox.Size = new System.Drawing.Size(367, 85);
             this.biddinggroupBox.TabIndex = 4;
             this.biddinggroupBox.TabStop = false;
             this.biddinggroupBox.Text = "Bidding";
@@ -476,7 +492,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(175, 50);
+            this.label2.Location = new System.Drawing.Point(235, 50);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 15);
             this.label2.TabIndex = 10;
@@ -491,49 +507,49 @@
             this.label12.TabIndex = 29;
             this.label12.Text = "Batch Size:";
             // 
-            // numericUpDown1
+            // batchsizenumericud
             // 
-            this.numericUpDown1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.numericUpDown1.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown1.Location = new System.Drawing.Point(88, 17);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.batchsizenumericud.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.batchsizenumericud.ForeColor = System.Drawing.Color.White;
+            this.batchsizenumericud.Location = new System.Drawing.Point(88, 17);
+            this.batchsizenumericud.Minimum = new decimal(new int[] {
             10,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(99, 23);
-            this.numericUpDown1.TabIndex = 3;
-            this.numericUpDown1.TabStop = false;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.batchsizenumericud.Name = "batchsizenumericud";
+            this.batchsizenumericud.Size = new System.Drawing.Size(141, 23);
+            this.batchsizenumericud.TabIndex = 3;
+            this.batchsizenumericud.TabStop = false;
+            this.batchsizenumericud.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
             // 
-            // groupBox4
+            // settingsgroupBox
             // 
-            this.groupBox4.BackColor = System.Drawing.Color.Black;
-            this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.intervalnumericUpDown);
-            this.groupBox4.Controls.Add(this.numericUpDown1);
-            this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.label12);
-            this.groupBox4.Controls.Add(this.label10);
-            this.groupBox4.Controls.Add(this.modecomboBox);
-            this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(11, 142);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(345, 106);
-            this.groupBox4.TabIndex = 3;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Settings";
+            this.settingsgroupBox.BackColor = System.Drawing.Color.Black;
+            this.settingsgroupBox.Controls.Add(this.label13);
+            this.settingsgroupBox.Controls.Add(this.intervalnumericUpDown);
+            this.settingsgroupBox.Controls.Add(this.batchsizenumericud);
+            this.settingsgroupBox.Controls.Add(this.label9);
+            this.settingsgroupBox.Controls.Add(this.label12);
+            this.settingsgroupBox.Controls.Add(this.label10);
+            this.settingsgroupBox.Controls.Add(this.modecomboBox);
+            this.settingsgroupBox.Controls.Add(this.label11);
+            this.settingsgroupBox.ForeColor = System.Drawing.Color.White;
+            this.settingsgroupBox.Location = new System.Drawing.Point(11, 167);
+            this.settingsgroupBox.Name = "settingsgroupBox";
+            this.settingsgroupBox.Size = new System.Drawing.Size(367, 106);
+            this.settingsgroupBox.TabIndex = 3;
+            this.settingsgroupBox.TabStop = false;
+            this.settingsgroupBox.Text = "Settings";
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(193, 19);
+            this.label13.Location = new System.Drawing.Point(235, 19);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(53, 15);
             this.label13.TabIndex = 31;
@@ -545,38 +561,40 @@
             this.groupBox3.Controls.Add(this.logtextBox);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(11, 374);
+            this.groupBox3.Location = new System.Drawing.Point(11, 412);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1085, 203);
+            this.groupBox3.Size = new System.Drawing.Size(1085, 206);
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Logs";
             // 
-            // button8
+            // timelabel
             // 
-            this.button8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(79, 318);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(128, 23);
-            this.button8.TabIndex = 1;
-            this.button8.TabStop = false;
-            this.button8.Text = "Export Domains";
-            this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.timelabel.AutoSize = true;
+            this.timelabel.Location = new System.Drawing.Point(185, 378);
+            this.timelabel.Name = "timelabel";
+            this.timelabel.Size = new System.Drawing.Size(111, 15);
+            this.timelabel.TabIndex = 33;
+            this.timelabel.Text = "Time till next batch:";
+            // 
+            // countdowntimer
+            // 
+            this.countdowntimer.Interval = 1000;
+            this.countdowntimer.Tick += new System.EventHandler(this.countdowntimer_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1108, 589);
+            this.ClientSize = new System.Drawing.Size(1108, 630);
+            this.Controls.Add(this.timelabel);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.settingsgroupBox);
             this.Controls.Add(this.biddinggroupBox);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.walletgroupBox);
+            this.Controls.Add(this.stopbutton);
+            this.Controls.Add(this.startbutton);
             this.Controls.Add(this.groupBox2);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -587,18 +605,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.walletgroupBox.ResumeLayout(false);
+            this.walletgroupBox.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.biddinggroupBox.ResumeLayout(false);
             this.biddinggroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).EndInit();
+            this.settingsgroupBox.ResumeLayout(false);
+            this.settingsgroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -620,14 +639,14 @@
         private Label label8;
         private TextBox passtextBox;
         private System.Windows.Forms.Timer timer1;
-        private Button button5;
-        private Button button6;
+        private Button startbutton;
+        private Button stopbutton;
         private Label label9;
         private NumericUpDown intervalnumericUpDown;
         private Label label10;
         private ComboBox modecomboBox;
         private Label label11;
-        private GroupBox groupBox1;
+        private GroupBox walletgroupBox;
         private GroupBox groupBox2;
         private Button button2;
         private Label label1;
@@ -637,10 +656,12 @@
         private GroupBox biddinggroupBox;
         private Label label2;
         private Label label12;
-        private NumericUpDown numericUpDown1;
-        private GroupBox groupBox4;
+        private NumericUpDown batchsizenumericud;
+        private GroupBox settingsgroupBox;
         private Label label13;
         private GroupBox groupBox3;
         private Button button8;
+        private Label timelabel;
+        private System.Windows.Forms.Timer countdowntimer;
     }
 }
