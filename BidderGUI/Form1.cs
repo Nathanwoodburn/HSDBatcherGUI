@@ -17,20 +17,19 @@ namespace BidderGUI
         {
             OpenFileDialog open = new OpenFileDialog();
             open.ShowDialog();
-            filetextbox.Text = open.FileName;
-            refreshdomain();
+            refreshdomain(open.FileName);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            refreshdomain();
+            
         }
-        void refreshdomain()
+        void refreshdomain(string file)
         {
             // Add try to stop missing file errors
             try
             {
-                StreamReader filereader = new StreamReader(filetextbox.Text);
+                StreamReader filereader = new StreamReader(file);
                 while (!filereader.EndOfStream)
                 {
                     domainslistBox.Items.Add(filereader.ReadLine());
@@ -84,9 +83,10 @@ namespace BidderGUI
 
         private void button5_Click(object sender, EventArgs e)
         {
-            //timer1.Interval = (int)intervalnumericUpDown.Value;
-            //timer1.Start();
-            //modecomboBox.Enabled = false;
+
+            timer1.Interval = (int)intervalnumericUpDown.Value*1000*60;
+            timer1.Start();
+            modecomboBox.Enabled = false;
             sendtransaction();
         }
 
@@ -139,11 +139,15 @@ namespace BidderGUI
                 else
                 {
                     logtextBox.Text = logtextBox.Text + "No Domains Found. Cancelled Sending" + Environment.NewLine;
+                    timer1.Stop();
+                    modecomboBox.Enabled = true;
                 }
             }
             else
             { 
                 logtextBox.Text = logtextBox.Text + "Invalid Mode" + Environment.NewLine;
+                timer1.Stop();
+                modecomboBox.Enabled = true;
             }
         }
         async void sendbatchbid(string[] domains,string method)
@@ -200,6 +204,44 @@ namespace BidderGUI
             {
                 logtextBox.Text = logtextBox.Text + "Error: " + error.Message + Environment.NewLine;
                 timer1.Stop();
+            }
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (domaintextBox.Text != "")
+            {
+                domainslistBox.Items.Add(domaintextBox.Text);
+                domaintextBox.Text = "";
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            domainslistBox.Items.Clear();
+            removebutton.Enabled = false;
+        }
+
+        private void removebutton_Click(object sender, EventArgs e)
+        {
+            domainslistBox.Items.Remove(domainslistBox.SelectedItem.ToString());
+            removebutton.Enabled = false;
+        }
+
+        private void domainslistBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            removebutton.Enabled = true;
+        }
+
+        private void modecomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (modecomboBox.Text == "BID")
+            {
+                biddinggroupBox.Show();
+            }
+            else
+            {
+                biddinggroupBox.Hide();
             }
         }
     }
