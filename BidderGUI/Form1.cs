@@ -62,8 +62,8 @@ namespace BidderGUI
             // This will curl the below URL and return the result
             //curl http://x:api-key@127.0.0.1:12039/wallet/$id/account
 
-            logtextBox.Text = logtextBox.Text + "Testing: http://x:" + apitextBox.Text + "@127.0.0.1:12039" + Environment.NewLine;
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://127.0.0.1:12039/wallet/"+wallettextBox.Text+ "/account");
+            logtextBox.Text = logtextBox.Text + "Testing: http://x:" + apitextBox.Text + "@"+ipporttextBox.Text+  Environment.NewLine;
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://"+ ipporttextBox.Text + "/wallet/"+wallettextBox.Text+ "/account");
             // Add API key to header
             request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
             
@@ -169,7 +169,7 @@ namespace BidderGUI
                     if (modecomboBox.Text == "BID")
                     {
                         // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                         string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
                         request.Content = new StringContent(curltext);
@@ -181,7 +181,7 @@ namespace BidderGUI
                     else
                     {
                         // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                         string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
                         request.Content = new StringContent(curltext);
@@ -237,14 +237,14 @@ namespace BidderGUI
             try
             {
                 // Create a HTTP request with the API key
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
                 // Create the JSON for the API call
                 string batch = "[";
                 foreach (string domain in domains)
                 {
-                    batch = batch + "['BID', '" + domain + "', " + bidnumericUpDown.Value + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value) + "], ";
+                    batch = batch + "[\"BID\", \"" + domain + "\", " + bidnumericUpDown.Value + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value) + "], ";
                 }
                 // Finish the JSON by removing the last comma and adding a closing bracket
                 batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -253,7 +253,7 @@ namespace BidderGUI
                 logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
 
                 // Create the API call
-                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
+                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
 
                 // Send request
                 HttpResponseMessage response = await httpClient.SendAsync(request);
@@ -292,14 +292,14 @@ namespace BidderGUI
             try
             {
                 // Create a HTTP request with the API key
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
                 // Create the JSON for the API call
                 string batch = "[";
                 foreach (string domain in domains)
                 {
-                    batch = batch + "['" + method + "', '" + domain + "'], ";
+                    batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
                 }
                 // Finish the JSON by removing the last comma and adding a closing bracket
                 batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -308,7 +308,7 @@ namespace BidderGUI
                 logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
 
                 // Create the API call
-                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
+                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
 
                 // Send request
                 HttpResponseMessage response = await httpClient.SendAsync(request);
@@ -474,6 +474,18 @@ namespace BidderGUI
 
             // Update time label
             timelabel.Text = "Time till next batch: " + time.ToString(@"mm\:ss");
+        }
+
+        private void mainnetbutton_Click(object sender, EventArgs e)
+        {
+            // Set the API URL to mainnet
+            ipporttextBox.Text ="127.0.0.1:12039";
+        }
+
+        private void regtestbutton_Click(object sender, EventArgs e)
+        {
+            // Set the API URL to regtest
+            ipporttextBox.Text = "127.0.0.1:14039";
         }
     }
 }

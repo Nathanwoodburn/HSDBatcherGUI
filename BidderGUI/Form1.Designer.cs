@@ -71,6 +71,11 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.timelabel = new System.Windows.Forms.Label();
             this.countdowntimer = new System.Windows.Forms.Timer(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.regtestbutton = new System.Windows.Forms.Button();
+            this.mainnetbutton = new System.Windows.Forms.Button();
+            this.ipporttextBox = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
@@ -80,6 +85,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).BeginInit();
             this.settingsgroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -582,12 +588,70 @@
             this.countdowntimer.Interval = 1000;
             this.countdowntimer.Tick += new System.EventHandler(this.countdowntimer_Tick);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.regtestbutton);
+            this.groupBox1.Controls.Add(this.mainnetbutton);
+            this.groupBox1.Controls.Add(this.ipporttextBox);
+            this.groupBox1.Controls.Add(this.label14);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(384, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(285, 149);
+            this.groupBox1.TabIndex = 34;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Network";
+            // 
+            // regtestbutton
+            // 
+            this.regtestbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.regtestbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.regtestbutton.Location = new System.Drawing.Point(87, 111);
+            this.regtestbutton.Name = "regtestbutton";
+            this.regtestbutton.Size = new System.Drawing.Size(75, 23);
+            this.regtestbutton.TabIndex = 2;
+            this.regtestbutton.Text = "Regtest";
+            this.regtestbutton.UseVisualStyleBackColor = false;
+            this.regtestbutton.Click += new System.EventHandler(this.regtestbutton_Click);
+            // 
+            // mainnetbutton
+            // 
+            this.mainnetbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.mainnetbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.mainnetbutton.Location = new System.Drawing.Point(6, 111);
+            this.mainnetbutton.Name = "mainnetbutton";
+            this.mainnetbutton.Size = new System.Drawing.Size(75, 23);
+            this.mainnetbutton.TabIndex = 2;
+            this.mainnetbutton.Text = "Mainnet";
+            this.mainnetbutton.UseVisualStyleBackColor = false;
+            this.mainnetbutton.Click += new System.EventHandler(this.mainnetbutton_Click);
+            // 
+            // ipporttextBox
+            // 
+            this.ipporttextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ipporttextBox.ForeColor = System.Drawing.Color.White;
+            this.ipporttextBox.Location = new System.Drawing.Point(57, 14);
+            this.ipporttextBox.Name = "ipporttextBox";
+            this.ipporttextBox.Size = new System.Drawing.Size(222, 23);
+            this.ipporttextBox.TabIndex = 1;
+            this.ipporttextBox.Text = "127.0.0.1:12039";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(3, 19);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(48, 15);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "IP:PORT";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1108, 630);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.timelabel);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.settingsgroupBox);
@@ -616,6 +680,8 @@
             this.settingsgroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -663,5 +729,10 @@
         private Button button8;
         private Label timelabel;
         private System.Windows.Forms.Timer countdowntimer;
+        private GroupBox groupBox1;
+        private TextBox ipporttextBox;
+        private Label label14;
+        private Button regtestbutton;
+        private Button mainnetbutton;
     }
 }
