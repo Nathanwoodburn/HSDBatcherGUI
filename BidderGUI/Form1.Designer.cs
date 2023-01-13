@@ -269,7 +269,7 @@
             this.button5.Size = new System.Drawing.Size(90, 23);
             this.button5.TabIndex = 19;
             this.button5.TabStop = false;
-            this.button5.Text = "Start";
+            this.button5.Text = "Send";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
@@ -282,6 +282,7 @@
             this.button6.TabStop = false;
             this.button6.Text = "Stop";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Visible = false;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // label9

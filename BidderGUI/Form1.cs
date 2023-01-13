@@ -84,73 +84,107 @@ namespace BidderGUI
 
         private void button5_Click(object sender, EventArgs e)
         {
-            timer1.Interval = (int)intervalnumericUpDown.Value;
-            timer1.Start();
-            modecomboBox.Enabled = false;
+            //timer1.Interval = (int)intervalnumericUpDown.Value;
+            //timer1.Start();
+            //modecomboBox.Enabled = false;
+            sendtransaction();
         }
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
-            if (domainslistBox.Items.Count > 0)
+            
+        }
+        async void sendtransaction()
+        {
+            // Check mode is legit
+            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM" };
+            if (modes.Contains(modecomboBox.Text))
             {
-                string domain = domainslistBox.Items[0].ToString();
-                logtextBox.Text = logtextBox.Text + "Sending "+ modecomboBox.Text + " for: " + domain + Environment.NewLine;
+                if (domainslistBox.Items.Count == 1)
+                {
+                    string domain = domainslistBox.Items[0].ToString();
+                    logtextBox.Text = logtextBox.Text + "Sending " + modecomboBox.Text + " for: " + domain + Environment.NewLine;
 
-                if (modecomboBox.Text == "OPEN")
-                {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/open");
-                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
-                    request.Content = new StringContent(curltext);
-                    sendapicall(request,domain);
-                    
+                    if (modecomboBox.Text == "BID")
+                    {
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
+                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
+                        request.Content = new StringContent(curltext);
+                        sendapicall(request, domain);
+
+                    }
+                    else
+                    {
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
+                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
+                        request.Content = new StringContent(curltext);
+                        sendapicall(request, domain);
+                    }
                 }
-                else if (modecomboBox.Text == "BID")
+                else if (domainslistBox.Items.Count > 1)
                 {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/bid");
-                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
-                    request.Content = new StringContent(curltext);
-                    sendapicall(request, domain);
-                    
-                }
-                else if (modecomboBox.Text == "REVEAL")
-                {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/reveal");
-                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
-                    request.Content = new StringContent(curltext);
-                    sendapicall(request, domain);
-                    
-                }
-                else if (modecomboBox.Text == "REDEEM")
-                {
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039/wallet/" + wallettextBox.Text + "/redeem");
-                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
-                    request.Content = new StringContent(curltext);
-                    sendapicall(request, domain);
+
+                    string[] domains = domainslistBox.Items.OfType<string>().ToArray();
+                    if (modecomboBox.Text == "BID")
+                    {
+                        sendbatchbid(domains, modecomboBox.Text);
+                    }
+                    else
+                    {
+                        sendbatch(domains, modecomboBox.Text);
+                    }
                 }
                 else
                 {
-                    timer1.Stop();
-                    modecomboBox.Enabled = true;
-                    logtextBox.Text = logtextBox.Text + "Invalid Mode" + Environment.NewLine;
-                    return;
+                    logtextBox.Text = logtextBox.Text + "No Domains Found. Cancelled Sending" + Environment.NewLine;
                 }
-                
-
-
-                
             }
             else
-            {
-                timer1.Stop();
-                modecomboBox.Enabled = true;
-                logtextBox.Text = logtextBox.Text + "Sent all domains. Stopped sending transactions" + Environment.NewLine;
+            { 
+                logtextBox.Text = logtextBox.Text + "Invalid Mode" + Environment.NewLine;
             }
-
         }
+        async void sendbatchbid(string[] domains,string method)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
+
+            string batch = "[";
+            foreach (string domain in domains)
+            {
+                batch = batch + "['" + method + "', '" + domain + "', " + bidnumericUpDown.Value + ", " + blindnumericUpDown.Value + "], ";
+            }
+            batch = batch.Substring(0,batch.Length-2) + "]";
+            logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+
+            request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \""+batch+"\"]}");
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+        }
+        async void sendbatch(string[] domains, string method)
+        {
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
+            string batch = "[";
+            foreach (string domain in domains)
+            {
+                batch = batch + "['" + method + "', '" + domain + "'], ";
+            }
+            batch = batch.Substring(0, batch.Length - 2) + "]";
+            logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+
+            request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+        }
+
         async void sendapicall(HttpRequestMessage request,string domain)
         {
             try
