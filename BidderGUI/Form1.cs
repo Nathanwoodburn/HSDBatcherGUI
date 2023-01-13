@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Security.Policy;
 using System.Net.Http.Headers;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace BidderGUI
 {
@@ -16,8 +17,10 @@ namespace BidderGUI
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
-            open.ShowDialog();
-            refreshdomain(open.FileName);
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                refreshdomain(open.FileName);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -152,41 +155,59 @@ namespace BidderGUI
         }
         async void sendbatchbid(string[] domains,string method)
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
-            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
-
-            string batch = "[";
-            foreach (string domain in domains)
+            try
             {
-                batch = batch + "['" + method + "', '" + domain + "', " + bidnumericUpDown.Value + ", " + blindnumericUpDown.Value + "], ";
-            }
-            batch = batch.Substring(0,batch.Length-2) + "]";
-            logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
-            request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \""+batch+"\"]}");
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                string batch = "[";
+                foreach (string domain in domains)
+                {
+                    batch = batch + "['" + method + "', '" + domain + "', " + bidnumericUpDown.Value + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value) + "], ";
+                }
+                batch = batch.Substring(0, batch.Length - 2) + "]";
+                logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+
+                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+            }
+            catch (Exception error)
+            {
+
+                logtextBox.Text = logtextBox.Text + "ERROR: " + error.Message + Environment.NewLine;
+            }
+            
         }
         async void sendbatch(string[] domains, string method)
         {
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
-            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-
-            string batch = "[";
-            foreach (string domain in domains)
+            try
             {
-                batch = batch + "['" + method + "', '" + domain + "'], ";
-            }
-            batch = batch.Substring(0, batch.Length - 2) + "]";
-            logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://127.0.0.1:12039");
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
-            request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-            logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                string batch = "[";
+                foreach (string domain in domains)
+                {
+                    batch = batch + "['" + method + "', '" + domain + "'], ";
+                }
+                batch = batch.Substring(0, batch.Length - 2) + "]";
+                logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+
+                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\": [ \"" + batch + "\"]}");
+                HttpResponseMessage response = await httpClient.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+                string responseBody = await response.Content.ReadAsStringAsync();
+                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+            }
+            catch (Exception error)
+            {
+                logtextBox.Text = logtextBox.Text + "ERROR: " + error.Message + Environment.NewLine;
+
+            }
+            
         }
 
         async void sendapicall(HttpRequestMessage request,string domain)
@@ -242,6 +263,33 @@ namespace BidderGUI
             else
             {
                 biddinggroupBox.Hide();
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (domainslistBox.Items.Count > 0)
+            {
+                SaveFileDialog save = new SaveFileDialog();
+                save.Filter = "Text File|*.txt";
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        StreamWriter writer = new StreamWriter(save.FileName);
+                        foreach (string domain in domainslistBox.Items.OfType<string>().ToArray())
+                        {
+                            writer.WriteLine(domain);
+                        }
+                        writer.Dispose();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show("Error: " + error.Message);
+                    }
+                    
+                }
+                
             }
         }
     }

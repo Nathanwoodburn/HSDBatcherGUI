@@ -68,6 +68,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button8 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
@@ -385,6 +386,7 @@
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.domaintextBox);
+            this.groupBox2.Controls.Add(this.button8);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.domainslistBox);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
@@ -550,6 +552,19 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Logs";
             // 
+            // button8
+            // 
+            this.button8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button8.Location = new System.Drawing.Point(79, 318);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(128, 23);
+            this.button8.TabIndex = 1;
+            this.button8.TabStop = false;
+            this.button8.Text = "Export Domains";
+            this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -626,5 +641,6 @@
         private GroupBox groupBox4;
         private Label label13;
         private GroupBox groupBox3;
+        private Button button8;
     }
 }
