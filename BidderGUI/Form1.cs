@@ -1,12 +1,3 @@
-using System.Xml.Serialization;
-using System.IO;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Net.Http.Headers;
-using System.DirectoryServices.ActiveDirectory;
-using System.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
-
 namespace BidderGUI
 {
     public partial class Form1 : Form
@@ -51,7 +42,8 @@ namespace BidderGUI
             }
             catch (Exception error)
             {
-                MessageBox.Show("Error: " + error);
+                logtextBox.Text += "Error: " + error.Message + Environment.NewLine;
+                
             }
             
 
@@ -340,7 +332,7 @@ namespace BidderGUI
                     }
                     catch (Exception error)
                     {
-                        MessageBox.Show("Error: " + error.Message);
+                        logtextBox.Text += "Error: " + error.Message + Environment.NewLine;
                     }
                     
                 }
