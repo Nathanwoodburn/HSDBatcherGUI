@@ -58,7 +58,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.removebutton = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.addbutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.domaintextBox = new System.Windows.Forms.TextBox();
             this.button8 = new System.Windows.Forms.Button();
@@ -93,7 +93,7 @@
             this.button1.TabStop = false;
             this.button1.Text = "Import";
             this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.import_button_Click);
             // 
             // domainslistBox
             // 
@@ -170,7 +170,7 @@
             this.button3.TabStop = false;
             this.button3.Text = "Test";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.test_button_Click);
             // 
             // label5
             // 
@@ -242,7 +242,7 @@
             this.button4.TabStop = false;
             this.button4.Text = "Clear";
             this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button4.Click += new System.EventHandler(this.clear_button_Click);
             // 
             // label8
             // 
@@ -266,7 +266,7 @@
             // timer1
             // 
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.batch_timer_Tick);
             // 
             // startbutton
             // 
@@ -278,7 +278,7 @@
             this.startbutton.TabIndex = 6;
             this.startbutton.Text = "Start";
             this.startbutton.UseVisualStyleBackColor = false;
-            this.startbutton.Click += new System.EventHandler(this.button5_Click);
+            this.startbutton.Click += new System.EventHandler(this.start_button_Click);
             // 
             // stopbutton
             // 
@@ -290,7 +290,7 @@
             this.stopbutton.TabIndex = 7;
             this.stopbutton.Text = "Stop";
             this.stopbutton.UseVisualStyleBackColor = false;
-            this.stopbutton.Click += new System.EventHandler(this.button6_Click);
+            this.stopbutton.Click += new System.EventHandler(this.stop_button_Click);
             // 
             // label9
             // 
@@ -385,7 +385,7 @@
             this.groupBox2.BackColor = System.Drawing.Color.Black;
             this.groupBox2.Controls.Add(this.removebutton);
             this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.addbutton);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.domaintextBox);
             this.groupBox2.Controls.Add(this.button8);
@@ -424,20 +424,20 @@
             this.button7.TabStop = false;
             this.button7.Text = "Clear All";
             this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.button7.Click += new System.EventHandler(this.clear_button_Click);
             // 
-            // button2
+            // addbutton
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(114, 111);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(110, 23);
-            this.button2.TabIndex = 7;
-            this.button2.TabStop = false;
-            this.button2.Text = "Add to list";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            this.addbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.addbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.addbutton.Location = new System.Drawing.Point(114, 111);
+            this.addbutton.Name = "addbutton";
+            this.addbutton.Size = new System.Drawing.Size(110, 23);
+            this.addbutton.TabIndex = 7;
+            this.addbutton.TabStop = false;
+            this.addbutton.Text = "Add to list";
+            this.addbutton.UseVisualStyleBackColor = false;
+            this.addbutton.Click += new System.EventHandler(this.add_domain_button_Click);
             // 
             // label1
             // 
@@ -470,7 +470,7 @@
             this.button8.TabStop = false;
             this.button8.Text = "Export";
             this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.export_button_Click);
             // 
             // biddinggroupBox
             // 
@@ -648,7 +648,7 @@
         private Label label11;
         private GroupBox walletgroupBox;
         private GroupBox groupBox2;
-        private Button button2;
+        private Button addbutton;
         private Label label1;
         private TextBox domaintextBox;
         private Button button7;
