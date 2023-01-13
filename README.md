@@ -1,9 +1,7 @@
 # BidderGUI
 
 Easy to use HSD Bidder built on C# .net framework  
-**WARNING YOU NEED TO REMEMBER WHAT BID/BLIND YOU ADDED**  
-If you don't you might not be able to reveal your bid.  
-This version only works with HSD v5 or greater.
+This version only works with HSD v5 or greater.  
 If you have below this version use [this release](https://github.com/Nathanwoodburn/HSDBidderGUI/releases/tag/1.1.0.0)
 
 ## Instructions
