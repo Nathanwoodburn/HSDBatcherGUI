@@ -5,7 +5,7 @@ Easy to use HSD Bidder built on C# .net framework
 This version only works with HSD v5 or greater.  
 If you have below this version use [this release](https://github.com/Nathanwoodburn/HSDBidderGUI/releases/tag/1.1.0.0)
 
-To use this you need to be running a HSD node.  
+To use this you need to be running a HSD node (either Full or SPV).  
 Bob comes with this node built in.
 
 The API key is set using the HSD flag `--api-key=<key>`.  
