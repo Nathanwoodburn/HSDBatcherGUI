@@ -57,7 +57,7 @@
             this.walletgroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.removebutton = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.buttoncleardomains = new System.Windows.Forms.Button();
             this.addbutton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.domaintextBox = new System.Windows.Forms.TextBox();
@@ -390,7 +390,7 @@
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Black;
             this.groupBox2.Controls.Add(this.removebutton);
-            this.groupBox2.Controls.Add(this.button7);
+            this.groupBox2.Controls.Add(this.buttoncleardomains);
             this.groupBox2.Controls.Add(this.addbutton);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.domaintextBox);
@@ -419,18 +419,18 @@
             this.removebutton.UseVisualStyleBackColor = false;
             this.removebutton.Click += new System.EventHandler(this.removebutton_Click);
             // 
-            // button7
+            // buttoncleardomains
             // 
-            this.button7.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(114, 327);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(110, 23);
-            this.button7.TabIndex = 8;
-            this.button7.TabStop = false;
-            this.button7.Text = "Clear All";
-            this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.clear_button_Click);
+            this.buttoncleardomains.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.buttoncleardomains.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttoncleardomains.Location = new System.Drawing.Point(114, 327);
+            this.buttoncleardomains.Name = "buttoncleardomains";
+            this.buttoncleardomains.Size = new System.Drawing.Size(110, 23);
+            this.buttoncleardomains.TabIndex = 8;
+            this.buttoncleardomains.TabStop = false;
+            this.buttoncleardomains.Text = "Clear All";
+            this.buttoncleardomains.UseVisualStyleBackColor = false;
+            this.buttoncleardomains.Click += new System.EventHandler(this.button_cleardomains_Click);
             // 
             // addbutton
             // 
@@ -717,7 +717,7 @@
         private Button addbutton;
         private Label label1;
         private TextBox domaintextBox;
-        private Button button7;
+        private Button buttoncleardomains;
         private Button removebutton;
         private GroupBox biddinggroupBox;
         private Label label2;
