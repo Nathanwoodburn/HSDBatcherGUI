@@ -89,8 +89,29 @@ namespace BidderGUI
             test();
         }
 
+        string getbid(bool convert=false)
+        {
+            if (convert)
+            {
+                return (bidnumericUpDown.Value * 1000000).ToString().Replace(",",".");
+            }
+            else
+            {
+                return bidnumericUpDown.Value.ToString().Replace(",", ".");
+            }
+        }
+        string getblind(bool convert=false)
+        {
+            if (convert)
+            {
+                return (blindnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
+            }
+            else
+            {
+                return blindnumericUpDown.Value.ToString().Replace(",", ".");
+            }
+        }
         
-       
         private void clear_button_Click(object sender, EventArgs e)
         {
             // Clear log
@@ -171,7 +192,7 @@ namespace BidderGUI
                         // Create API call
                         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + bidnumericUpDown.Value * 1000000 + ",\"lockup\":" + blindnumericUpDown.Value * 1000000 + "}";
+                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true)+ "}";
                         request.Content = new StringContent(curltext);
 
                         // Send request
@@ -246,7 +267,7 @@ namespace BidderGUI
                 string batch = "[";
                 foreach (string domain in domains)
                 {
-                    batch = batch + "[\"BID\", \"" + domain + "\", " + bidnumericUpDown.Value + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value) + "], ";
+                    batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",",".") + "], ";
                 }
                 // Finish the JSON by removing the last comma and adding a closing bracket
                 batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -349,18 +370,6 @@ namespace BidderGUI
 
         async void unlockwallet()
         {
-            // Select wallet
-            logtextBox.Text = logtextBox.Text + "Selecting Wallet" + Environment.NewLine;
-            HttpRequestMessage selectwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
-            selectwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-            selectwalletreq.Content = new StringContent("{\"method\": \"selectwallet\",\"params\":[ \"" + wallettextBox.Text + "\"]}");
-
-            // Send request
-            HttpResponseMessage selectwalletresp = await httpClient.SendAsync(selectwalletreq);
-
-
-            selectwalletresp.EnsureSuccessStatusCode();
-
             // Unlocking wallet
             logtextBox.Text = logtextBox.Text + "Unlocking Wallet using passphrase" + Environment.NewLine;
             HttpRequestMessage unlockwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/unlock");
@@ -372,6 +381,18 @@ namespace BidderGUI
 
 
             unlockwalletresp.EnsureSuccessStatusCode();
+
+            // Select wallet
+            logtextBox.Text = logtextBox.Text + "Selecting Wallet" + Environment.NewLine;
+            HttpRequestMessage selectwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+            selectwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+            selectwalletreq.Content = new StringContent("{\"method\": \"selectwallet\",\"params\":[ \"" + wallettextBox.Text + "\"]}");
+
+            // Send request
+            HttpResponseMessage selectwalletresp = await httpClient.SendAsync(selectwalletreq);
+
+
+            selectwalletresp.EnsureSuccessStatusCode();
         }
         async void sendapicall(HttpRequestMessage request,string domain)
         {
