@@ -257,7 +257,7 @@ namespace BidderGUI
             // Send a batch of bid transactions for domains
             try
             {
-                unlockwallet();
+                await unlockwallet();
                 
                 // Create a HTTP request with the API key
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ipporttextBox.Text);
@@ -315,7 +315,7 @@ namespace BidderGUI
             try
             {
 
-                unlockwallet();
+                await unlockwallet();
                 
                 // Create a HTTP request with the API key
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
@@ -368,7 +368,7 @@ namespace BidderGUI
 
         }
 
-        async void unlockwallet()
+        async Task unlockwallet()
         {
             // Unlocking wallet
             logtextBox.Text = logtextBox.Text + "Unlocking Wallet using passphrase" + Environment.NewLine;
