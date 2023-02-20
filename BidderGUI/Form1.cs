@@ -236,6 +236,8 @@ namespace BidderGUI
             // Send a batch of bid transactions for domains
             try
             {
+                unlockwallet();
+                
                 // Create a HTTP request with the API key
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
@@ -291,6 +293,9 @@ namespace BidderGUI
             // Send a batch of transactions for domains
             try
             {
+
+                unlockwallet();
+                
                 // Create a HTTP request with the API key
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
@@ -342,6 +347,32 @@ namespace BidderGUI
 
         }
 
+        async void unlockwallet()
+        {
+            // Select wallet
+            logtextBox.Text = logtextBox.Text + "Selecting Wallet" + Environment.NewLine;
+            HttpRequestMessage selectwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+            selectwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+            selectwalletreq.Content = new StringContent("{\"method\": \"selectwallet\",\"params\":[ \"" + wallettextBox.Text + "\"]}");
+
+            // Send request
+            HttpResponseMessage selectwalletresp = await httpClient.SendAsync(selectwalletreq);
+
+
+            selectwalletresp.EnsureSuccessStatusCode();
+
+            // Unlocking wallet
+            logtextBox.Text = logtextBox.Text + "Unlocking Wallet using passphrase" + Environment.NewLine;
+            HttpRequestMessage unlockwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/unlock");
+            unlockwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+            unlockwalletreq.Content = new StringContent("{\"passphrase\": \"" + passtextBox.Text + "\",\"timeout\": 60}");
+
+            // Send request
+            HttpResponseMessage unlockwalletresp = await httpClient.SendAsync(unlockwalletreq);
+
+
+            unlockwalletresp.EnsureSuccessStatusCode();
+        }
         async void sendapicall(HttpRequestMessage request,string domain)
         {
             // Send a single transaction for a domain
@@ -389,8 +420,17 @@ namespace BidderGUI
         private void removebutton_Click(object sender, EventArgs e)
         {
             // Remove the selected domain from the list
-            domainslistBox.Items.Remove(domainslistBox.SelectedItem.ToString());
-            removebutton.Enabled = false;
+            try
+            {
+                domainslistBox.Items.Remove(domainslistBox.SelectedItem.ToString());
+                removebutton.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
+
+            }
+            
         }
 
         private void domainslistBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -486,6 +526,11 @@ namespace BidderGUI
         {
             // Set the API URL to regtest
             ipporttextBox.Text = "127.0.0.1:14039";
+        }
+
+        private void button_cleardomains_Click(object sender, EventArgs e)
+        {
+            domainslistBox.Items.Clear();
         }
     }
 }
