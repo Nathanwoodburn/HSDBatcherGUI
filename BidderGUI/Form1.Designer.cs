@@ -69,6 +69,8 @@
             this.settingsgroupBox = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.loglinesnumeric = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
             this.timelabel = new System.Windows.Forms.Label();
             this.countdowntimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -85,6 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).BeginInit();
             this.settingsgroupBox.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loglinesnumeric)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -327,7 +330,7 @@
             this.intervalnumericUpDown.TabIndex = 4;
             this.intervalnumericUpDown.TabStop = false;
             this.intervalnumericUpDown.Value = new decimal(new int[] {
-            10,
+            600,
             0,
             0,
             0});
@@ -335,11 +338,11 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(235, 46);
+            this.label10.Location = new System.Drawing.Point(235, 48);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 15);
             this.label10.TabIndex = 23;
-            this.label10.Text = "minutes";
+            this.label10.Text = "seconds";
             // 
             // modecomboBox
             // 
@@ -518,6 +521,11 @@
             this.batchsizenumericud.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.batchsizenumericud.ForeColor = System.Drawing.Color.White;
             this.batchsizenumericud.Location = new System.Drawing.Point(88, 17);
+            this.batchsizenumericud.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.batchsizenumericud.Minimum = new decimal(new int[] {
             10,
             0,
@@ -564,6 +572,8 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.Black;
+            this.groupBox3.Controls.Add(this.loglinesnumeric);
+            this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.logtextBox);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
@@ -573,6 +583,39 @@
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Logs";
+            // 
+            // loglinesnumeric
+            // 
+            this.loglinesnumeric.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.loglinesnumeric.ForeColor = System.Drawing.Color.White;
+            this.loglinesnumeric.Location = new System.Drawing.Point(878, 22);
+            this.loglinesnumeric.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.loglinesnumeric.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.loglinesnumeric.Name = "loglinesnumeric";
+            this.loglinesnumeric.Size = new System.Drawing.Size(120, 23);
+            this.loglinesnumeric.TabIndex = 18;
+            this.loglinesnumeric.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(808, 26);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(70, 15);
+            this.label15.TabIndex = 17;
+            this.label15.Text = "Log Length:";
             // 
             // timelabel
             // 
@@ -680,6 +723,7 @@
             this.settingsgroupBox.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loglinesnumeric)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -734,5 +778,7 @@
         private Label label14;
         private Button regtestbutton;
         private Button mainnetbutton;
+        private NumericUpDown loglinesnumeric;
+        private Label label15;
     }
 }

@@ -41,7 +41,8 @@ namespace BidderGUI
                     }
                     else
                     {
-                        logtextBox.Text += "Domain already in list: " + domain + Environment.NewLine;
+                        
+                        addlog("Domain already in list: " + domain);
                     }
                 }
                 filereader.Close();
@@ -49,8 +50,8 @@ namespace BidderGUI
             // Log errors to log textbox
             catch (Exception error)
             {
-                logtextBox.Text += "Error: " + error.Message + Environment.NewLine;
                 
+                addlog("Error: " + error.Message);
             }
             
 
@@ -62,7 +63,7 @@ namespace BidderGUI
             // This will curl the below URL and return the result
             //curl http://x:api-key@127.0.0.1:12039/wallet/$id/account
 
-            logtextBox.Text = logtextBox.Text + "Testing: http://x:" + apitextBox.Text + "@"+ipporttextBox.Text+  Environment.NewLine;
+            addlog("Testing: http://x:" + apitextBox.Text + "@"+ipporttextBox.Text);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://"+ ipporttextBox.Text + "/wallet/"+wallettextBox.Text+ "/account");
             // Add API key to header
             request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
@@ -73,12 +74,14 @@ namespace BidderGUI
                 HttpResponseMessage response = await httpClient.SendAsync(request);
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
-                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                addlog(responseBody);
+                
             }
             // Log errors to log textbox
             catch (Exception error)
             {
-                logtextBox.Text = logtextBox.Text + "Error: "+ error.Message+ Environment.NewLine;
+                
+                addlog("Error: " + error.Message);
             }
         }
 
@@ -184,7 +187,8 @@ namespace BidderGUI
                     // Get domain
                     string domain = domainslistBox.Items[0].ToString();
                     // Log transaction attempt
-                    logtextBox.Text = logtextBox.Text + "Sending " + modecomboBox.Text + " for: " + domain + Environment.NewLine;
+                    addlog("Sending " + modecomboBox.Text + " for: " + domain);
+
 
                     // Select mode
                     if (modecomboBox.Text == "BID")
@@ -236,7 +240,7 @@ namespace BidderGUI
                 else
                 {
                     // Log error
-                    logtextBox.Text = logtextBox.Text + "No Domains Found. Cancelled Sending" + Environment.NewLine;
+                    addlog("No Domains Found. Cancelled Sending");
                     // Stop timers
                     stopbutton.PerformClick();
 
@@ -246,7 +250,7 @@ namespace BidderGUI
             else
             {
                 // Log error
-                logtextBox.Text = logtextBox.Text + "Invalid Mode. Cancelled Sending" + Environment.NewLine;
+                addlog("Invalid Mode.Cancelled Sending");
                 // Stop timers
                 stopbutton.PerformClick();
             }
@@ -273,7 +277,7 @@ namespace BidderGUI
                 batch = batch.Substring(0, batch.Length - 2) + "]";
 
                 // Log transaction attempt
-                logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+                addlog("Sending: " + batch);
 
                 // Create the API call
                 request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
@@ -284,18 +288,24 @@ namespace BidderGUI
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 // Log response
-                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                addlog(responseBody);
 
-                // Remove domains from list
-                foreach (string domain in domains)
+                // Check for errors
+                if (!Checkerrors(responseBody))
                 {
-                    domainslistBox.Items.Remove(domain);
+                    // Remove domains from list
+                    foreach (string domain in domains)
+                    {
+                        domainslistBox.Items.Remove(domain);
+                    }
                 }
+
+                
                 // If there are no domains left in the list
                 // Stop timers
                 if (domainslistBox.Items.Count == 0)
                 {
-                    logtextBox.Text = logtextBox.Text + "All domains sent" + Environment.NewLine;
+                    addlog("All domains sent");
                     stopbutton.PerformClick();
                 }
             }
@@ -303,7 +313,7 @@ namespace BidderGUI
             catch (Exception ex)
             {
                 // Log error
-                logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
+                addlog("Error: " + ex.Message);
                 // Stop timers
                 stopbutton.PerformClick();
             }
@@ -331,7 +341,7 @@ namespace BidderGUI
                 batch = batch.Substring(0, batch.Length - 2) + "]";
 
                 // Log transaction attempt
-                logtextBox.Text = logtextBox.Text + "Sending: " + batch + Environment.NewLine;
+                addlog("Sending: " + batch);
 
                 // Create the API call
                 request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
@@ -342,18 +352,22 @@ namespace BidderGUI
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 // Log response
-                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
+                addlog(responseBody);
 
                 // Remove domains from list
-                foreach (string domain in domains)
+                if (!Checkerrors(responseBody))
                 {
-                    domainslistBox.Items.Remove(domain);
+                    // Remove domains from list
+                    foreach (string domain in domains)
+                    {
+                        domainslistBox.Items.Remove(domain);
+                    }
                 }
                 // If there are no domains left in the list
                 // Stop timers
                 if (domainslistBox.Items.Count == 0)
                 {
-                    logtextBox.Text = logtextBox.Text + "All domains sent" + Environment.NewLine;
+                    addlog("All domains sent");
                     stopbutton.PerformClick();
                 }
             }
@@ -361,7 +375,7 @@ namespace BidderGUI
             catch (Exception ex)
             {
                 // Log error
-                logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
+                addlog("Error: " + ex.Message);
                 // Stop timers
                 stopbutton.PerformClick();
             }
@@ -371,7 +385,7 @@ namespace BidderGUI
         async Task unlockwallet()
         {
             // Unlocking wallet
-            logtextBox.Text = logtextBox.Text + "Unlocking Wallet using passphrase" + Environment.NewLine;
+            addlog("Unlocking Wallet using passphrase");
             HttpRequestMessage unlockwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/unlock");
             unlockwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
             unlockwalletreq.Content = new StringContent("{\"passphrase\": \"" + passtextBox.Text + "\",\"timeout\": 60}");
@@ -383,7 +397,7 @@ namespace BidderGUI
             unlockwalletresp.EnsureSuccessStatusCode();
 
             // Select wallet
-            logtextBox.Text = logtextBox.Text + "Selecting Wallet" + Environment.NewLine;
+            addlog("Selecting Wallet");
             HttpRequestMessage selectwalletreq = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
             selectwalletreq.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
             selectwalletreq.Content = new StringContent("{\"method\": \"selectwallet\",\"params\":[ \"" + wallettextBox.Text + "\"]}");
@@ -405,16 +419,21 @@ namespace BidderGUI
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 // Log response
-                logtextBox.Text = logtextBox.Text + responseBody + Environment.NewLine;
-
+                addlog(responseBody);
                 // Remove domain from list
-                domainslistBox.Items.Remove(domain);
+                if (!Checkerrors(responseBody))
+                {
+                    // Remove domains from list
+                    domainslistBox.Items.Remove(domain);
+                    
+                }
+                
             }
             // If there is an error
             catch (Exception ex)
             {
                 // Log error
-                logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
+                addlog("Error: " + ex.Message);
                 // Stop timers
                 stopbutton.PerformClick();
             }
@@ -448,8 +467,7 @@ namespace BidderGUI
             }
             catch (Exception ex)
             {
-                logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
-
+                addlog("Error: " + ex.Message);
             }
             
         }
@@ -506,7 +524,7 @@ namespace BidderGUI
                     catch (Exception ex)
                     {
                         // Log error
-                        logtextBox.Text = logtextBox.Text + "Error: " + ex.Message + Environment.NewLine;
+                        addlog("Error: " + ex.Message);
                     }
                     
                 }
@@ -552,6 +570,42 @@ namespace BidderGUI
         private void button_cleardomains_Click(object sender, EventArgs e)
         {
             domainslistBox.Items.Clear();
+        }
+        string[] errors = { "tx exceeds maximum unconfirmed ancestors" ,"error\":{\"message"};
+        public bool Checkerrors(string log)
+        {
+            log = log.ToLower();
+            // If there is an error in the log
+            foreach (string error in errors)
+            {
+                if (log.Contains(error))
+                {
+                    stopbutton.PerformClick();
+                    // Log error
+                    addlog("Errors Found");
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void addlog(string log)
+        {
+            // Count lines in log textbox
+            string[] lines = logtextBox.Text.Split(Environment.NewLine);
+            int numlines = lines.Length;
+            int maxlines = Convert.ToInt32(loglinesnumeric.Value) - 1;
+
+            string[] newlines = new string[maxlines];
+            if (numlines > maxlines)
+            {
+                Array.Copy(lines, numlines- maxlines, newlines, 0, maxlines);                
+            }
+            else
+            {
+                newlines = lines;
+            }
+            
+            logtextBox.Text = string.Join(Environment.NewLine, newlines) + Environment.NewLine + log;
         }
     }
 }
