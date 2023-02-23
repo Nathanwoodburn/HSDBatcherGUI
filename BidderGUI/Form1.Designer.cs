@@ -69,6 +69,7 @@
             this.settingsgroupBox = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.skiperrorscheck = new System.Windows.Forms.CheckBox();
             this.loglinesnumeric = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
             this.timelabel = new System.Windows.Forms.Label();
@@ -527,7 +528,7 @@
             0,
             0});
             this.batchsizenumericud.Minimum = new decimal(new int[] {
-            10,
+            1,
             0,
             0,
             0});
@@ -572,6 +573,7 @@
             // groupBox3
             // 
             this.groupBox3.BackColor = System.Drawing.Color.Black;
+            this.groupBox3.Controls.Add(this.skiperrorscheck);
             this.groupBox3.Controls.Add(this.loglinesnumeric);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.logtextBox);
@@ -583,6 +585,16 @@
             this.groupBox3.TabIndex = 32;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Logs";
+            // 
+            // skiperrorscheck
+            // 
+            this.skiperrorscheck.AutoSize = true;
+            this.skiperrorscheck.Location = new System.Drawing.Point(7, 22);
+            this.skiperrorscheck.Name = "skiperrorscheck";
+            this.skiperrorscheck.Size = new System.Drawing.Size(230, 19);
+            this.skiperrorscheck.TabIndex = 19;
+            this.skiperrorscheck.Text = "Skip Errors (will log them to /errors.txt)";
+            this.skiperrorscheck.UseVisualStyleBackColor = true;
             // 
             // loglinesnumeric
             // 
@@ -709,6 +721,7 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AUTO Bidder";
+            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).EndInit();
@@ -780,5 +793,6 @@
         private Button mainnetbutton;
         private NumericUpDown loglinesnumeric;
         private Label label15;
+        private CheckBox skiperrorscheck;
     }
 }

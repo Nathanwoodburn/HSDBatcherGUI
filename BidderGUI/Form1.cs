@@ -1,3 +1,5 @@
+using System.DirectoryServices.ActiveDirectory;
+
 namespace BidderGUI
 {
     public partial class Form1 : Form
@@ -148,7 +150,7 @@ namespace BidderGUI
             
             timetaken = 0;
             countdowntimer.Start();
-            timer1.Interval = (int)intervalnumericUpDown.Value*1000*60;
+            timer1.Interval = (int)intervalnumericUpDown.Value*1000;
             timer1.Start();
 
             // Make all fields uneditable
@@ -165,8 +167,13 @@ namespace BidderGUI
             sendtransaction();
         }
 
+        int oldtime = 0;
         private async void batch_timer_Tick(object sender, EventArgs e)
         {
+            if (oldtime != 0)
+            {
+                timer1.Interval = oldtime;
+            }
             // reset time since last batch variable
             timetaken = 0;
             // Run send transaction function
@@ -291,7 +298,7 @@ namespace BidderGUI
                 addlog(responseBody);
 
                 // Check for errors
-                if (!Checkerrors(responseBody))
+                if (!Checkerrors(responseBody,domains))
                 {
                     // Remove domains from list
                     foreach (string domain in domains)
@@ -355,7 +362,7 @@ namespace BidderGUI
                 addlog(responseBody);
 
                 // Remove domains from list
-                if (!Checkerrors(responseBody))
+                if (!Checkerrors(responseBody, domains))
                 {
                     // Remove domains from list
                     foreach (string domain in domains)
@@ -421,7 +428,8 @@ namespace BidderGUI
                 // Log response
                 addlog(responseBody);
                 // Remove domain from list
-                if (!Checkerrors(responseBody))
+                string[] domains = { domain };
+                if (!Checkerrors(responseBody, domains ))
                 {
                     // Remove domains from list
                     domainslistBox.Items.Remove(domain);
@@ -548,7 +556,7 @@ namespace BidderGUI
             timetaken += 1;
             
             // Calculate time to minutes and seconds
-            int timeleftsec = (int)intervalnumericUpDown.Value * 60 - timetaken;
+            int timeleftsec = (int)intervalnumericUpDown.Value - timetaken;
             TimeSpan time = TimeSpan.FromSeconds(timeleftsec);
 
             // Update time label
@@ -571,22 +579,53 @@ namespace BidderGUI
         {
             domainslistBox.Items.Clear();
         }
-        string[] errors = { "tx exceeds maximum unconfirmed ancestors" ,"error\":{\"message"};
-        public bool Checkerrors(string log)
+        public bool Checkerrors(string log, string[] domains)
         {
             log = log.ToLower();
             // If there is an error in the log
-            foreach (string error in errors)
+            if (log.Contains("tx exceeds maximum unconfirmed ancestors"))
             {
-                if (log.Contains(error))
+                if (skiperrorscheck.Checked)
+                {
+                    oldtime = timer1.Interval;
+                    timer1.Interval = 600000;
+                }
+                else
                 {
                     stopbutton.PerformClick();
-                    // Log error
-                    addlog("Errors Found");
-                    return true;
                 }
+                // Temporarily set the timer to 10 minutes before restending the batch.
+                // Log error
+                addlog("Errors Found");
+                return true;
             }
-            return false;
+            else if (log.Contains("error\":{\"message"))
+            {
+                if (skiperrorscheck.Checked)
+                {
+                    StreamWriter streamWriter = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", true);
+                    foreach (string domain in domains)
+                    {
+                        domainslistBox.Items.Remove(domain);
+                        streamWriter.WriteLine(domain);
+                    }
+                    streamWriter.Close();
+                    streamWriter.Dispose();
+                    addlog("Added log at: " + Environment.CurrentDirectory + "\\log.txt");
+                }
+                else
+                {
+                    stopbutton.PerformClick();
+                }
+                // Log error
+                addlog("Errors Found");
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
         }
         public void addlog(string log)
         {
@@ -606,6 +645,11 @@ namespace BidderGUI
             }
             
             logtextBox.Text = string.Join(Environment.NewLine, newlines) + Environment.NewLine + log;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
         }
     }
 }
