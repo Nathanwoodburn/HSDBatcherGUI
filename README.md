@@ -24,9 +24,10 @@ The wallet name and passphrase are the same as you set on Bob or HSD.
         • Set bid and blind in HNS values
    3. REVEAL: Reveal bids
    4. REDEEM: Redeems lost auction bids
-   5. UPDATE: Not implemented yet
-   6. TRANSFER: Not implemented yet
-   7. FINALIZE: Not implemented yet
+   5. RENEW: Renews domains
+   6. UPDATE: Not implemented yet
+   7. TRANSFER: Not implemented yet
+   8. FINALIZE: Not implemented yet
 6. Set batching settings
 7. Press start to begin batching transactions
 8. Pause at any time by pressing Stop
@@ -36,3 +37,7 @@ The wallet name and passphrase are the same as you set on Bob or HSD.
 This sets how many domains are sent in each transaction. If you send too many the transaction might fail to send.
 - Batch interval
 This sets how many minutes are between sending batch transactions. If you set this too low the transactions might fail to send.
+- Log length
+This sets how many lines of log are shown in the log box. If you set this too high the log box might become slow to update (and in extreme cases cause crashing).
+- Skip Errors
+This will continue to send transactions even if one fails. This is useful if you have a large number of domains and one fails to send.
