@@ -657,5 +657,6 @@ namespace BidderGUI
         {
 
         }
+
     }
 }
