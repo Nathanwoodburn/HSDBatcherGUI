@@ -14,10 +14,11 @@ namespace BidderGUI
         // Create a int to store the time since last batch
         int timetaken = 0;
 
+
         private void import_button_Click(object sender, EventArgs e)
         {
             // Import domains from text file
-            
+
             OpenFileDialog open = new OpenFileDialog();
             if (open.ShowDialog() == DialogResult.OK)
             {
@@ -43,7 +44,7 @@ namespace BidderGUI
                     }
                     else
                     {
-                        
+
                         addlog("Domain already in list: " + domain);
                     }
                 }
@@ -52,10 +53,10 @@ namespace BidderGUI
             // Log errors to log textbox
             catch (Exception error)
             {
-                
+
                 addlog("Error: " + error.Message);
             }
-            
+
 
         }
         // Test API
@@ -65,11 +66,11 @@ namespace BidderGUI
             // This will curl the below URL and return the result
             //curl http://x:api-key@127.0.0.1:12039/wallet/$id/account
 
-            addlog("Testing: http://x:" + apitextBox.Text + "@"+ipporttextBox.Text);
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://"+ ipporttextBox.Text + "/wallet/"+wallettextBox.Text+ "/account");
+            addlog("Testing: http://x:" + apitextBox.Text + "@" + ipporttextBox.Text);
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/account");
             // Add API key to header
-            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:"+apitextBox.Text)));
-            
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
             try
             {
                 // Send request and log response
@@ -77,12 +78,12 @@ namespace BidderGUI
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 addlog(responseBody);
-                
+
             }
             // Log errors to log textbox
             catch (Exception error)
             {
-                
+
                 addlog("Error: " + error.Message);
             }
         }
@@ -94,19 +95,25 @@ namespace BidderGUI
             test();
         }
 
-        string getbid(bool convert=false)
+        string getbid(bool convert = false)
         {
+            // Convert bid numeric picker to string and replace commas with periods (used to fix local decimal seperator)
+
+            // Allow conversion to dollarydoos needed for some API calls
             if (convert)
             {
-                return (bidnumericUpDown.Value * 1000000).ToString().Replace(",",".");
+                return (bidnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
             }
             else
             {
                 return bidnumericUpDown.Value.ToString().Replace(",", ".");
             }
         }
-        string getblind(bool convert=false)
+        string getblind(bool convert = false)
         {
+            // Convert blind numeric picker to string and replace commas with periods (used to fix local decimal seperator)
+
+            // Allow conversion to dollarydoos needed for some API calls
             if (convert)
             {
                 return (blindnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
@@ -116,7 +123,6 @@ namespace BidderGUI
                 return blindnumericUpDown.Value.ToString().Replace(",", ".");
             }
         }
-        
         private void clear_button_Click(object sender, EventArgs e)
         {
             // Clear log
@@ -143,14 +149,14 @@ namespace BidderGUI
             timelabel.Text = "Time till next batch:";
 
         }
-        
+
         private void start_button_Click(object sender, EventArgs e)
         {
             // Reset timers and start
-            
+
             timetaken = 0;
             countdowntimer.Start();
-            timer1.Interval = (int)intervalnumericUpDown.Value*1000;
+            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
             timer1.Start();
 
             // Make all fields uneditable
@@ -167,13 +173,10 @@ namespace BidderGUI
             sendtransaction();
         }
 
-        int oldtime = 0;
+
         private async void batch_timer_Tick(object sender, EventArgs e)
         {
-            if (oldtime != 0)
-            {
-                timer1.Interval = oldtime;
-            }
+            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
             // reset time since last batch variable
             timetaken = 0;
             // Run send transaction function
@@ -182,9 +185,9 @@ namespace BidderGUI
         async void sendtransaction()
         {
             // Send a batch of transactions
-            
+
             // Check the selected mode is legit
-            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM" };
+            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM", "RENEW" };
             if (modes.Contains(modecomboBox.Text))
             {
                 // If there is only 1 domain left in the list
@@ -201,9 +204,9 @@ namespace BidderGUI
                     if (modecomboBox.Text == "BID")
                     {
                         // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true)+ "}";
+                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true) + "}";
                         request.Content = new StringContent(curltext);
 
                         // Send request
@@ -213,11 +216,11 @@ namespace BidderGUI
                     else
                     {
                         // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                         string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
                         request.Content = new StringContent(curltext);
-                        
+
                         // Send request
                         sendapicall(request, domain);
                     }
@@ -241,7 +244,7 @@ namespace BidderGUI
                         // Send API call
                         sendbatch(domains, modecomboBox.Text);
                     }
-                    
+
                 }
                 // If there are no domains left in the list
                 else
@@ -262,23 +265,23 @@ namespace BidderGUI
                 stopbutton.PerformClick();
             }
         }
-        
+
         async void sendbatchbid(string[] domains)
         {
             // Send a batch of bid transactions for domains
             try
             {
                 await unlockwallet();
-                
+
                 // Create a HTTP request with the API key
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://"+ipporttextBox.Text);
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
                 // Create the JSON for the API call
                 string batch = "[";
                 foreach (string domain in domains)
                 {
-                    batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",",".") + "], ";
+                    batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",", ".") + "], ";
                 }
                 // Finish the JSON by removing the last comma and adding a closing bracket
                 batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -298,7 +301,7 @@ namespace BidderGUI
                 addlog(responseBody);
 
                 // Check for errors
-                if (!Checkerrors(responseBody,domains))
+                if (!Checkerrors(responseBody, domains))
                 {
                     // Remove domains from list
                     foreach (string domain in domains)
@@ -307,7 +310,7 @@ namespace BidderGUI
                     }
                 }
 
-                
+
                 // If there are no domains left in the list
                 // Stop timers
                 if (domainslistBox.Items.Count == 0)
@@ -324,7 +327,7 @@ namespace BidderGUI
                 // Stop timers
                 stopbutton.PerformClick();
             }
-            
+
         }
         async void sendbatch(string[] domains, string method)
         {
@@ -333,7 +336,7 @@ namespace BidderGUI
             {
 
                 await unlockwallet();
-                
+
                 // Create a HTTP request with the API key
                 HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
@@ -415,7 +418,7 @@ namespace BidderGUI
 
             selectwalletresp.EnsureSuccessStatusCode();
         }
-        async void sendapicall(HttpRequestMessage request,string domain)
+        async void sendapicall(HttpRequestMessage request, string domain)
         {
             // Send a single transaction for a domain
             try
@@ -429,13 +432,13 @@ namespace BidderGUI
                 addlog(responseBody);
                 // Remove domain from list
                 string[] domains = { domain };
-                if (!Checkerrors(responseBody, domains ))
+                if (!Checkerrors(responseBody, domains))
                 {
                     // Remove domains from list
                     domainslistBox.Items.Remove(domain);
-                    
+
                 }
-                
+
             }
             // If there is an error
             catch (Exception ex)
@@ -477,7 +480,7 @@ namespace BidderGUI
             {
                 addlog("Error: " + ex.Message);
             }
-            
+
         }
 
         private void domainslistBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -534,9 +537,9 @@ namespace BidderGUI
                         // Log error
                         addlog("Error: " + ex.Message);
                     }
-                    
+
                 }
-                
+
             }
         }
 
@@ -554,7 +557,7 @@ namespace BidderGUI
         {
             // Add time since last batch
             timetaken += 1;
-            
+
             // Calculate time to minutes and seconds
             int timeleftsec = (int)intervalnumericUpDown.Value - timetaken;
             TimeSpan time = TimeSpan.FromSeconds(timeleftsec);
@@ -566,7 +569,7 @@ namespace BidderGUI
         private void mainnetbutton_Click(object sender, EventArgs e)
         {
             // Set the API URL to mainnet
-            ipporttextBox.Text ="127.0.0.1:12039";
+            ipporttextBox.Text = "127.0.0.1:12039";
         }
 
         private void regtestbutton_Click(object sender, EventArgs e)
@@ -579,6 +582,7 @@ namespace BidderGUI
         {
             domainslistBox.Items.Clear();
         }
+        int oldtime = 0;
         public bool Checkerrors(string log, string[] domains)
         {
             log = log.ToLower();
@@ -587,8 +591,10 @@ namespace BidderGUI
             {
                 if (skiperrorscheck.Checked)
                 {
-                    oldtime = timer1.Interval;
+
                     timer1.Interval = 600000;
+
+                    //cooldowntimer.Start();
                 }
                 else
                 {
@@ -637,19 +643,19 @@ namespace BidderGUI
             string[] newlines = new string[maxlines];
             if (numlines > maxlines)
             {
-                Array.Copy(lines, numlines- maxlines, newlines, 0, maxlines);                
+                Array.Copy(lines, numlines - maxlines, newlines, 0, maxlines);
             }
             else
             {
                 newlines = lines;
             }
-            
+
             logtextBox.Text = string.Join(Environment.NewLine, newlines) + Environment.NewLine + log;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
     }
 }

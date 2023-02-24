@@ -28,720 +28,671 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
-            this.domainslistBox = new System.Windows.Forms.ListBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.bidnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.blindnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.button3 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.apitextBox = new System.Windows.Forms.TextBox();
-            this.logtextBox = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.wallettextBox = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.passtextBox = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.startbutton = new System.Windows.Forms.Button();
-            this.stopbutton = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.intervalnumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label10 = new System.Windows.Forms.Label();
-            this.modecomboBox = new System.Windows.Forms.ComboBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.walletgroupBox = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.removebutton = new System.Windows.Forms.Button();
-            this.buttoncleardomains = new System.Windows.Forms.Button();
-            this.addbutton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.domaintextBox = new System.Windows.Forms.TextBox();
-            this.button8 = new System.Windows.Forms.Button();
-            this.biddinggroupBox = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.batchsizenumericud = new System.Windows.Forms.NumericUpDown();
-            this.settingsgroupBox = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.skiperrorscheck = new System.Windows.Forms.CheckBox();
-            this.loglinesnumeric = new System.Windows.Forms.NumericUpDown();
-            this.label15 = new System.Windows.Forms.Label();
-            this.timelabel = new System.Windows.Forms.Label();
-            this.countdowntimer = new System.Windows.Forms.Timer(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.regtestbutton = new System.Windows.Forms.Button();
-            this.mainnetbutton = new System.Windows.Forms.Button();
-            this.ipporttextBox = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).BeginInit();
-            this.walletgroupBox.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.biddinggroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).BeginInit();
-            this.settingsgroupBox.SuspendLayout();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loglinesnumeric)).BeginInit();
-            this.groupBox1.SuspendLayout();
-            this.SuspendLayout();
+            button1 = new Button();
+            domainslistBox = new ListBox();
+            label3 = new Label();
+            label4 = new Label();
+            bidnumericUpDown = new NumericUpDown();
+            blindnumericUpDown = new NumericUpDown();
+            button3 = new Button();
+            label5 = new Label();
+            label6 = new Label();
+            apitextBox = new TextBox();
+            logtextBox = new TextBox();
+            label7 = new Label();
+            wallettextBox = new TextBox();
+            button4 = new Button();
+            label8 = new Label();
+            passtextBox = new TextBox();
+            timer1 = new System.Windows.Forms.Timer(components);
+            startbutton = new Button();
+            stopbutton = new Button();
+            label9 = new Label();
+            intervalnumericUpDown = new NumericUpDown();
+            label10 = new Label();
+            modecomboBox = new ComboBox();
+            label11 = new Label();
+            walletgroupBox = new GroupBox();
+            groupBox2 = new GroupBox();
+            removebutton = new Button();
+            buttoncleardomains = new Button();
+            addbutton = new Button();
+            label1 = new Label();
+            domaintextBox = new TextBox();
+            button8 = new Button();
+            biddinggroupBox = new GroupBox();
+            label2 = new Label();
+            label12 = new Label();
+            batchsizenumericud = new NumericUpDown();
+            settingsgroupBox = new GroupBox();
+            label13 = new Label();
+            groupBox3 = new GroupBox();
+            skiperrorscheck = new CheckBox();
+            loglinesnumeric = new NumericUpDown();
+            label15 = new Label();
+            timelabel = new Label();
+            countdowntimer = new System.Windows.Forms.Timer(components);
+            groupBox1 = new GroupBox();
+            regtestbutton = new Button();
+            mainnetbutton = new Button();
+            ipporttextBox = new TextBox();
+            label14 = new Label();
+            ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).BeginInit();
+            walletgroupBox.SuspendLayout();
+            groupBox2.SuspendLayout();
+            biddinggroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)batchsizenumericud).BeginInit();
+            settingsgroupBox.SuspendLayout();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)loglinesnumeric).BeginInit();
+            groupBox1.SuspendLayout();
+            SuspendLayout();
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(6, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(80, 23);
-            this.button1.TabIndex = 1;
-            this.button1.TabStop = false;
-            this.button1.Text = "Import";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.import_button_Click);
+            button1.BackColor = SystemColors.ControlDarkDark;
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(6, 22);
+            button1.Name = "button1";
+            button1.Size = new Size(80, 23);
+            button1.TabIndex = 1;
+            button1.TabStop = false;
+            button1.Text = "Import";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += import_button_Click;
             // 
             // domainslistBox
             // 
-            this.domainslistBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.domainslistBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.domainslistBox.ForeColor = System.Drawing.Color.White;
-            this.domainslistBox.FormattingEnabled = true;
-            this.domainslistBox.ItemHeight = 15;
-            this.domainslistBox.Location = new System.Drawing.Point(230, 19);
-            this.domainslistBox.Name = "domainslistBox";
-            this.domainslistBox.Size = new System.Drawing.Size(188, 334);
-            this.domainslistBox.TabIndex = 4;
-            this.domainslistBox.TabStop = false;
-            this.domainslistBox.SelectedIndexChanged += new System.EventHandler(this.domainslistBox_SelectedIndexChanged);
+            domainslistBox.BackColor = SystemColors.ControlDarkDark;
+            domainslistBox.Dock = DockStyle.Right;
+            domainslistBox.ForeColor = Color.White;
+            domainslistBox.FormattingEnabled = true;
+            domainslistBox.ItemHeight = 15;
+            domainslistBox.Location = new Point(230, 19);
+            domainslistBox.Name = "domainslistBox";
+            domainslistBox.Size = new Size(188, 334);
+            domainslistBox.TabIndex = 4;
+            domainslistBox.TabStop = false;
+            domainslistBox.SelectedIndexChanged += domainslistBox_SelectedIndexChanged;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 19);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(27, 15);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Bid:";
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 19);
+            label3.Name = "label3";
+            label3.Size = new Size(27, 15);
+            label3.TabIndex = 6;
+            label3.Text = "Bid:";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 50);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(37, 15);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Blind:";
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 50);
+            label4.Name = "label4";
+            label4.Size = new Size(37, 15);
+            label4.TabIndex = 7;
+            label4.Text = "Blind:";
             // 
             // bidnumericUpDown
             // 
-            this.bidnumericUpDown.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.bidnumericUpDown.DecimalPlaces = 3;
-            this.bidnumericUpDown.ForeColor = System.Drawing.Color.White;
-            this.bidnumericUpDown.Location = new System.Drawing.Point(88, 11);
-            this.bidnumericUpDown.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.bidnumericUpDown.Name = "bidnumericUpDown";
-            this.bidnumericUpDown.Size = new System.Drawing.Size(141, 23);
-            this.bidnumericUpDown.TabIndex = 4;
-            this.bidnumericUpDown.ThousandsSeparator = true;
+            bidnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            bidnumericUpDown.DecimalPlaces = 3;
+            bidnumericUpDown.ForeColor = Color.White;
+            bidnumericUpDown.Location = new Point(88, 11);
+            bidnumericUpDown.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            bidnumericUpDown.Name = "bidnumericUpDown";
+            bidnumericUpDown.Size = new Size(141, 23);
+            bidnumericUpDown.TabIndex = 4;
+            bidnumericUpDown.ThousandsSeparator = true;
             // 
             // blindnumericUpDown
             // 
-            this.blindnumericUpDown.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.blindnumericUpDown.DecimalPlaces = 3;
-            this.blindnumericUpDown.ForeColor = System.Drawing.Color.White;
-            this.blindnumericUpDown.Location = new System.Drawing.Point(88, 48);
-            this.blindnumericUpDown.Maximum = new decimal(new int[] {
-            100000,
-            0,
-            0,
-            0});
-            this.blindnumericUpDown.Name = "blindnumericUpDown";
-            this.blindnumericUpDown.Size = new System.Drawing.Size(141, 23);
-            this.blindnumericUpDown.TabIndex = 5;
-            this.blindnumericUpDown.ThousandsSeparator = true;
+            blindnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            blindnumericUpDown.DecimalPlaces = 3;
+            blindnumericUpDown.ForeColor = Color.White;
+            blindnumericUpDown.Location = new Point(88, 48);
+            blindnumericUpDown.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
+            blindnumericUpDown.Name = "blindnumericUpDown";
+            blindnumericUpDown.Size = new Size(141, 23);
+            blindnumericUpDown.TabIndex = 5;
+            blindnumericUpDown.ThousandsSeparator = true;
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(7, 111);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.TabStop = false;
-            this.button3.Text = "Test";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.test_button_Click);
+            button3.BackColor = SystemColors.ControlDarkDark;
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Location = new Point(7, 111);
+            button3.Name = "button3";
+            button3.Size = new Size(75, 23);
+            button3.TabIndex = 9;
+            button3.TabStop = false;
+            button3.Text = "Test";
+            button3.UseVisualStyleBackColor = false;
+            button3.Click += test_button_Click;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(235, 19);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 15);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "HNS";
+            label5.AutoSize = true;
+            label5.Location = new Point(235, 19);
+            label5.Name = "label5";
+            label5.Size = new Size(31, 15);
+            label5.TabIndex = 10;
+            label5.Text = "HNS";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(4, 22);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 15);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "API Key:";
+            label6.AutoSize = true;
+            label6.Location = new Point(4, 22);
+            label6.Name = "label6";
+            label6.Size = new Size(50, 15);
+            label6.TabIndex = 11;
+            label6.Text = "API Key:";
             // 
             // apitextBox
             // 
-            this.apitextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.apitextBox.ForeColor = System.Drawing.Color.White;
-            this.apitextBox.Location = new System.Drawing.Point(88, 19);
-            this.apitextBox.Name = "apitextBox";
-            this.apitextBox.Size = new System.Drawing.Size(244, 23);
-            this.apitextBox.TabIndex = 0;
+            apitextBox.BackColor = SystemColors.ControlDarkDark;
+            apitextBox.ForeColor = Color.White;
+            apitextBox.Location = new Point(88, 19);
+            apitextBox.Name = "apitextBox";
+            apitextBox.Size = new Size(244, 23);
+            apitextBox.TabIndex = 0;
             // 
             // logtextBox
             // 
-            this.logtextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.logtextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.logtextBox.ForeColor = System.Drawing.Color.White;
-            this.logtextBox.Location = new System.Drawing.Point(3, 54);
-            this.logtextBox.Multiline = true;
-            this.logtextBox.Name = "logtextBox";
-            this.logtextBox.ReadOnly = true;
-            this.logtextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.logtextBox.Size = new System.Drawing.Size(1079, 149);
-            this.logtextBox.TabIndex = 13;
-            this.logtextBox.TabStop = false;
+            logtextBox.BackColor = SystemColors.ControlDarkDark;
+            logtextBox.Dock = DockStyle.Bottom;
+            logtextBox.ForeColor = Color.White;
+            logtextBox.Location = new Point(3, 54);
+            logtextBox.Multiline = true;
+            logtextBox.Name = "logtextBox";
+            logtextBox.ReadOnly = true;
+            logtextBox.ScrollBars = ScrollBars.Vertical;
+            logtextBox.Size = new Size(1079, 149);
+            logtextBox.TabIndex = 13;
+            logtextBox.TabStop = false;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 51);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 15);
-            this.label7.TabIndex = 14;
-            this.label7.Text = "Wallet Name:";
+            label7.AutoSize = true;
+            label7.Location = new Point(4, 51);
+            label7.Name = "label7";
+            label7.Size = new Size(78, 15);
+            label7.TabIndex = 14;
+            label7.Text = "Wallet Name:";
             // 
             // wallettextBox
             // 
-            this.wallettextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.wallettextBox.ForeColor = System.Drawing.Color.White;
-            this.wallettextBox.Location = new System.Drawing.Point(88, 48);
-            this.wallettextBox.Name = "wallettextBox";
-            this.wallettextBox.Size = new System.Drawing.Size(243, 23);
-            this.wallettextBox.TabIndex = 1;
+            wallettextBox.BackColor = SystemColors.ControlDarkDark;
+            wallettextBox.ForeColor = Color.White;
+            wallettextBox.Location = new Point(88, 48);
+            wallettextBox.Name = "wallettextBox";
+            wallettextBox.Size = new Size(243, 23);
+            wallettextBox.TabIndex = 1;
             // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(1004, 22);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 16;
-            this.button4.TabStop = false;
-            this.button4.Text = "Clear";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.clear_button_Click);
+            button4.BackColor = SystemColors.ControlDarkDark;
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Location = new Point(1004, 22);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 23);
+            button4.TabIndex = 16;
+            button4.TabStop = false;
+            button4.Text = "Clear";
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += clear_button_Click;
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 80);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(68, 15);
-            this.label8.TabIndex = 17;
-            this.label8.Text = "Passphrase:";
+            label8.AutoSize = true;
+            label8.Location = new Point(4, 80);
+            label8.Name = "label8";
+            label8.Size = new Size(68, 15);
+            label8.TabIndex = 17;
+            label8.Text = "Passphrase:";
             // 
             // passtextBox
             // 
-            this.passtextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.passtextBox.ForeColor = System.Drawing.Color.White;
-            this.passtextBox.Location = new System.Drawing.Point(88, 77);
-            this.passtextBox.Name = "passtextBox";
-            this.passtextBox.Size = new System.Drawing.Size(243, 23);
-            this.passtextBox.TabIndex = 2;
-            this.passtextBox.UseSystemPasswordChar = true;
+            passtextBox.BackColor = SystemColors.ControlDarkDark;
+            passtextBox.ForeColor = Color.White;
+            passtextBox.Location = new Point(88, 77);
+            passtextBox.Name = "passtextBox";
+            passtextBox.Size = new Size(243, 23);
+            passtextBox.TabIndex = 2;
+            passtextBox.UseSystemPasswordChar = true;
             // 
             // timer1
             // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.batch_timer_Tick);
+            timer1.Interval = 1000;
+            timer1.Tick += batch_timer_Tick;
             // 
             // startbutton
             // 
-            this.startbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.startbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startbutton.Location = new System.Drawing.Point(11, 370);
-            this.startbutton.Name = "startbutton";
-            this.startbutton.Size = new System.Drawing.Size(90, 23);
-            this.startbutton.TabIndex = 6;
-            this.startbutton.Text = "Start";
-            this.startbutton.UseVisualStyleBackColor = false;
-            this.startbutton.Click += new System.EventHandler(this.start_button_Click);
+            startbutton.BackColor = SystemColors.ControlDarkDark;
+            startbutton.FlatStyle = FlatStyle.Flat;
+            startbutton.Location = new Point(11, 370);
+            startbutton.Name = "startbutton";
+            startbutton.Size = new Size(90, 23);
+            startbutton.TabIndex = 6;
+            startbutton.Text = "Start";
+            startbutton.UseVisualStyleBackColor = false;
+            startbutton.Click += start_button_Click;
             // 
             // stopbutton
             // 
-            this.stopbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.stopbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.stopbutton.Location = new System.Drawing.Point(107, 370);
-            this.stopbutton.Name = "stopbutton";
-            this.stopbutton.Size = new System.Drawing.Size(75, 23);
-            this.stopbutton.TabIndex = 7;
-            this.stopbutton.Text = "Stop";
-            this.stopbutton.UseVisualStyleBackColor = false;
-            this.stopbutton.Click += new System.EventHandler(this.stop_button_Click);
+            stopbutton.BackColor = SystemColors.ControlDarkDark;
+            stopbutton.FlatStyle = FlatStyle.Flat;
+            stopbutton.Location = new Point(107, 370);
+            stopbutton.Name = "stopbutton";
+            stopbutton.Size = new Size(75, 23);
+            stopbutton.TabIndex = 7;
+            stopbutton.Text = "Stop";
+            stopbutton.UseVisualStyleBackColor = false;
+            stopbutton.Click += stop_button_Click;
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(4, 48);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 15);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Batch Interval:";
+            label9.AutoSize = true;
+            label9.Location = new Point(4, 48);
+            label9.Name = "label9";
+            label9.Size = new Size(82, 15);
+            label9.TabIndex = 21;
+            label9.Text = "Batch Interval:";
             // 
             // intervalnumericUpDown
             // 
-            this.intervalnumericUpDown.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.intervalnumericUpDown.ForeColor = System.Drawing.Color.White;
-            this.intervalnumericUpDown.Location = new System.Drawing.Point(88, 46);
-            this.intervalnumericUpDown.Maximum = new decimal(new int[] {
-            1215752192,
-            23,
-            0,
-            0});
-            this.intervalnumericUpDown.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.intervalnumericUpDown.Name = "intervalnumericUpDown";
-            this.intervalnumericUpDown.Size = new System.Drawing.Size(141, 23);
-            this.intervalnumericUpDown.TabIndex = 4;
-            this.intervalnumericUpDown.TabStop = false;
-            this.intervalnumericUpDown.Value = new decimal(new int[] {
-            600,
-            0,
-            0,
-            0});
+            intervalnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            intervalnumericUpDown.ForeColor = Color.White;
+            intervalnumericUpDown.Location = new Point(88, 46);
+            intervalnumericUpDown.Maximum = new decimal(new int[] { 1215752192, 23, 0, 0 });
+            intervalnumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            intervalnumericUpDown.Name = "intervalnumericUpDown";
+            intervalnumericUpDown.Size = new Size(141, 23);
+            intervalnumericUpDown.TabIndex = 4;
+            intervalnumericUpDown.TabStop = false;
+            intervalnumericUpDown.Value = new decimal(new int[] { 600, 0, 0, 0 });
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(235, 48);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 15);
-            this.label10.TabIndex = 23;
-            this.label10.Text = "seconds";
+            label10.AutoSize = true;
+            label10.Location = new Point(235, 48);
+            label10.Name = "label10";
+            label10.Size = new Size(50, 15);
+            label10.TabIndex = 23;
+            label10.Text = "seconds";
             // 
             // modecomboBox
             // 
-            this.modecomboBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.modecomboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.modecomboBox.ForeColor = System.Drawing.Color.White;
-            this.modecomboBox.FormattingEnabled = true;
-            this.modecomboBox.Items.AddRange(new object[] {
-            "OPEN",
-            "BID",
-            "REVEAL",
-            "REDEEM"});
-            this.modecomboBox.Location = new System.Drawing.Point(88, 75);
-            this.modecomboBox.Name = "modecomboBox";
-            this.modecomboBox.Size = new System.Drawing.Size(141, 23);
-            this.modecomboBox.TabIndex = 3;
-            this.modecomboBox.Text = "BID";
-            this.modecomboBox.SelectedIndexChanged += new System.EventHandler(this.modecomboBox_SelectedIndexChanged);
+            modecomboBox.BackColor = SystemColors.ControlDarkDark;
+            modecomboBox.FlatStyle = FlatStyle.Flat;
+            modecomboBox.ForeColor = Color.White;
+            modecomboBox.FormattingEnabled = true;
+            modecomboBox.Items.AddRange(new object[] { "OPEN", "BID", "REVEAL", "REDEEM", "RENEW" });
+            modecomboBox.Location = new Point(88, 75);
+            modecomboBox.Name = "modecomboBox";
+            modecomboBox.Size = new Size(141, 23);
+            modecomboBox.TabIndex = 3;
+            modecomboBox.Text = "BID";
+            modecomboBox.SelectedIndexChanged += modecomboBox_SelectedIndexChanged;
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(7, 78);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 15);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "Mode:";
+            label11.AutoSize = true;
+            label11.Location = new Point(7, 78);
+            label11.Name = "label11";
+            label11.Size = new Size(41, 15);
+            label11.TabIndex = 25;
+            label11.Text = "Mode:";
             // 
             // walletgroupBox
             // 
-            this.walletgroupBox.BackColor = System.Drawing.Color.Black;
-            this.walletgroupBox.Controls.Add(this.wallettextBox);
-            this.walletgroupBox.Controls.Add(this.button3);
-            this.walletgroupBox.Controls.Add(this.label6);
-            this.walletgroupBox.Controls.Add(this.apitextBox);
-            this.walletgroupBox.Controls.Add(this.label7);
-            this.walletgroupBox.Controls.Add(this.label8);
-            this.walletgroupBox.Controls.Add(this.passtextBox);
-            this.walletgroupBox.ForeColor = System.Drawing.Color.White;
-            this.walletgroupBox.Location = new System.Drawing.Point(11, 12);
-            this.walletgroupBox.Name = "walletgroupBox";
-            this.walletgroupBox.Size = new System.Drawing.Size(367, 149);
-            this.walletgroupBox.TabIndex = 0;
-            this.walletgroupBox.TabStop = false;
-            this.walletgroupBox.Text = "Wallet";
+            walletgroupBox.BackColor = Color.Black;
+            walletgroupBox.Controls.Add(wallettextBox);
+            walletgroupBox.Controls.Add(button3);
+            walletgroupBox.Controls.Add(label6);
+            walletgroupBox.Controls.Add(apitextBox);
+            walletgroupBox.Controls.Add(label7);
+            walletgroupBox.Controls.Add(label8);
+            walletgroupBox.Controls.Add(passtextBox);
+            walletgroupBox.ForeColor = Color.White;
+            walletgroupBox.Location = new Point(11, 12);
+            walletgroupBox.Name = "walletgroupBox";
+            walletgroupBox.Size = new Size(367, 149);
+            walletgroupBox.TabIndex = 0;
+            walletgroupBox.TabStop = false;
+            walletgroupBox.Text = "Wallet";
             // 
             // groupBox2
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.Black;
-            this.groupBox2.Controls.Add(this.removebutton);
-            this.groupBox2.Controls.Add(this.buttoncleardomains);
-            this.groupBox2.Controls.Add(this.addbutton);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.domaintextBox);
-            this.groupBox2.Controls.Add(this.button8);
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.domainslistBox);
-            this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(675, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(421, 356);
-            this.groupBox2.TabIndex = 27;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Domains";
+            groupBox2.BackColor = Color.Black;
+            groupBox2.Controls.Add(removebutton);
+            groupBox2.Controls.Add(buttoncleardomains);
+            groupBox2.Controls.Add(addbutton);
+            groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(domaintextBox);
+            groupBox2.Controls.Add(button8);
+            groupBox2.Controls.Add(button1);
+            groupBox2.Controls.Add(domainslistBox);
+            groupBox2.ForeColor = Color.White;
+            groupBox2.Location = new Point(675, 12);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(421, 356);
+            groupBox2.TabIndex = 27;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Domains";
             // 
             // removebutton
             // 
-            this.removebutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.removebutton.Enabled = false;
-            this.removebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removebutton.Location = new System.Drawing.Point(114, 298);
-            this.removebutton.Name = "removebutton";
-            this.removebutton.Size = new System.Drawing.Size(110, 23);
-            this.removebutton.TabIndex = 9;
-            this.removebutton.TabStop = false;
-            this.removebutton.Text = "Remove Selected";
-            this.removebutton.UseVisualStyleBackColor = false;
-            this.removebutton.Click += new System.EventHandler(this.removebutton_Click);
+            removebutton.BackColor = SystemColors.ControlDarkDark;
+            removebutton.Enabled = false;
+            removebutton.FlatStyle = FlatStyle.Flat;
+            removebutton.Location = new Point(114, 298);
+            removebutton.Name = "removebutton";
+            removebutton.Size = new Size(110, 23);
+            removebutton.TabIndex = 9;
+            removebutton.TabStop = false;
+            removebutton.Text = "Remove Selected";
+            removebutton.UseVisualStyleBackColor = false;
+            removebutton.Click += removebutton_Click;
             // 
             // buttoncleardomains
             // 
-            this.buttoncleardomains.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.buttoncleardomains.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttoncleardomains.Location = new System.Drawing.Point(114, 327);
-            this.buttoncleardomains.Name = "buttoncleardomains";
-            this.buttoncleardomains.Size = new System.Drawing.Size(110, 23);
-            this.buttoncleardomains.TabIndex = 8;
-            this.buttoncleardomains.TabStop = false;
-            this.buttoncleardomains.Text = "Clear All";
-            this.buttoncleardomains.UseVisualStyleBackColor = false;
-            this.buttoncleardomains.Click += new System.EventHandler(this.button_cleardomains_Click);
+            buttoncleardomains.BackColor = SystemColors.ControlDarkDark;
+            buttoncleardomains.FlatStyle = FlatStyle.Flat;
+            buttoncleardomains.Location = new Point(114, 327);
+            buttoncleardomains.Name = "buttoncleardomains";
+            buttoncleardomains.Size = new Size(110, 23);
+            buttoncleardomains.TabIndex = 8;
+            buttoncleardomains.TabStop = false;
+            buttoncleardomains.Text = "Clear All";
+            buttoncleardomains.UseVisualStyleBackColor = false;
+            buttoncleardomains.Click += button_cleardomains_Click;
             // 
             // addbutton
             // 
-            this.addbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.addbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addbutton.Location = new System.Drawing.Point(114, 111);
-            this.addbutton.Name = "addbutton";
-            this.addbutton.Size = new System.Drawing.Size(110, 23);
-            this.addbutton.TabIndex = 7;
-            this.addbutton.TabStop = false;
-            this.addbutton.Text = "Add to list";
-            this.addbutton.UseVisualStyleBackColor = false;
-            this.addbutton.Click += new System.EventHandler(this.add_domain_button_Click);
+            addbutton.BackColor = SystemColors.ControlDarkDark;
+            addbutton.FlatStyle = FlatStyle.Flat;
+            addbutton.Location = new Point(114, 111);
+            addbutton.Name = "addbutton";
+            addbutton.Size = new Size(110, 23);
+            addbutton.TabIndex = 7;
+            addbutton.TabStop = false;
+            addbutton.Text = "Add to list";
+            addbutton.UseVisualStyleBackColor = false;
+            addbutton.Click += add_domain_button_Click;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 85);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(52, 15);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Domain:";
+            label1.AutoSize = true;
+            label1.Location = new Point(6, 85);
+            label1.Name = "label1";
+            label1.Size = new Size(52, 15);
+            label1.TabIndex = 6;
+            label1.Text = "Domain:";
             // 
             // domaintextBox
             // 
-            this.domaintextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.domaintextBox.ForeColor = System.Drawing.Color.White;
-            this.domaintextBox.Location = new System.Drawing.Point(64, 82);
-            this.domaintextBox.Name = "domaintextBox";
-            this.domaintextBox.Size = new System.Drawing.Size(160, 23);
-            this.domaintextBox.TabIndex = 5;
-            this.domaintextBox.TabStop = false;
-            this.domaintextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.domaintextBox_KeyPress);
+            domaintextBox.BackColor = SystemColors.ControlDarkDark;
+            domaintextBox.ForeColor = Color.White;
+            domaintextBox.Location = new Point(64, 82);
+            domaintextBox.Name = "domaintextBox";
+            domaintextBox.Size = new Size(160, 23);
+            domaintextBox.TabIndex = 5;
+            domaintextBox.TabStop = false;
+            domaintextBox.KeyPress += domaintextBox_KeyPress;
             // 
             // button8
             // 
-            this.button8.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Location = new System.Drawing.Point(144, 22);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(80, 23);
-            this.button8.TabIndex = 1;
-            this.button8.TabStop = false;
-            this.button8.Text = "Export";
-            this.button8.UseVisualStyleBackColor = false;
-            this.button8.Click += new System.EventHandler(this.export_button_Click);
+            button8.BackColor = SystemColors.ControlDarkDark;
+            button8.FlatStyle = FlatStyle.Flat;
+            button8.Location = new Point(144, 22);
+            button8.Name = "button8";
+            button8.Size = new Size(80, 23);
+            button8.TabIndex = 1;
+            button8.TabStop = false;
+            button8.Text = "Export";
+            button8.UseVisualStyleBackColor = false;
+            button8.Click += export_button_Click;
             // 
             // biddinggroupBox
             // 
-            this.biddinggroupBox.BackColor = System.Drawing.Color.Black;
-            this.biddinggroupBox.Controls.Add(this.bidnumericUpDown);
-            this.biddinggroupBox.Controls.Add(this.label3);
-            this.biddinggroupBox.Controls.Add(this.label4);
-            this.biddinggroupBox.Controls.Add(this.blindnumericUpDown);
-            this.biddinggroupBox.Controls.Add(this.label2);
-            this.biddinggroupBox.Controls.Add(this.label5);
-            this.biddinggroupBox.ForeColor = System.Drawing.Color.White;
-            this.biddinggroupBox.Location = new System.Drawing.Point(11, 279);
-            this.biddinggroupBox.Name = "biddinggroupBox";
-            this.biddinggroupBox.Size = new System.Drawing.Size(367, 85);
-            this.biddinggroupBox.TabIndex = 4;
-            this.biddinggroupBox.TabStop = false;
-            this.biddinggroupBox.Text = "Bidding";
+            biddinggroupBox.BackColor = Color.Black;
+            biddinggroupBox.Controls.Add(bidnumericUpDown);
+            biddinggroupBox.Controls.Add(label3);
+            biddinggroupBox.Controls.Add(label4);
+            biddinggroupBox.Controls.Add(blindnumericUpDown);
+            biddinggroupBox.Controls.Add(label2);
+            biddinggroupBox.Controls.Add(label5);
+            biddinggroupBox.ForeColor = Color.White;
+            biddinggroupBox.Location = new Point(11, 279);
+            biddinggroupBox.Name = "biddinggroupBox";
+            biddinggroupBox.Size = new Size(367, 85);
+            biddinggroupBox.TabIndex = 4;
+            biddinggroupBox.TabStop = false;
+            biddinggroupBox.Text = "Bidding";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(235, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 15);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "HNS";
+            label2.AutoSize = true;
+            label2.Location = new Point(235, 50);
+            label2.Name = "label2";
+            label2.Size = new Size(31, 15);
+            label2.TabIndex = 10;
+            label2.Text = "HNS";
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(4, 19);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(63, 15);
-            this.label12.TabIndex = 29;
-            this.label12.Text = "Batch Size:";
+            label12.AutoSize = true;
+            label12.Location = new Point(4, 19);
+            label12.Name = "label12";
+            label12.Size = new Size(63, 15);
+            label12.TabIndex = 29;
+            label12.Text = "Batch Size:";
             // 
             // batchsizenumericud
             // 
-            this.batchsizenumericud.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.batchsizenumericud.ForeColor = System.Drawing.Color.White;
-            this.batchsizenumericud.Location = new System.Drawing.Point(88, 17);
-            this.batchsizenumericud.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.batchsizenumericud.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.batchsizenumericud.Name = "batchsizenumericud";
-            this.batchsizenumericud.Size = new System.Drawing.Size(141, 23);
-            this.batchsizenumericud.TabIndex = 3;
-            this.batchsizenumericud.TabStop = false;
-            this.batchsizenumericud.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
+            batchsizenumericud.BackColor = SystemColors.ControlDarkDark;
+            batchsizenumericud.ForeColor = Color.White;
+            batchsizenumericud.Location = new Point(88, 17);
+            batchsizenumericud.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            batchsizenumericud.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            batchsizenumericud.Name = "batchsizenumericud";
+            batchsizenumericud.Size = new Size(141, 23);
+            batchsizenumericud.TabIndex = 3;
+            batchsizenumericud.TabStop = false;
+            batchsizenumericud.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
             // settingsgroupBox
             // 
-            this.settingsgroupBox.BackColor = System.Drawing.Color.Black;
-            this.settingsgroupBox.Controls.Add(this.label13);
-            this.settingsgroupBox.Controls.Add(this.intervalnumericUpDown);
-            this.settingsgroupBox.Controls.Add(this.batchsizenumericud);
-            this.settingsgroupBox.Controls.Add(this.label9);
-            this.settingsgroupBox.Controls.Add(this.label12);
-            this.settingsgroupBox.Controls.Add(this.label10);
-            this.settingsgroupBox.Controls.Add(this.modecomboBox);
-            this.settingsgroupBox.Controls.Add(this.label11);
-            this.settingsgroupBox.ForeColor = System.Drawing.Color.White;
-            this.settingsgroupBox.Location = new System.Drawing.Point(11, 167);
-            this.settingsgroupBox.Name = "settingsgroupBox";
-            this.settingsgroupBox.Size = new System.Drawing.Size(367, 106);
-            this.settingsgroupBox.TabIndex = 3;
-            this.settingsgroupBox.TabStop = false;
-            this.settingsgroupBox.Text = "Settings";
+            settingsgroupBox.BackColor = Color.Black;
+            settingsgroupBox.Controls.Add(label13);
+            settingsgroupBox.Controls.Add(intervalnumericUpDown);
+            settingsgroupBox.Controls.Add(batchsizenumericud);
+            settingsgroupBox.Controls.Add(label9);
+            settingsgroupBox.Controls.Add(label12);
+            settingsgroupBox.Controls.Add(label10);
+            settingsgroupBox.Controls.Add(modecomboBox);
+            settingsgroupBox.Controls.Add(label11);
+            settingsgroupBox.ForeColor = Color.White;
+            settingsgroupBox.Location = new Point(11, 167);
+            settingsgroupBox.Name = "settingsgroupBox";
+            settingsgroupBox.Size = new Size(367, 106);
+            settingsgroupBox.TabIndex = 3;
+            settingsgroupBox.TabStop = false;
+            settingsgroupBox.Text = "Settings";
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(235, 19);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 15);
-            this.label13.TabIndex = 31;
-            this.label13.Text = "domains";
+            label13.AutoSize = true;
+            label13.Location = new Point(235, 19);
+            label13.Name = "label13";
+            label13.Size = new Size(53, 15);
+            label13.TabIndex = 31;
+            label13.Text = "domains";
             // 
             // groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.Black;
-            this.groupBox3.Controls.Add(this.skiperrorscheck);
-            this.groupBox3.Controls.Add(this.loglinesnumeric);
-            this.groupBox3.Controls.Add(this.label15);
-            this.groupBox3.Controls.Add(this.logtextBox);
-            this.groupBox3.Controls.Add(this.button4);
-            this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(11, 412);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(1085, 206);
-            this.groupBox3.TabIndex = 32;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Logs";
+            groupBox3.BackColor = Color.Black;
+            groupBox3.Controls.Add(skiperrorscheck);
+            groupBox3.Controls.Add(loglinesnumeric);
+            groupBox3.Controls.Add(label15);
+            groupBox3.Controls.Add(logtextBox);
+            groupBox3.Controls.Add(button4);
+            groupBox3.ForeColor = Color.White;
+            groupBox3.Location = new Point(11, 412);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(1085, 206);
+            groupBox3.TabIndex = 32;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Logs";
             // 
             // skiperrorscheck
             // 
-            this.skiperrorscheck.AutoSize = true;
-            this.skiperrorscheck.Location = new System.Drawing.Point(7, 22);
-            this.skiperrorscheck.Name = "skiperrorscheck";
-            this.skiperrorscheck.Size = new System.Drawing.Size(230, 19);
-            this.skiperrorscheck.TabIndex = 19;
-            this.skiperrorscheck.Text = "Skip Errors (will log them to /errors.txt)";
-            this.skiperrorscheck.UseVisualStyleBackColor = true;
+            skiperrorscheck.AutoSize = true;
+            skiperrorscheck.Location = new Point(7, 22);
+            skiperrorscheck.Name = "skiperrorscheck";
+            skiperrorscheck.Size = new Size(230, 19);
+            skiperrorscheck.TabIndex = 19;
+            skiperrorscheck.Text = "Skip Errors (will log them to /errors.txt)";
+            skiperrorscheck.UseVisualStyleBackColor = true;
             // 
             // loglinesnumeric
             // 
-            this.loglinesnumeric.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.loglinesnumeric.ForeColor = System.Drawing.Color.White;
-            this.loglinesnumeric.Location = new System.Drawing.Point(878, 22);
-            this.loglinesnumeric.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.loglinesnumeric.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.loglinesnumeric.Name = "loglinesnumeric";
-            this.loglinesnumeric.Size = new System.Drawing.Size(120, 23);
-            this.loglinesnumeric.TabIndex = 18;
-            this.loglinesnumeric.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            loglinesnumeric.BackColor = SystemColors.ControlDarkDark;
+            loglinesnumeric.ForeColor = Color.White;
+            loglinesnumeric.Location = new Point(878, 22);
+            loglinesnumeric.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
+            loglinesnumeric.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            loglinesnumeric.Name = "loglinesnumeric";
+            loglinesnumeric.Size = new Size(120, 23);
+            loglinesnumeric.TabIndex = 18;
+            loglinesnumeric.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // label15
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(808, 26);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(70, 15);
-            this.label15.TabIndex = 17;
-            this.label15.Text = "Log Length:";
+            label15.AutoSize = true;
+            label15.Location = new Point(808, 26);
+            label15.Name = "label15";
+            label15.Size = new Size(70, 15);
+            label15.TabIndex = 17;
+            label15.Text = "Log Length:";
             // 
             // timelabel
             // 
-            this.timelabel.AutoSize = true;
-            this.timelabel.Location = new System.Drawing.Point(185, 378);
-            this.timelabel.Name = "timelabel";
-            this.timelabel.Size = new System.Drawing.Size(111, 15);
-            this.timelabel.TabIndex = 33;
-            this.timelabel.Text = "Time till next batch:";
+            timelabel.AutoSize = true;
+            timelabel.Location = new Point(185, 378);
+            timelabel.Name = "timelabel";
+            timelabel.Size = new Size(111, 15);
+            timelabel.TabIndex = 33;
+            timelabel.Text = "Time till next batch:";
             // 
             // countdowntimer
             // 
-            this.countdowntimer.Interval = 1000;
-            this.countdowntimer.Tick += new System.EventHandler(this.countdowntimer_Tick);
+            countdowntimer.Interval = 1000;
+            countdowntimer.Tick += countdowntimer_Tick;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.regtestbutton);
-            this.groupBox1.Controls.Add(this.mainnetbutton);
-            this.groupBox1.Controls.Add(this.ipporttextBox);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(384, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(285, 149);
-            this.groupBox1.TabIndex = 34;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Network";
+            groupBox1.Controls.Add(regtestbutton);
+            groupBox1.Controls.Add(mainnetbutton);
+            groupBox1.Controls.Add(ipporttextBox);
+            groupBox1.Controls.Add(label14);
+            groupBox1.ForeColor = Color.White;
+            groupBox1.Location = new Point(384, 12);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(285, 149);
+            groupBox1.TabIndex = 34;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Network";
             // 
             // regtestbutton
             // 
-            this.regtestbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.regtestbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.regtestbutton.Location = new System.Drawing.Point(87, 111);
-            this.regtestbutton.Name = "regtestbutton";
-            this.regtestbutton.Size = new System.Drawing.Size(75, 23);
-            this.regtestbutton.TabIndex = 2;
-            this.regtestbutton.Text = "Regtest";
-            this.regtestbutton.UseVisualStyleBackColor = false;
-            this.regtestbutton.Click += new System.EventHandler(this.regtestbutton_Click);
+            regtestbutton.BackColor = SystemColors.ControlDarkDark;
+            regtestbutton.FlatStyle = FlatStyle.Flat;
+            regtestbutton.Location = new Point(87, 111);
+            regtestbutton.Name = "regtestbutton";
+            regtestbutton.Size = new Size(75, 23);
+            regtestbutton.TabIndex = 2;
+            regtestbutton.Text = "Regtest";
+            regtestbutton.UseVisualStyleBackColor = false;
+            regtestbutton.Click += regtestbutton_Click;
             // 
             // mainnetbutton
             // 
-            this.mainnetbutton.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.mainnetbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.mainnetbutton.Location = new System.Drawing.Point(6, 111);
-            this.mainnetbutton.Name = "mainnetbutton";
-            this.mainnetbutton.Size = new System.Drawing.Size(75, 23);
-            this.mainnetbutton.TabIndex = 2;
-            this.mainnetbutton.Text = "Mainnet";
-            this.mainnetbutton.UseVisualStyleBackColor = false;
-            this.mainnetbutton.Click += new System.EventHandler(this.mainnetbutton_Click);
+            mainnetbutton.BackColor = SystemColors.ControlDarkDark;
+            mainnetbutton.FlatStyle = FlatStyle.Flat;
+            mainnetbutton.Location = new Point(6, 111);
+            mainnetbutton.Name = "mainnetbutton";
+            mainnetbutton.Size = new Size(75, 23);
+            mainnetbutton.TabIndex = 2;
+            mainnetbutton.Text = "Mainnet";
+            mainnetbutton.UseVisualStyleBackColor = false;
+            mainnetbutton.Click += mainnetbutton_Click;
             // 
             // ipporttextBox
             // 
-            this.ipporttextBox.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ipporttextBox.ForeColor = System.Drawing.Color.White;
-            this.ipporttextBox.Location = new System.Drawing.Point(57, 14);
-            this.ipporttextBox.Name = "ipporttextBox";
-            this.ipporttextBox.Size = new System.Drawing.Size(222, 23);
-            this.ipporttextBox.TabIndex = 1;
-            this.ipporttextBox.Text = "127.0.0.1:12039";
+            ipporttextBox.BackColor = SystemColors.ControlDarkDark;
+            ipporttextBox.ForeColor = Color.White;
+            ipporttextBox.Location = new Point(57, 14);
+            ipporttextBox.Name = "ipporttextBox";
+            ipporttextBox.Size = new Size(222, 23);
+            ipporttextBox.TabIndex = 1;
+            ipporttextBox.Text = "127.0.0.1:12039";
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(3, 19);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(48, 15);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "IP:PORT";
+            label14.AutoSize = true;
+            label14.Location = new Point(3, 19);
+            label14.Name = "label14";
+            label14.Size = new Size(48, 15);
+            label14.TabIndex = 0;
+            label14.Text = "IP:PORT";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1108, 630);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.timelabel);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.settingsgroupBox);
-            this.Controls.Add(this.biddinggroupBox);
-            this.Controls.Add(this.walletgroupBox);
-            this.Controls.Add(this.stopbutton);
-            this.Controls.Add(this.startbutton);
-            this.Controls.Add(this.groupBox2);
-            this.ForeColor = System.Drawing.Color.White;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.Text = "AUTO Bidder";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.bidnumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.blindnumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.intervalnumericUpDown)).EndInit();
-            this.walletgroupBox.ResumeLayout(false);
-            this.walletgroupBox.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.biddinggroupBox.ResumeLayout(false);
-            this.biddinggroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.batchsizenumericud)).EndInit();
-            this.settingsgroupBox.ResumeLayout(false);
-            this.settingsgroupBox.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.loglinesnumeric)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Black;
+            ClientSize = new Size(1108, 630);
+            Controls.Add(groupBox1);
+            Controls.Add(timelabel);
+            Controls.Add(groupBox3);
+            Controls.Add(settingsgroupBox);
+            Controls.Add(biddinggroupBox);
+            Controls.Add(walletgroupBox);
+            Controls.Add(stopbutton);
+            Controls.Add(startbutton);
+            Controls.Add(groupBox2);
+            ForeColor = Color.White;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
+            Name = "Form1";
+            Text = "AUTO Bidder";
+            Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).EndInit();
+            ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).EndInit();
+            walletgroupBox.ResumeLayout(false);
+            walletgroupBox.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            biddinggroupBox.ResumeLayout(false);
+            biddinggroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)batchsizenumericud).EndInit();
+            settingsgroupBox.ResumeLayout(false);
+            settingsgroupBox.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)loglinesnumeric).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
