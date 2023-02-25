@@ -9,10 +9,12 @@
 
 
 const Config = require('bcfg');
-const {NodeClient, WalletClient} = require('hs-client');
-const {hd, MTX, Network} = require('hsd');
-const {util, HID, LedgerHSD, LedgerChange} = require('..');
-const {Device} = HID;
+const { NodeClient, WalletClient } = require('hs-client');
+const { hd, MTX, Network } = require('hsd');
+const {Rules} = require('hsd/lib/covenants');
+const {hashName, types} = Rules;
+const { util, HID, LedgerHSD, LedgerChange } = require('..');
+const { Device } = HID;
 
 /**
  * Global constants
@@ -77,7 +79,7 @@ async function createAddress(client, config, ledger, args) {
 
   console.log(`Verify address on Ledger device: ${addr.address}`);
 
-  await ledger.getAddress(account, addr.branch, addr.index, {confirm: true});
+  await ledger.getAddress(account, addr.branch, addr.index, { confirm: true });
 }
 
 async function sendToAddress(wclient, nclient, config, ledger, args) {
@@ -109,7 +111,7 @@ async function sendToAddress(wclient, nclient, config, ledger, args) {
   if (!key || !key.branch)
     throw new Error('Expected change address.');
 
-  const {account, branch, index} = key;
+  const { account, branch, index } = key;
   const coinType = network.keyPrefix.coinType;
   const options = {
     change: new LedgerChange({
@@ -137,14 +139,11 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
   const batch = args[0];
 
   await wclient.execute('selectwallet', [id]);
-
-
   // TODO Remove this after testing
   //console.log(batch);
   //const json = await wclient.execute('createbatch', batch);
 
   const fs = require('fs');
-
   try {
     const data = fs.readFileSync(batch, 'utf8');
     // console.log(data);
@@ -152,32 +151,22 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
     const json = JSON.parse(data);
     const mtx = MTX.fromJSON(json.result);
     let i, key;
-    
 
     // ! TESTING
-    const {LedgerCovenant} = LedgerHSD;
-    
-    
-    
-
-
+    const { LedgerCovenant } = LedgerHSD;
     const options = [];
     for (i = mtx.outputs.length - 1; i >= 0; i--) {
-
-      
-
       const output = mtx.outputs[i];
       const addr = output.address.toString(network.type);
       key = await wclient.getKey(id, addr);
-
       if (!key)
         continue;
-
+        
       if (key.branch === 1 /*&& accountInfo.type !== 'multisig'*/) {
         if (options.change)
           throw new Error('Transaction should only have one change output.');
         const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`;
-        options.change = new LedgerChange({path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`,index: i,version: 0});
+        options.change = new LedgerChange({ path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`, index: i, version: 0 });
         // options.change = new LedgerChange({
         //   index,
         //   version: address.version,
@@ -185,62 +174,69 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
         // });
       }
       
-  
-      if (key && key.branch)
-        break;
-        const {account, branch, index} = key;
-    const coinType = network.keyPrefix.coinType;
-    
-    switch (output.covenant.type) {
-      case types.NONE:
-      case types.OPEN:
-      case types.BID:
-      case types.FINALIZE:
-        break;
-
-      case types.REVEAL:
-      case types.REDEEM:
-      case types.REGISTER:
-      case types.UPDATE:
-      case types.RENEW:
-      case types.TRANSFER:
-      case types.REVOKE: {
-        if (options.covenants == null)
-          options.covenants = [];
-
-        // We could try to just pass the name in from the functions that
-        // call _ledgerProxy(), but that wouldn't work for send____All()
-        const hash = output.covenant.items[0];
-        const name = await this.nodeService.getNameByHash(hash.toString('hex'));
-
-        options.covenants.push(new LedgerCovenant({index, name}));
-        break;
+      if (key /*&& key.branch*/){
+        console.log("key & branch");
+        console.log(key);
+        // break;
       }
-      default:
-        throw new Error('Unrecognized covenant type.');
-    }
-    }
-  
+      const { account, branch, index } = key;
+      const coinType = network.keyPrefix.coinType;
+      console.log("0");
+      switch (output.covenant.type) {
+        case types.NONE:
+        case types.OPEN:
+        case types.BID:
+        case types.FINALIZE:
+          break;
+        case types.REVEAL:
+        case types.REDEEM:
+        case types.REGISTER:
+        case types.UPDATE:
+        case types.RENEW:
+        case types.TRANSFER:
+        case types.REVOKE: {
+          if (options.covenants == null)
+            options.covenants = [];
+
+          // We could try to just pass the name in from the functions that
+          // call _ledgerProxy(), but that wouldn't work for send____All()
+          console.log("1");
+          const hash = output.covenant.items[0];
+          console.log("2");
+          const name = await nclient.getNameByHash(hash.toString('hex'));
+          console.log("3");
+          console.log(options.covenants);
+          options.covenants.push(new LedgerCovenant({ index, name }));
+          console.log(options.covenants);
+          break;
+        }
+        default:
+          throw new Error('Unrecognized covenant type.');
+
+      }
+      
+    } // end for loop
+
     if (!key || !key.branch)
       throw new Error('Expected change address.');
-  
-    
-  
+
+
+
     console.log(options);
     util.displayDetails(console, network, mtx, options);
     console.log(options);
     const signed = await ledger.signTransaction(mtx, options);
     const rawtx = signed.encode().toString('hex');
     const txid = await nclient.execute('sendrawtransaction', [rawtx]);
-  
+
     console.log(`Submitted TXID: ${txid}`);
 
   } catch (err) {
     console.error(err);
   }
-    
 
-  
+
+
 }
 
 async function getWallets(client, args) {
@@ -328,12 +324,12 @@ async function main() {
   const id = config.str('wallet-id');
   const token = config.str('token');
 
-  if(config.str('help') && argv.length === 0) {
+  if (config.str('help') && argv.length === 0) {
     usage();
     process.exit(0);
   }
 
-  if(config.str('version') && argv.length === 0) {
+  if (config.str('version') && argv.length === 0) {
     version();
     process.exit(0);
   }
@@ -416,8 +412,8 @@ async function main() {
         process.exit(1);
         break;
     }
-  } catch(e) {
-    throw(e);
+  } catch (e) {
+    throw (e);
   } finally {
     await wclient.close();
     await nclient.close();
