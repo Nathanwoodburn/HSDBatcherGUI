@@ -56,4 +56,4 @@ This will continue to send transactions even if one fails. This is useful if you
 7. Connect your ledger to your computer and open the Handshake app.
 8. Run the command `node bin/hsd-ledger sendraw --http-host 127.0.0.1 --api-key=<your-api-key> -w <your-wallet-name-as-shown-in-bob> batch.json` and follow the instructions on your ledger to sign the transaction.  
 Example `node bin/hsd-ledger sendraw --http-host 127.0.0.1 --api-key=1234 -w coldwallet batch.json`
-1. Sign the transaction on your ledger.
+9. Sign the transaction on your ledger.
