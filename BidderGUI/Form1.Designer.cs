@@ -79,6 +79,9 @@
             mainnetbutton = new Button();
             ipporttextBox = new TextBox();
             label14 = new Label();
+            ledgergroupBox = new GroupBox();
+            ledgercheckBox = new CheckBox();
+            label16 = new Label();
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).BeginInit();
@@ -90,6 +93,7 @@
             groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)loglinesnumeric).BeginInit();
             groupBox1.SuspendLayout();
+            ledgergroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -114,7 +118,7 @@
             domainslistBox.ItemHeight = 15;
             domainslistBox.Location = new Point(230, 19);
             domainslistBox.Name = "domainslistBox";
-            domainslistBox.Size = new Size(188, 334);
+            domainslistBox.Size = new Size(188, 328);
             domainslistBox.TabIndex = 4;
             domainslistBox.TabStop = false;
             domainslistBox.SelectedIndexChanged += domainslistBox_SelectedIndexChanged;
@@ -380,7 +384,7 @@
             groupBox2.ForeColor = Color.White;
             groupBox2.Location = new Point(675, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(421, 356);
+            groupBox2.Size = new Size(421, 350);
             groupBox2.TabIndex = 27;
             groupBox2.TabStop = false;
             groupBox2.Text = "Domains";
@@ -390,7 +394,7 @@
             removebutton.BackColor = SystemColors.ControlDarkDark;
             removebutton.Enabled = false;
             removebutton.FlatStyle = FlatStyle.Flat;
-            removebutton.Location = new Point(114, 298);
+            removebutton.Location = new Point(114, 292);
             removebutton.Name = "removebutton";
             removebutton.Size = new Size(110, 23);
             removebutton.TabIndex = 9;
@@ -403,7 +407,7 @@
             // 
             buttoncleardomains.BackColor = SystemColors.ControlDarkDark;
             buttoncleardomains.FlatStyle = FlatStyle.Flat;
-            buttoncleardomains.Location = new Point(114, 327);
+            buttoncleardomains.Location = new Point(114, 321);
             buttoncleardomains.Name = "buttoncleardomains";
             buttoncleardomains.Size = new Size(110, 23);
             buttoncleardomains.TabIndex = 8;
@@ -652,12 +656,44 @@
             label14.TabIndex = 0;
             label14.Text = "IP:PORT";
             // 
+            // ledgergroupBox
+            // 
+            ledgergroupBox.Controls.Add(label16);
+            ledgergroupBox.Controls.Add(ledgercheckBox);
+            ledgergroupBox.ForeColor = Color.White;
+            ledgergroupBox.Location = new Point(384, 167);
+            ledgergroupBox.Name = "ledgergroupBox";
+            ledgergroupBox.Size = new Size(285, 195);
+            ledgergroupBox.TabIndex = 35;
+            ledgergroupBox.TabStop = false;
+            ledgergroupBox.Text = "Ledger Settings";
+            // 
+            // ledgercheckBox
+            // 
+            ledgercheckBox.AutoSize = true;
+            ledgercheckBox.Location = new Point(5, 21);
+            ledgercheckBox.Name = "ledgercheckBox";
+            ledgercheckBox.Size = new Size(84, 19);
+            ledgercheckBox.TabIndex = 0;
+            ledgercheckBox.Text = "Use Ledger";
+            ledgercheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(5, 43);
+            label16.Name = "label16";
+            label16.Size = new Size(196, 120);
+            label16.TabIndex = 1;
+            label16.Text = resources.GetString("label16.Text");
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(1108, 630);
+            Controls.Add(ledgergroupBox);
             Controls.Add(groupBox1);
             Controls.Add(timelabel);
             Controls.Add(groupBox3);
@@ -691,6 +727,8 @@
             ((System.ComponentModel.ISupportInitialize)loglinesnumeric).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ledgergroupBox.ResumeLayout(false);
+            ledgergroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -745,5 +783,8 @@
         private NumericUpDown loglinesnumeric;
         private Label label15;
         private CheckBox skiperrorscheck;
+        private GroupBox ledgergroupBox;
+        private CheckBox ledgercheckBox;
+        private Label label16;
     }
 }
