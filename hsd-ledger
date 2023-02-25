@@ -130,13 +130,14 @@ async function sendToAddress(wclient, nclient, config, ledger, args) {
   console.log(`Submitted TXID: ${txid}`);
 }
 async function sendRaw(wclient, nclient, config, ledger, args) {
-  if (args.length !== 1)
+  if (args.length !== 2)
     throw new Error('Invalid arguments');
 
   const network = Network.get(config.str('network'));
   const id = config.str('wallet-id');
   const acct = config.str('account-name');
   const batch = args[0];
+  const nameslocation = args[1];
 
   await wclient.execute('selectwallet', [id]);
   
@@ -146,6 +147,17 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
     const data = fs.readFileSync(batch, 'utf8');
     const json = JSON.parse(data);
     const mtx = MTX.fromJSON(json.result);
+
+    // ? Try adding names
+    const namefile = fs.readFileSync(nameslocation,'utf8');
+    const names = namefile.split(',');
+    const hashes = {};
+    for (const name of names) {
+      const hash = hashName(name);
+      hashes[hash] = name;
+    }
+
+
     let i, key;
     const options = [];
     for (i = mtx.outputs.length - 1; i >= 0; i--) {
@@ -182,12 +194,16 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
           if (options.covenants == null)
             options.covenants = [];
           const hash = output.covenant.items[0];
-          console.log(hash);
-          console.log(hash.toString('hex'));
-          const name = await nclient.execute('getnamebyhash', [ hash.toString('hex')]);
+          // const name = await nclient.execute('getnamebyhash', [ hash.toString('hex') ]);
+          // Get hash from hashes[name]
+
+          const name = hashes[hash];
+          
+          
+
           console.log(name);
           options.covenants.push(new LedgerCovenant({ index, name }));
-          console.log(options);
+          // console.log(options);
           break;
         }
         default:
