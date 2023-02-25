@@ -6,6 +6,8 @@
  * Module imports
  */
 
+
+
 const Config = require('bcfg');
 const {NodeClient, WalletClient} = require('hs-client');
 const {hd, MTX, Network} = require('hsd');
@@ -151,13 +153,20 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
     const mtx = MTX.fromJSON(json.result);
     let i, key;
     
+
+    // ! TESTING
+    const {LedgerCovenant} = LedgerHSD;
+    
     
     
 
+
+    const options = [];
     for (i = mtx.outputs.length - 1; i >= 0; i--) {
 
-      const output = mtx.outputs[i];
+      
 
+      const output = mtx.outputs[i];
       const addr = output.address.toString(network.type);
       key = await wclient.getKey(id, addr);
 
@@ -165,11 +174,10 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
         continue;
 
       if (key.branch === 1 /*&& accountInfo.type !== 'multisig'*/) {
-        // if (options.change)
-          // throw new Error('Transaction should only have one change output.');
-
+        if (options.change)
+          throw new Error('Transaction should only have one change output.');
         const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`;
-
+        options.change = new LedgerChange({path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`,index: i,version: 0});
         // options.change = new LedgerChange({
         //   index,
         //   version: address.version,
@@ -180,20 +188,9 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
   
       if (key && key.branch)
         break;
-    }
-  
-    if (!key || !key.branch)
-      throw new Error('Expected change address.');
-  
-    const {account, branch, index} = key;
+        const {account, branch, index} = key;
     const coinType = network.keyPrefix.coinType;
-    const options = {
-      change: new LedgerChange({
-        path: `m/44'/${coinType}'/${account}'/${branch}/${index}`,
-        index: i,
-        version: 0
-      })
-    };
+    
     switch (output.covenant.type) {
       case types.NONE:
       case types.OPEN:
@@ -222,10 +219,16 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
       default:
         throw new Error('Unrecognized covenant type.');
     }
+    }
   
+    if (!key || !key.branch)
+      throw new Error('Expected change address.');
   
+    
+  
+    console.log(options);
     util.displayDetails(console, network, mtx, options);
-  
+    console.log(options);
     const signed = await ledger.signTransaction(mtx, options);
     const rawtx = signed.encode().toString('hex');
     const txid = await nclient.execute('sendrawtransaction', [rawtx]);
