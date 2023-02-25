@@ -275,8 +275,7 @@ namespace BidderGUI
                 batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",", ".") + "], ";
             }
             // Finish the JSON by removing the last comma and adding a closing bracket
-            batch = batch.Substring(0, batch.Length - 2) + "]";
-            batch = batch.Substring(0, batch.Length - 2) + "]";
+            batch = batch.Substring(0, batch.Length - 2) + "]"; 
             if (ledgercheckBox.Checked)
             {
                 ledger(batch);
@@ -308,9 +307,11 @@ namespace BidderGUI
 
                     // Send request
                     HttpResponseMessage response = await httpClient.SendAsync(request);
-                    response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
 
+                    addlog(responseBody);
+                    response.EnsureSuccessStatusCode();
+                    
                     // Log response
                     addlog(responseBody);
 
