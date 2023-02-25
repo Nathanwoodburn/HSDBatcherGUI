@@ -148,13 +148,35 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
     // console.log(data);
 
     const json = JSON.parse(data);
-    const mtx = MTX.fromJSON(json);
+    const mtx = MTX.fromJSON(json.result);
     let i, key;
-  
+    
+    
+    
+
     for (i = mtx.outputs.length - 1; i >= 0; i--) {
+
       const output = mtx.outputs[i];
+
       const addr = output.address.toString(network.type);
       key = await wclient.getKey(id, addr);
+
+      if (!key)
+        continue;
+
+      if (key.branch === 1 /*&& accountInfo.type !== 'multisig'*/) {
+        // if (options.change)
+          // throw new Error('Transaction should only have one change output.');
+
+        const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`;
+
+        // options.change = new LedgerChange({
+        //   index,
+        //   version: address.version,
+        //   path
+        // });
+      }
+      
   
       if (key && key.branch)
         break;
@@ -172,6 +194,35 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
         version: 0
       })
     };
+    switch (output.covenant.type) {
+      case types.NONE:
+      case types.OPEN:
+      case types.BID:
+      case types.FINALIZE:
+        break;
+
+      case types.REVEAL:
+      case types.REDEEM:
+      case types.REGISTER:
+      case types.UPDATE:
+      case types.RENEW:
+      case types.TRANSFER:
+      case types.REVOKE: {
+        if (options.covenants == null)
+          options.covenants = [];
+
+        // We could try to just pass the name in from the functions that
+        // call _ledgerProxy(), but that wouldn't work for send____All()
+        const hash = output.covenant.items[0];
+        const name = await this.nodeService.getNameByHash(hash.toString('hex'));
+
+        options.covenants.push(new LedgerCovenant({index, name}));
+        break;
+      }
+      default:
+        throw new Error('Unrecognized covenant type.');
+    }
+  
   
     util.displayDetails(console, network, mtx, options);
   
