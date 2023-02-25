@@ -146,42 +146,38 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
   const fs = require('fs');
   try {
     const data = fs.readFileSync(batch, 'utf8');
-    // console.log(data);
-
     const json = JSON.parse(data);
     const mtx = MTX.fromJSON(json.result);
     let i, key;
-
     // ! TESTING
     const { LedgerCovenant } = LedgerHSD;
     const options = [];
     for (i = mtx.outputs.length - 1; i >= 0; i--) {
+      console.log("1");
       const output = mtx.outputs[i];
+      console.log("2");
       const addr = output.address.toString(network.type);
+      console.log("3");
       key = await wclient.getKey(id, addr);
+      console.log("4");
       if (!key)
         continue;
-        
+      console.log("5");
       if (key.branch === 1 /*&& accountInfo.type !== 'multisig'*/) {
         if (options.change)
           throw new Error('Transaction should only have one change output.');
         const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`;
         options.change = new LedgerChange({ path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`, index: i, version: 0 });
-        // options.change = new LedgerChange({
-        //   index,
-        //   version: address.version,
-        //   path
-        // });
       }
-      
+      console.log("6");
       if (key /*&& key.branch*/){
         console.log("key & branch");
-        console.log(key);
         // break;
       }
+      console.log("7");
       const { account, branch, index } = key;
       const coinType = network.keyPrefix.coinType;
-      console.log("0");
+      console.log("8");      
       switch (output.covenant.type) {
         case types.NONE:
         case types.OPEN:
@@ -197,17 +193,11 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
         case types.REVOKE: {
           if (options.covenants == null)
             options.covenants = [];
-
-          // We could try to just pass the name in from the functions that
-          // call _ledgerProxy(), but that wouldn't work for send____All()
-          console.log("1");
           const hash = output.covenant.items[0];
-          console.log("2");
-          const name = await nclient.getNameByHash(hash.toString('hex'));
-          console.log("3");
-          console.log(options.covenants);
+          const name = await nclient.execute('getnamebyhash', [ hash.toString('hex')]);
+          console.log(options);
           options.covenants.push(new LedgerCovenant({ index, name }));
-          console.log(options.covenants);
+          console.log(options);
           break;
         }
         default:
@@ -216,19 +206,12 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
       }
       
     } // end for loop
-
-    if (!key || !key.branch)
-      throw new Error('Expected change address.');
-
-
-
     console.log(options);
     util.displayDetails(console, network, mtx, options);
     console.log(options);
     const signed = await ledger.signTransaction(mtx, options);
     const rawtx = signed.encode().toString('hex');
     const txid = await nclient.execute('sendrawtransaction', [rawtx]);
-
     console.log(`Submitted TXID: ${txid}`);
 
   } catch (err) {
