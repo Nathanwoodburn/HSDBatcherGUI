@@ -268,128 +268,159 @@ namespace BidderGUI
 
         async void sendbatchbid(string[] domains)
         {
-            // Send a batch of bid transactions for domains
-            try
+            // Create the batch for the API call
+            string batch = "[";
+            foreach (string domain in domains)
             {
-                await unlockwallet();
-
-                // Create a HTTP request with the API key
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-
-                // Create the JSON for the API call
-                string batch = "[";
+                batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",", ".") + "], ";
+            }
+            // Finish the JSON by removing the last comma and adding a closing bracket
+            batch = batch.Substring(0, batch.Length - 2) + "]"; 
+            if (ledgercheckBox.Checked)
+            {
+                ledger(batch);
+                // Remove domains from list
                 foreach (string domain in domains)
                 {
-                    batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",", ".") + "], ";
-                }
-                // Finish the JSON by removing the last comma and adding a closing bracket
-                batch = batch.Substring(0, batch.Length - 2) + "]";
-
-                // Log transaction attempt
-                addlog("Sending: " + batch);
-
-                // Create the API call
-                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
-
-                // Send request
-                HttpResponseMessage response = await httpClient.SendAsync(request);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                // Log response
-                addlog(responseBody);
-
-                // Check for errors
-                if (!Checkerrors(responseBody, domains))
-                {
-                    // Remove domains from list
-                    foreach (string domain in domains)
-                    {
-                        domainslistBox.Items.Remove(domain);
-                    }
-                }
-
-
-                // If there are no domains left in the list
-                // Stop timers
-                if (domainslistBox.Items.Count == 0)
-                {
-                    addlog("All domains sent");
-                    stopbutton.PerformClick();
+                    domainslistBox.Items.Remove(domain);
                 }
             }
-            // If there is an error
-            catch (Exception ex)
+            else
             {
-                // Log error
-                addlog("Error: " + ex.Message);
-                // Stop timers
-                stopbutton.PerformClick();
+                // Send a batch of bid transactions for domains
+                try
+                {
+                    await unlockwallet();
+
+                    // Create a HTTP request with the API key
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
+                   
+
+
+                    // Log transaction attempt
+                    addlog("Sending: " + batch);
+
+                    // Create the API call
+                    request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
+
+                    // Send request
+                    HttpResponseMessage response = await httpClient.SendAsync(request);
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    addlog(responseBody);
+                    response.EnsureSuccessStatusCode();
+                    
+                    // Log response
+                    addlog(responseBody);
+
+                    // Check for errors
+                    if (!Checkerrors(responseBody, domains))
+                    {
+                        // Remove domains from list
+                        foreach (string domain in domains)
+                        {
+                            domainslistBox.Items.Remove(domain);
+                        }
+                    }
+
+
+                    // If there are no domains left in the list
+                    // Stop timers
+                    if (domainslistBox.Items.Count == 0)
+                    {
+                        addlog("All domains sent");
+                        stopbutton.PerformClick();
+                    }
+
+                }
+                // If there is an error
+                catch (Exception ex)
+                {
+                    // Log error
+                    addlog("Error: " + ex.Message);
+                    // Stop timers
+                    stopbutton.PerformClick();
+                }
             }
 
         }
         async void sendbatch(string[] domains, string method)
         {
-            // Send a batch of transactions for domains
-            try
+            // Create the batch for the API call
+            string batch = "[";
+            foreach (string domain in domains)
             {
-
-                await unlockwallet();
-
-                // Create a HTTP request with the API key
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-
-                // Create the JSON for the API call
-                string batch = "[";
+                batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
+            }
+            // Finish the JSON by removing the last comma and adding a closing bracket
+            batch = batch.Substring(0, batch.Length - 2) + "]";
+            if (ledgercheckBox.Checked)
+            {
+                ledger(batch);
+                // Remove domains from list
                 foreach (string domain in domains)
                 {
-                    batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
+                    domainslistBox.Items.Remove(domain);
                 }
-                // Finish the JSON by removing the last comma and adding a closing bracket
-                batch = batch.Substring(0, batch.Length - 2) + "]";
-
-                // Log transaction attempt
-                addlog("Sending: " + batch);
-
-                // Create the API call
-                request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
-
-                // Send request
-                HttpResponseMessage response = await httpClient.SendAsync(request);
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-
-                // Log response
-                addlog(responseBody);
-
-                // Remove domains from list
-                if (!Checkerrors(responseBody, domains))
+            }
+            else
+            {
+                // Send a batch of transactions for domains
+                try
                 {
+
+                    await unlockwallet();
+
+                    // Create a HTTP request with the API key
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
+
+
+                    // Log transaction attempt
+                    addlog("Sending: " + batch);
+
+                    // Create the API call
+                    request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
+
+                    // Send request
+                    HttpResponseMessage response = await httpClient.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    // Log response
+                    addlog(responseBody);
+
                     // Remove domains from list
-                    foreach (string domain in domains)
+                    if (!Checkerrors(responseBody, domains))
                     {
-                        domainslistBox.Items.Remove(domain);
+                        // Remove domains from list
+                        foreach (string domain in domains)
+                        {
+                            domainslistBox.Items.Remove(domain);
+                        }
                     }
+                    // If there are no domains left in the list
+                    // Stop timers
+                    if (domainslistBox.Items.Count == 0)
+                    {
+                        addlog("All domains sent");
+                        stopbutton.PerformClick();
+                    }
+
+
                 }
-                // If there are no domains left in the list
-                // Stop timers
-                if (domainslistBox.Items.Count == 0)
+                // If there is an error
+                catch (Exception ex)
                 {
-                    addlog("All domains sent");
+                    // Log error
+                    addlog("Error: " + ex.Message);
+                    // Stop timers
                     stopbutton.PerformClick();
                 }
             }
-            // If there is an error
-            catch (Exception ex)
-            {
-                // Log error
-                addlog("Error: " + ex.Message);
-                // Stop timers
-                stopbutton.PerformClick();
-            }
-
         }
 
         async Task unlockwallet()
@@ -652,9 +683,35 @@ namespace BidderGUI
 
             logtextBox.Text = string.Join(Environment.NewLine, newlines) + Environment.NewLine + log;
         }
+        public async void ledger(string batch)
+        {
+            await unlockwallet();
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
+
+
+            // Log transaction attempt
+            addlog("Creating batch. . .");
+            string content = "{\"method\": \"createbatch\",\"params\":[ " + batch + "]}";
+            //addlog(content);
+            // Create the API call
+            request.Content = new StringContent(content);
+
+            // Send request
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            // Log response
+            addlog(responseBody);
+
+            addlog("Saved to clipboard.");
+            Clipboard.SetText(responseBody);
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
+            addlog("For help contact Nathan.Woodburn/ or go to https://l.woodburn.au/discord");
 
         }
 
