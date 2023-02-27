@@ -11,8 +11,8 @@
 const Config = require('bcfg');
 const { NodeClient, WalletClient } = require('hs-client');
 const { hd, MTX, Network } = require('hsd');
-const {Rules} = require('hsd/lib/covenants');
-const {hashName, types} = Rules;
+const { Rules } = require('hsd/lib/covenants');
+const { hashName, types } = Rules;
 const { util, HID, LedgerHSD, LedgerChange, LedgerCovenant } = require('..');
 const { Device } = HID;
 
@@ -129,56 +129,51 @@ async function sendToAddress(wclient, nclient, config, ledger, args) {
 
   console.log(`Submitted TXID: ${txid}`);
 }
-async function sendRaw(wclient, nclient, config, ledger, args) {
-  if (args.length !== 2)
-    throw new Error('Invalid arguments');
+async function sendRaw(wclient, nclient, config, ledger, args) { // Create a function to sign raw transactions
+  if (args.length !== 2) // Make sure there are two arguments (batch, names)
+    throw new Error('Invalid arguments'); // Throw an error if there are not two arguments
 
-  const network = Network.get(config.str('network'));
-  const id = config.str('wallet-id');
-  const acct = config.str('account-name');
-  const batch = args[0];
-  const nameslocation = args[1];
+  const network = Network.get(config.str('network')); // Get the network
+  const id = config.str('wallet-id'); // Get the wallet id
+  const acct = config.str('account-name'); // Get the account name
+  const batch = args[0]; // Get the batch file location
+  const nameslocation = args[1]; // Get the names file location
 
-  await wclient.execute('selectwallet', [id]);
-  
+  await wclient.execute('selectwallet', [id]); // Select the wallet
 
-  const fs = require('fs');
+
+  const fs = require('fs'); // Import fs (used to read files)
   try {
-    const data = fs.readFileSync(batch, 'utf8');
-    const json = JSON.parse(data);
-    const mtx = MTX.fromJSON(json.result);
+    const data = fs.readFileSync(batch, 'utf8'); // Read the batch file
+    const json = JSON.parse(data); // Parse the batch file as JSON
+    const mtx = MTX.fromJSON(json.result); // Create a new MTX from the JSON
 
-    // ? Try adding names
-    const namefile = fs.readFileSync(nameslocation,'utf8');
-    const names = namefile.split(',');
-    const hashes = {};
-    for (const name of names) {
-      const hash = hashName(name);
-      hashes[hash] = name;
+    const namefile = fs.readFileSync(nameslocation, 'utf8'); // Read the names file
+    const names = namefile.split(','); // Split the names file into an array
+    const hashes = {}; // Create an empty object to store the hashes
+    for (const name of names) { // Loop through the names
+      const hash = hashName(name); // Hash the name
+      hashes[hash] = name; // Add the hash to the hashes object to use later
     }
 
 
-    let i, key;
-    const options = [];
-    for (i = mtx.outputs.length - 1; i >= 0; i--) {
-      const output = mtx.outputs[i];
-      const addr = output.address.toString(network.type);
-      key = await wclient.getKey(id, addr);
-      if (!key)
-        continue;
-      if (key.branch === 1) {
-        if (options.change)
-          throw new Error('Transaction should only have one change output.');
-        const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`;
-        options.change = new LedgerChange({ path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`, index: i, version: 0 });
+    let i, key; // Create variables to use later
+    const options = []; // Create an empty array to store the options
+    for (i = mtx.outputs.length - 1; i >= 0; i--) { // Loop through the outputs
+      const output = mtx.outputs[i]; // Get the output
+      const addr = output.address.toString(network.type); // Get the address
+      key = await wclient.getKey(id, addr); // Get the key
+      if (!key) // If there is no key
+        continue; // Continue to the next output
+      if (key.branch === 1) { // If the key is a change address
+        if (options.change) // If there is already a change address
+          throw new Error('Transaction should only have one change output.'); // Throw an error
+        const path = `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`; // Create the derivation path
+        options.change = new LedgerChange({ path: `m/44'/${network.keyPrefix.coinType}'/${key.account}'/${key.branch}/${key.index}`, index: i, version: 0 }); // Add the change address to the options
       }
-      if (key /*&& key.branch*/){
-        console.log("key & branch");
-        // break;
-      }
-      const { account, branch, index } = key;
-      const coinType = network.keyPrefix.coinType;
-      switch (output.covenant.type) {
+      const { account, branch, index } = key; // Get the account, branch, and index from the key
+      const coinType = network.keyPrefix.coinType; // Get the coin type from the network
+      switch (output.covenant.type) { 
         case types.NONE:
         case types.OPEN:
         case types.BID:
@@ -190,38 +185,33 @@ async function sendRaw(wclient, nclient, config, ledger, args) {
         case types.UPDATE:
         case types.RENEW:
         case types.TRANSFER:
-        case types.REVOKE: {
-          if (options.covenants == null)
-            options.covenants = [];
-          const hash = output.covenant.items[0];
-          // const name = await nclient.execute('getnamebyhash', [ hash.toString('hex') ]);
-          // Get hash from hashes[name]
+        case types.REVOKE: { // If the covenant type is any of REVEAL, REDEEM, REGISTER, UPDATE, RENEW, TRANSFER, or REVOKE
+          if (options.covenants == null) // If there are no covenants
+            options.covenants = []; // Create an empty array for the covenants
+          const hash = output.covenant.items[0]; // Get the hash from the covenant
+          const name = hashes[hash]; // Get the name from the hashes object (is needed for SPV nodes)
+          if (name == undefined) { // If the name is not found
+            console.log("Name not found in file"); // Log that the name was not found
+            console.log(hash); // Log the hash (for debugging)
+          }
+          options.covenants.push(new LedgerCovenant({ index: i, name })); // Add the covenant to the options
 
-          const name = hashes[hash];
-          
-          
-
-          console.log(name);
-          options.covenants.push(new LedgerCovenant({ index, name }));
-          // console.log(options);
           break;
         }
         default:
           throw new Error('Unrecognized covenant type.');
 
       }
-      
-    } // end for loop
-    console.log(options);
-    util.displayDetails(console, network, mtx, options);
-    console.log(options);
-    const signed = await ledger.signTransaction(mtx, options);
-    const rawtx = signed.encode().toString('hex');
-    const txid = await nclient.execute('sendrawtransaction', [rawtx]);
-    console.log(`Submitted TXID: ${txid}`);
 
-  } catch (err) {
-    console.error(err);
+    } // end for loop
+    util.displayDetails(console, network, mtx, options); // Display the details to the log for user verification
+    const signed = await ledger.signTransaction(mtx, options); // Sign the transaction with the ledger
+    const rawtx = signed.encode().toString('hex'); // Encode the transaction as hex
+    const txid = await nclient.execute('sendrawtransaction', [rawtx]); // Send the transaction to the network
+    console.log(`Submitted TXID: ${txid}`); // Log the TXID to the console to view the transaction on a block explorer
+
+  } catch (err) { // Catch any errors
+    console.error(err); // Log the error to the console
   }
 
 
