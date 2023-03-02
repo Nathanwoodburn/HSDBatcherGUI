@@ -63,6 +63,8 @@
             domaintextBox = new TextBox();
             button8 = new Button();
             biddinggroupBox = new GroupBox();
+            totalcostlabel = new Label();
+            perbidcostlabel = new Label();
             label2 = new Label();
             label12 = new Label();
             batchsizenumericud = new NumericUpDown();
@@ -167,6 +169,7 @@
             bidnumericUpDown.Size = new Size(141, 23);
             bidnumericUpDown.TabIndex = 4;
             bidnumericUpDown.ThousandsSeparator = true;
+            bidnumericUpDown.ValueChanged += bidnumericUpDown_ValueChanged;
             // 
             // blindnumericUpDown
             // 
@@ -179,6 +182,7 @@
             blindnumericUpDown.Size = new Size(141, 23);
             blindnumericUpDown.TabIndex = 5;
             blindnumericUpDown.ThousandsSeparator = true;
+            blindnumericUpDown.ValueChanged += blindnumericUpDown_ValueChanged;
             // 
             // button3
             // 
@@ -293,7 +297,7 @@
             // 
             startbutton.BackColor = SystemColors.ControlDarkDark;
             startbutton.FlatStyle = FlatStyle.Flat;
-            startbutton.Location = new Point(11, 368);
+            startbutton.Location = new Point(11, 333);
             startbutton.Name = "startbutton";
             startbutton.Size = new Size(90, 23);
             startbutton.TabIndex = 6;
@@ -305,7 +309,7 @@
             // 
             stopbutton.BackColor = SystemColors.ControlDarkDark;
             stopbutton.FlatStyle = FlatStyle.Flat;
-            stopbutton.Location = new Point(107, 368);
+            stopbutton.Location = new Point(107, 333);
             stopbutton.Name = "stopbutton";
             stopbutton.Size = new Size(75, 23);
             stopbutton.TabIndex = 7;
@@ -480,6 +484,8 @@
             // biddinggroupBox
             // 
             biddinggroupBox.BackColor = Color.Black;
+            biddinggroupBox.Controls.Add(totalcostlabel);
+            biddinggroupBox.Controls.Add(perbidcostlabel);
             biddinggroupBox.Controls.Add(bidnumericUpDown);
             biddinggroupBox.Controls.Add(label3);
             biddinggroupBox.Controls.Add(label4);
@@ -487,12 +493,30 @@
             biddinggroupBox.Controls.Add(label2);
             biddinggroupBox.Controls.Add(label5);
             biddinggroupBox.ForeColor = Color.White;
-            biddinggroupBox.Location = new Point(11, 277);
+            biddinggroupBox.Location = new Point(11, 368);
             biddinggroupBox.Name = "biddinggroupBox";
-            biddinggroupBox.Size = new Size(367, 85);
+            biddinggroupBox.Size = new Size(367, 197);
             biddinggroupBox.TabIndex = 4;
             biddinggroupBox.TabStop = false;
             biddinggroupBox.Text = "Bidding";
+            // 
+            // totalcostlabel
+            // 
+            totalcostlabel.AutoSize = true;
+            totalcostlabel.Location = new Point(7, 106);
+            totalcostlabel.Name = "totalcostlabel";
+            totalcostlabel.Size = new Size(67, 15);
+            totalcostlabel.TabIndex = 12;
+            totalcostlabel.Text = "0 HNS total";
+            // 
+            // perbidcostlabel
+            // 
+            perbidcostlabel.AutoSize = true;
+            perbidcostlabel.Location = new Point(7, 85);
+            perbidcostlabel.Name = "perbidcostlabel";
+            perbidcostlabel.Size = new Size(104, 15);
+            perbidcostlabel.TabIndex = 11;
+            perbidcostlabel.Text = "0 HNS per domain";
             // 
             // label2
             // 
@@ -603,7 +627,7 @@
             // timelabel
             // 
             timelabel.AutoSize = true;
-            timelabel.Location = new Point(185, 372);
+            timelabel.Location = new Point(188, 337);
             timelabel.Name = "timelabel";
             timelabel.Size = new Size(111, 15);
             timelabel.TabIndex = 33;
@@ -884,7 +908,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
-            Text = "AUTO Bidder";
+            Text = "HSD Batcher GUI";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).EndInit();
@@ -978,5 +1002,7 @@
         private TextBox dns4textBox;
         private TextBox dns3textBox;
         private TextBox dns2textBox;
+        private Label totalcostlabel;
+        private Label perbidcostlabel;
     }
 }

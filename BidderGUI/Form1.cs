@@ -57,7 +57,7 @@ namespace BidderGUI
 
                 addlog("Error: " + error.Message);
             }
-
+            calculatecost();
 
         }
         // Test API
@@ -266,14 +266,14 @@ namespace BidderGUI
                         string records = "";
                         string TXTs = "";
                         foreach (string record in dnslistBox.Items.OfType<string>().ToArray())
-                        { 
+                        {
                             if (record.Contains("{")) // Is not a TXT record
                             {
                                 records = records + record + ",";
                             }
                             else
                             {
-                                TXTs = TXTs + "'"+ record + "',";
+                                TXTs = TXTs + "\"" + record + "\",";
                             }
                         }
                         if (records != "")
@@ -282,12 +282,12 @@ namespace BidderGUI
                         }
                         if (TXTs != "")
                         {
-                            records = records + ",{\"type\": \"TXT\",\"txt\": [" + TXTs.Substring(0, TXTs.Length-1) + "]}";
+                            records = records + ",{\"type\": \"TXT\",\"txt\": [" + TXTs.Substring(0, TXTs.Length - 1) + "]}";
                         }
 
-                        
+
                         // Send API call
-                        sendbatchupdate(domains,records);
+                        sendbatchupdate(domains, records);
                     }
                     else
                     {
@@ -616,6 +616,7 @@ namespace BidderGUI
                 domainslistBox.Items.Add(domaintextBox.Text);
                 domaintextBox.Text = "";
             }
+            calculatecost();
         }
 
         private void clear_list_button_Click(object sender, EventArgs e)
@@ -637,6 +638,7 @@ namespace BidderGUI
             {
                 addlog("Error: " + ex.Message);
             }
+            calculatecost();
 
         }
 
@@ -648,17 +650,21 @@ namespace BidderGUI
 
         private void modecomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            /*
             // If the mode is set to bid
             if (modecomboBox.Text == "BID")
             {
                 // Show the bid and blind bid fields
-                biddinggroupBox.Show();
+                biddinggroupBox.Enabled = true;
             }
-            else
+            if (modecomboBox.Text == "UPDATE")
             {
-                // Hide the bid and blind bid fields
-                biddinggroupBox.Hide();
+                // Show the DNS box
+                updategroupBox.Enabled = true;
             }
+            */
+
         }
 
         private void export_button_Click(object sender, EventArgs e)
@@ -694,9 +700,7 @@ namespace BidderGUI
                         // Log error
                         addlog("Error: " + ex.Message);
                     }
-
                 }
-
             }
         }
 
@@ -738,6 +742,7 @@ namespace BidderGUI
         private void button_cleardomains_Click(object sender, EventArgs e)
         {
             domainslistBox.Items.Clear();
+            calculatecost();
         }
         int oldtime = 0;
         public bool Checkerrors(string log, string[] domains)
@@ -898,13 +903,11 @@ namespace BidderGUI
             }
             if (dnstypecomboBox.Text == "TXT")
             {
-                if (validDNS("TXT",dns1textBox.Text)) // Will mess with later record generation
+                if (validDNS("TXT", dns1textBox.Text)) // Will mess with later record generation
                 {
                     dnslistBox.Items.Add(dns1textBox.Text);
                 }
-                
             }
-
         }
         public bool validDNS(string dnstype, string dns1, string dns2 = "", string dns3 = "", string dns4 = "")
         {
@@ -951,10 +954,6 @@ namespace BidderGUI
                     return false;
                 }
             }
-
-
-
-
             return true;
         }
 
@@ -968,6 +967,22 @@ namespace BidderGUI
             {
                 addlog("Select record before trying to delete it");
             }
+        }
+
+        private void bidnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+
+        private void blindnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+        public void calculatecost()
+        {
+            decimal perdomain = (blindnumericUpDown.Value + bidnumericUpDown.Value);
+            perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
+            totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
         }
     }
 }
