@@ -80,8 +80,22 @@
             ipporttextBox = new TextBox();
             label14 = new Label();
             ledgergroupBox = new GroupBox();
-            ledgercheckBox = new CheckBox();
             label16 = new Label();
+            ledgercheckBox = new CheckBox();
+            updategroupBox = new GroupBox();
+            dns4textBox = new TextBox();
+            dns3textBox = new TextBox();
+            dns2textBox = new TextBox();
+            dns1textBox = new TextBox();
+            dns4label = new Label();
+            dns3label = new Label();
+            dns2label = new Label();
+            dns1label = new Label();
+            dnstypecomboBox = new ComboBox();
+            label17 = new Label();
+            button5 = new Button();
+            dnslistBox = new ListBox();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).BeginInit();
@@ -94,6 +108,7 @@
             ((System.ComponentModel.ISupportInitialize)loglinesnumeric).BeginInit();
             groupBox1.SuspendLayout();
             ledgergroupBox.SuspendLayout();
+            updategroupBox.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -278,7 +293,7 @@
             // 
             startbutton.BackColor = SystemColors.ControlDarkDark;
             startbutton.FlatStyle = FlatStyle.Flat;
-            startbutton.Location = new Point(11, 370);
+            startbutton.Location = new Point(11, 368);
             startbutton.Name = "startbutton";
             startbutton.Size = new Size(90, 23);
             startbutton.TabIndex = 6;
@@ -290,7 +305,7 @@
             // 
             stopbutton.BackColor = SystemColors.ControlDarkDark;
             stopbutton.FlatStyle = FlatStyle.Flat;
-            stopbutton.Location = new Point(107, 370);
+            stopbutton.Location = new Point(107, 368);
             stopbutton.Name = "stopbutton";
             stopbutton.Size = new Size(75, 23);
             stopbutton.TabIndex = 7;
@@ -335,7 +350,7 @@
             modecomboBox.FlatStyle = FlatStyle.Flat;
             modecomboBox.ForeColor = Color.White;
             modecomboBox.FormattingEnabled = true;
-            modecomboBox.Items.AddRange(new object[] { "OPEN", "BID", "REVEAL", "REDEEM", "RENEW" });
+            modecomboBox.Items.AddRange(new object[] { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "UPDATE", "RENEW" });
             modecomboBox.Location = new Point(88, 75);
             modecomboBox.Name = "modecomboBox";
             modecomboBox.Size = new Size(141, 23);
@@ -472,7 +487,7 @@
             biddinggroupBox.Controls.Add(label2);
             biddinggroupBox.Controls.Add(label5);
             biddinggroupBox.ForeColor = Color.White;
-            biddinggroupBox.Location = new Point(11, 279);
+            biddinggroupBox.Location = new Point(11, 277);
             biddinggroupBox.Name = "biddinggroupBox";
             biddinggroupBox.Size = new Size(367, 85);
             biddinggroupBox.TabIndex = 4;
@@ -547,7 +562,7 @@
             groupBox3.Controls.Add(logtextBox);
             groupBox3.Controls.Add(button4);
             groupBox3.ForeColor = Color.White;
-            groupBox3.Location = new Point(11, 412);
+            groupBox3.Location = new Point(12, 571);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(1085, 206);
             groupBox3.TabIndex = 32;
@@ -588,7 +603,7 @@
             // timelabel
             // 
             timelabel.AutoSize = true;
-            timelabel.Location = new Point(185, 374);
+            timelabel.Location = new Point(185, 372);
             timelabel.Name = "timelabel";
             timelabel.Size = new Size(111, 15);
             timelabel.TabIndex = 33;
@@ -668,6 +683,15 @@
             ledgergroupBox.TabStop = false;
             ledgergroupBox.Text = "Ledger Settings";
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(5, 43);
+            label16.Name = "label16";
+            label16.Size = new Size(196, 120);
+            label16.TabIndex = 1;
+            label16.Text = resources.GetString("label16.Text");
+            // 
             // ledgercheckBox
             // 
             ledgercheckBox.AutoSize = true;
@@ -678,21 +702,173 @@
             ledgercheckBox.Text = "Use Ledger";
             ledgercheckBox.UseVisualStyleBackColor = true;
             // 
-            // label16
+            // updategroupBox
             // 
-            label16.AutoSize = true;
-            label16.Location = new Point(5, 43);
-            label16.Name = "label16";
-            label16.Size = new Size(196, 120);
-            label16.TabIndex = 1;
-            label16.Text = resources.GetString("label16.Text");
+            updategroupBox.Controls.Add(dns4textBox);
+            updategroupBox.Controls.Add(dns3textBox);
+            updategroupBox.Controls.Add(dns2textBox);
+            updategroupBox.Controls.Add(dns1textBox);
+            updategroupBox.Controls.Add(dns4label);
+            updategroupBox.Controls.Add(dns3label);
+            updategroupBox.Controls.Add(dns2label);
+            updategroupBox.Controls.Add(dns1label);
+            updategroupBox.Controls.Add(dnstypecomboBox);
+            updategroupBox.Controls.Add(label17);
+            updategroupBox.Controls.Add(button5);
+            updategroupBox.Controls.Add(dnslistBox);
+            updategroupBox.Controls.Add(button2);
+            updategroupBox.ForeColor = Color.White;
+            updategroupBox.Location = new Point(384, 368);
+            updategroupBox.Name = "updategroupBox";
+            updategroupBox.Size = new Size(712, 197);
+            updategroupBox.TabIndex = 36;
+            updategroupBox.TabStop = false;
+            updategroupBox.Text = "DNS Records";
+            // 
+            // dns4textBox
+            // 
+            dns4textBox.BackColor = SystemColors.ControlDarkDark;
+            dns4textBox.ForeColor = Color.White;
+            dns4textBox.Location = new Point(87, 135);
+            dns4textBox.Name = "dns4textBox";
+            dns4textBox.Size = new Size(276, 23);
+            dns4textBox.TabIndex = 46;
+            dns4textBox.Visible = false;
+            // 
+            // dns3textBox
+            // 
+            dns3textBox.BackColor = SystemColors.ControlDarkDark;
+            dns3textBox.ForeColor = Color.White;
+            dns3textBox.Location = new Point(87, 106);
+            dns3textBox.Name = "dns3textBox";
+            dns3textBox.Size = new Size(276, 23);
+            dns3textBox.TabIndex = 46;
+            dns3textBox.Visible = false;
+            // 
+            // dns2textBox
+            // 
+            dns2textBox.BackColor = SystemColors.ControlDarkDark;
+            dns2textBox.ForeColor = Color.White;
+            dns2textBox.Location = new Point(87, 77);
+            dns2textBox.Name = "dns2textBox";
+            dns2textBox.Size = new Size(276, 23);
+            dns2textBox.TabIndex = 46;
+            dns2textBox.Visible = false;
+            // 
+            // dns1textBox
+            // 
+            dns1textBox.BackColor = SystemColors.ControlDarkDark;
+            dns1textBox.ForeColor = Color.White;
+            dns1textBox.Location = new Point(87, 48);
+            dns1textBox.Name = "dns1textBox";
+            dns1textBox.Size = new Size(276, 23);
+            dns1textBox.TabIndex = 46;
+            // 
+            // dns4label
+            // 
+            dns4label.AutoSize = true;
+            dns4label.Location = new Point(15, 138);
+            dns4label.Name = "dns4label";
+            dns4label.Size = new Size(43, 15);
+            dns4label.TabIndex = 45;
+            dns4label.Text = "Digest:";
+            dns4label.Visible = false;
+            // 
+            // dns3label
+            // 
+            dns3label.AutoSize = true;
+            dns3label.Location = new Point(15, 109);
+            dns3label.Name = "dns3label";
+            dns3label.Size = new Size(67, 15);
+            dns3label.TabIndex = 44;
+            dns3label.Text = "DigestType:";
+            dns3label.Visible = false;
+            // 
+            // dns2label
+            // 
+            dns2label.AutoSize = true;
+            dns2label.Location = new Point(15, 80);
+            dns2label.Name = "dns2label";
+            dns2label.Size = new Size(64, 15);
+            dns2label.TabIndex = 43;
+            dns2label.Text = "Algorithm:";
+            dns2label.Visible = false;
+            // 
+            // dns1label
+            // 
+            dns1label.AutoSize = true;
+            dns1label.Location = new Point(15, 51);
+            dns1label.Name = "dns1label";
+            dns1label.Size = new Size(25, 15);
+            dns1label.TabIndex = 42;
+            dns1label.Text = "NS:";
+            // 
+            // dnstypecomboBox
+            // 
+            dnstypecomboBox.BackColor = SystemColors.ControlDarkDark;
+            dnstypecomboBox.FlatStyle = FlatStyle.Flat;
+            dnstypecomboBox.ForeColor = Color.White;
+            dnstypecomboBox.FormattingEnabled = true;
+            dnstypecomboBox.Items.AddRange(new object[] { "NS", "DS", "TXT" });
+            dnstypecomboBox.Location = new Point(87, 16);
+            dnstypecomboBox.Name = "dnstypecomboBox";
+            dnstypecomboBox.Size = new Size(130, 23);
+            dnstypecomboBox.TabIndex = 41;
+            dnstypecomboBox.Text = "NS";
+            dnstypecomboBox.SelectedIndexChanged += dnstypecomboBox_SelectedIndexChanged;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(15, 19);
+            label17.Name = "label17";
+            label17.Size = new Size(34, 15);
+            label17.TabIndex = 40;
+            label17.Text = "Type:";
+            // 
+            // button5
+            // 
+            button5.BackColor = SystemColors.ControlDarkDark;
+            button5.FlatStyle = FlatStyle.Flat;
+            button5.Location = new Point(391, 168);
+            button5.Name = "button5";
+            button5.Size = new Size(99, 23);
+            button5.TabIndex = 39;
+            button5.Text = "Delete Record";
+            button5.UseVisualStyleBackColor = false;
+            button5.Click += button5_Click;
+            // 
+            // dnslistBox
+            // 
+            dnslistBox.BackColor = SystemColors.ControlDarkDark;
+            dnslistBox.Dock = DockStyle.Right;
+            dnslistBox.ForeColor = Color.White;
+            dnslistBox.FormattingEnabled = true;
+            dnslistBox.ItemHeight = 15;
+            dnslistBox.Location = new Point(496, 19);
+            dnslistBox.Name = "dnslistBox";
+            dnslistBox.Size = new Size(213, 175);
+            dnslistBox.TabIndex = 38;
+            // 
+            // button2
+            // 
+            button2.BackColor = SystemColors.ControlDarkDark;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Location = new Point(391, 139);
+            button2.Name = "button2";
+            button2.Size = new Size(99, 23);
+            button2.TabIndex = 37;
+            button2.Text = "Add record";
+            button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(1108, 630);
+            ClientSize = new Size(1108, 789);
+            Controls.Add(updategroupBox);
             Controls.Add(ledgergroupBox);
             Controls.Add(groupBox1);
             Controls.Add(timelabel);
@@ -729,6 +905,8 @@
             groupBox1.PerformLayout();
             ledgergroupBox.ResumeLayout(false);
             ledgergroupBox.PerformLayout();
+            updategroupBox.ResumeLayout(false);
+            updategroupBox.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -786,5 +964,19 @@
         private GroupBox ledgergroupBox;
         private CheckBox ledgercheckBox;
         private Label label16;
+        private GroupBox updategroupBox;
+        private Button button2;
+        private TextBox dns1textBox;
+        private Label dns4label;
+        private Label dns3label;
+        private Label dns2label;
+        private Label dns1label;
+        private ComboBox dnstypecomboBox;
+        private Label label17;
+        private Button button5;
+        private ListBox dnslistBox;
+        private TextBox dns4textBox;
+        private TextBox dns3textBox;
+        private TextBox dns2textBox;
     }
 }
