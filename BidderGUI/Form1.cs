@@ -1,4 +1,5 @@
 using System.DirectoryServices.ActiveDirectory;
+using System.Net;
 
 namespace BidderGUI
 {
@@ -56,7 +57,7 @@ namespace BidderGUI
 
                 addlog("Error: " + error.Message);
             }
-
+            calculatecost();
 
         }
         // Test API
@@ -187,7 +188,8 @@ namespace BidderGUI
             // Send a batch of transactions
 
             // Check the selected mode is legit
-            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM", "RENEW" };
+            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "RENEW", "UPDATE" };
+
             if (modes.Contains(modecomboBox.Text))
             {
                 // If there is only 1 domain left in the list
@@ -207,6 +209,20 @@ namespace BidderGUI
                         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
                         request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
                         string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true) + "}";
+                        request.Content = new StringContent(curltext);
+
+                        // Send request
+                        sendapicall(request, domain);
+
+                    }
+                    else if (modecomboBox.Text == "REGISTER")
+                    {
+                        // Use UPDATE for REGISTER
+
+                        // Create API call
+                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/update");
+                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"data\": {\"records\":[]}}";
                         request.Content = new StringContent(curltext);
 
                         // Send request
@@ -239,6 +255,40 @@ namespace BidderGUI
                         // Send API call
                         sendbatchbid(domains);
                     }
+                    else if (modecomboBox.Text == "REGISTER")
+                    {
+                        // Send API call
+                        sendbatchupdate(domains);
+                    }
+                    else if (modecomboBox.Text == "UPDATE")
+                    {
+                        // Generate records
+                        string records = "";
+                        string TXTs = "";
+                        foreach (string record in dnslistBox.Items.OfType<string>().ToArray())
+                        {
+                            if (record.Contains("{")) // Is not a TXT record
+                            {
+                                records = records + record + ",";
+                            }
+                            else
+                            {
+                                TXTs = TXTs + "\"" + record + "\",";
+                            }
+                        }
+                        if (records != "")
+                        {
+                            records = records.Substring(0, records.Length - 1);
+                        }
+                        if (TXTs != "")
+                        {
+                            records = records + ",{\"type\": \"TXT\",\"txt\": [" + TXTs.Substring(0, TXTs.Length - 1) + "]}";
+                        }
+
+
+                        // Send API call
+                        sendbatchupdate(domains, records);
+                    }
                     else
                     {
                         // Send API call
@@ -260,7 +310,7 @@ namespace BidderGUI
             else
             {
                 // Log error
-                addlog("Invalid Mode.Cancelled Sending");
+                addlog("Invalid Mode. Cancelled Sending");
                 // Stop timers
                 stopbutton.PerformClick();
             }
@@ -275,7 +325,7 @@ namespace BidderGUI
                 batch = batch + "[\"BID\", \"" + domain + "\", " + getbid() + ", " + (bidnumericUpDown.Value + blindnumericUpDown.Value).ToString().Replace(",", ".") + "], ";
             }
             // Finish the JSON by removing the last comma and adding a closing bracket
-            batch = batch.Substring(0, batch.Length - 2) + "]"; 
+            batch = batch.Substring(0, batch.Length - 2) + "]";
             if (ledgercheckBox.Checked)
             {
                 ledger(batch);
@@ -296,7 +346,7 @@ namespace BidderGUI
                     HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
                     request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
 
-                   
+
 
 
                     // Log transaction attempt
@@ -311,7 +361,7 @@ namespace BidderGUI
 
                     addlog(responseBody);
                     response.EnsureSuccessStatusCode();
-                    
+
                     // Log response
                     addlog(responseBody);
 
@@ -353,6 +403,82 @@ namespace BidderGUI
             foreach (string domain in domains)
             {
                 batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
+            }
+            // Finish the JSON by removing the last comma and adding a closing bracket
+            batch = batch.Substring(0, batch.Length - 2) + "]";
+            if (ledgercheckBox.Checked)
+            {
+                ledger(batch);
+                // Remove domains from list
+                foreach (string domain in domains)
+                {
+                    domainslistBox.Items.Remove(domain);
+                }
+            }
+            else
+            {
+                // Send a batch of transactions for domains
+                try
+                {
+
+                    await unlockwallet();
+
+                    // Create a HTTP request with the API key
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
+
+
+                    // Log transaction attempt
+                    addlog("Sending: " + batch);
+
+                    // Create the API call
+                    request.Content = new StringContent("{\"method\": \"sendbatch\",\"params\":[ " + batch + "]}");
+
+                    // Send request
+                    HttpResponseMessage response = await httpClient.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    // Log response
+                    addlog(responseBody);
+
+                    // Remove domains from list
+                    if (!Checkerrors(responseBody, domains))
+                    {
+                        // Remove domains from list
+                        foreach (string domain in domains)
+                        {
+                            domainslistBox.Items.Remove(domain);
+                        }
+                    }
+                    // If there are no domains left in the list
+                    // Stop timers
+                    if (domainslistBox.Items.Count == 0)
+                    {
+                        addlog("All domains sent");
+                        stopbutton.PerformClick();
+                    }
+
+
+                }
+                // If there is an error
+                catch (Exception ex)
+                {
+                    // Log error
+                    addlog("Error: " + ex.Message);
+                    // Stop timers
+                    stopbutton.PerformClick();
+                }
+            }
+        }
+        async void sendbatchupdate(string[] domains, string records = "")
+        {
+            // Create the batch for the API call
+            string batch = "[";
+            foreach (string domain in domains)
+            {
+                batch = batch + "[\"UPDATE\", \"" + domain + "\", {\"records\":[" + records + "]}], ";
             }
             // Finish the JSON by removing the last comma and adding a closing bracket
             batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -490,6 +616,7 @@ namespace BidderGUI
                 domainslistBox.Items.Add(domaintextBox.Text);
                 domaintextBox.Text = "";
             }
+            calculatecost();
         }
 
         private void clear_list_button_Click(object sender, EventArgs e)
@@ -511,6 +638,7 @@ namespace BidderGUI
             {
                 addlog("Error: " + ex.Message);
             }
+            calculatecost();
 
         }
 
@@ -522,17 +650,21 @@ namespace BidderGUI
 
         private void modecomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+            /*
             // If the mode is set to bid
             if (modecomboBox.Text == "BID")
             {
                 // Show the bid and blind bid fields
-                biddinggroupBox.Show();
+                biddinggroupBox.Enabled = true;
             }
-            else
+            if (modecomboBox.Text == "UPDATE")
             {
-                // Hide the bid and blind bid fields
-                biddinggroupBox.Hide();
+                // Show the DNS box
+                updategroupBox.Enabled = true;
             }
+            */
+
         }
 
         private void export_button_Click(object sender, EventArgs e)
@@ -568,9 +700,7 @@ namespace BidderGUI
                         // Log error
                         addlog("Error: " + ex.Message);
                     }
-
                 }
-
             }
         }
 
@@ -612,6 +742,7 @@ namespace BidderGUI
         private void button_cleardomains_Click(object sender, EventArgs e)
         {
             domainslistBox.Items.Clear();
+            calculatecost();
         }
         int oldtime = 0;
         public bool Checkerrors(string log, string[] domains)
@@ -715,5 +846,143 @@ namespace BidderGUI
 
         }
 
+        private void dnstypecomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (dnstypecomboBox.Text)
+            {
+                case "NS":
+                    dns1label.Text = "NS:";
+                    dns2label.Hide();
+                    dns2textBox.Hide();
+                    dns3label.Hide();
+                    dns3textBox.Hide();
+                    dns4label.Hide();
+                    dns4textBox.Hide();
+                    break;
+                case "DS":
+                    dns1label.Text = "KeyTag:";
+                    dns2label.Text = "Algorithm:";
+                    dns2label.Show();
+                    dns2textBox.Show();
+                    dns3label.Show();
+                    dns3textBox.Show();
+                    dns4label.Show();
+                    dns4textBox.Show();
+                    break;
+                case "TXT":
+                    dns1label.Text = "TXT:";
+                    dns2label.Hide();
+                    dns2textBox.Hide();
+                    dns3label.Hide();
+                    dns3textBox.Hide();
+                    dns4label.Hide();
+                    dns4textBox.Hide();
+                    break;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dnstypecomboBox.Text == "NS")
+            {
+                if (validDNS("NS", dns1textBox.Text))
+                {
+                    if (dns1textBox.Text.Substring(dns1textBox.Text.Length - 1, 1) != ".")
+                    {
+                        dns1textBox.Text = dns1textBox.Text + ".";
+                    }
+                    dnslistBox.Items.Add("{\"type\": \"NS\",\"ns\": \"" + dns1textBox.Text + "\"}");
+                }
+            }
+            if (dnstypecomboBox.Text == "DS")
+            {
+                if (validDNS("DS", dns1textBox.Text, dns2textBox.Text, dns3textBox.Text, dns4textBox.Text))
+                {
+                    dnslistBox.Items.Add("{\"type\": \"DS\",\"keyTag\": " + dns1textBox.Text + ",\"algorithm\": " + dns2textBox.Text + ",\"digestType\": " + dns3textBox.Text + ",\"digest\": \"" + dns4textBox.Text + "\"}");
+                }
+            }
+            if (dnstypecomboBox.Text == "TXT")
+            {
+                if (validDNS("TXT", dns1textBox.Text)) // Will mess with later record generation
+                {
+                    dnslistBox.Items.Add(dns1textBox.Text);
+                }
+            }
+        }
+        public bool validDNS(string dnstype, string dns1, string dns2 = "", string dns3 = "", string dns4 = "")
+        {
+
+            if (dns1 == "")
+            {
+                return false;
+            }
+
+            if (dnstype == "DS")
+            {
+                if (dns2 == "" || dns3 == "" || dns4 == "")
+                {
+                    return false;
+                }
+
+                if (!int.TryParse(dns1, out _))
+                {
+                    addlog("keyTag must be int");
+                    return false;
+                }
+                if (!int.TryParse(dns2, out _))
+                {
+                    addlog("algorithm must be int");
+                    return false;
+                }
+                if (!int.TryParse(dns3, out _))
+                {
+                    addlog("digestType must be int");
+                    return false;
+                }
+            }
+            if (dnstype == "TXT")
+            {
+                if (dns1textBox.Text.Contains("{"))
+                {
+                    addlog("TXT records should not include '{'");
+                    return false;
+                }
+
+                if (dns1textBox.Text.Contains("'"))
+                {
+                    addlog("TXT records should not include '");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                dnslistBox.Items.Remove(dnslistBox.SelectedItem);
+            }
+            catch
+            {
+                addlog("Select record before trying to delete it");
+            }
+        }
+
+        private void bidnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+
+        private void blindnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+        public void calculatecost()
+        {
+            decimal perdomain = (blindnumericUpDown.Value + bidnumericUpDown.Value);
+            perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
+            totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
+        }
     }
 }

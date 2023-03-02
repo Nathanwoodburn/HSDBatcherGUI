@@ -31,11 +31,12 @@ The wallet name and passphrase are the same as you set on Bob or HSD.
      • Set bid and blind in HNS values (not dollarydoos)
 3. REVEAL: Reveal bids
 4. REDEEM: Redeems lost auction bids
-5. REGISTER: Registers domain to winning bid and burns second highest bid value (Not implemented yet)
-6. RENEW: Renews domains
-7. UPDATE: Updates domains' resource (Blockchain DNS) records (Not implemented yet)
+5. REGISTER: Registers domain to winning bid and burns second highest bid value (can use UPDATE instead)
+6. UPDATE: Updates domains' resource (Blockchain DNS) records
+     • Add DNS records
+7. RENEW: Renews domains
 8. TRANSFER: Start domain transfers to a new address (Not implemented yet)
-9. FINALIZE: Finalize transfers. You need to wait at least 288 blocks between TRANSFER & FINALIZE (Not implemented yet)
+9.  FINALIZE: Finalize transfers. You need to wait at least 288 blocks between TRANSFER & FINALIZE (Not implemented yet)
 
 ## Settings
 - Batch size
