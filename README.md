@@ -18,20 +18,24 @@ The wallet name and passphrase are the same as you set on Bob or HSD.
 2. Enter wallet name and password.
 3. Test your connection to the HSD node. To connect you need to be running HSD (or Bob Wallet).
 4. Add domains either using the text box or by importing a text file. (See example-domains.txt for formatting)
-5. Select mode
-   1. OPEN: Opens domains for auction
-   2. BID: Send bids with specified bid and blind  
-        • Set bid and blind in HNS values
-   3. REVEAL: Reveal bids
-   4. REDEEM: Redeems lost auction bids
-   5. REGISTER: Not implemented yet
-   6. RENEW: Renews domains
-   7. UPDATE: Not implemented yet
-   8. TRANSFER: Not implemented yet
-   9. FINALIZE: Not implemented yet
+5. Select mode from [available transaction types](#transactions)
+   
 6. Set batching settings
 7. Press start to begin batching transactions
 8. Pause at any time by pressing Stop
+
+
+## Transactions
+1. OPEN: Opens domains for auction
+2. BID: Send bids with specified bid and blind  
+     • Set bid and blind in HNS values (not dollarydoos)
+3. REVEAL: Reveal bids
+4. REDEEM: Redeems lost auction bids
+5. REGISTER: Registers domain to winning bid and burns second highest bid value (Not implemented yet)
+6. RENEW: Renews domains
+7. UPDATE: Updates domains' resource (Blockchain DNS) records (Not implemented yet)
+8. TRANSFER: Start domain transfers to a new address (Not implemented yet)
+9. FINALIZE: Finalize transfers. You need to wait at least 288 blocks between TRANSFER & FINALIZE (Not implemented yet)
 
 ## Settings
 - Batch size
