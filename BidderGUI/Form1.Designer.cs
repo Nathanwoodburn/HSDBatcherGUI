@@ -115,8 +115,9 @@
             // 
             // button1
             // 
-            button1.BackColor = SystemColors.ControlDarkDark;
+            button1.BackColor = Color.FromArgb(62, 6, 95);
             button1.FlatStyle = FlatStyle.Flat;
+            button1.ForeColor = Color.White;
             button1.Location = new Point(6, 22);
             button1.Name = "button1";
             button1.Size = new Size(80, 23);
@@ -128,7 +129,7 @@
             // 
             // domainslistBox
             // 
-            domainslistBox.BackColor = SystemColors.ControlDarkDark;
+            domainslistBox.BackColor = Color.FromArgb(62, 6, 95);
             domainslistBox.Dock = DockStyle.Right;
             domainslistBox.ForeColor = Color.White;
             domainslistBox.FormattingEnabled = true;
@@ -160,7 +161,7 @@
             // 
             // bidnumericUpDown
             // 
-            bidnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            bidnumericUpDown.BackColor = Color.FromArgb(62, 6, 95);
             bidnumericUpDown.DecimalPlaces = 3;
             bidnumericUpDown.ForeColor = Color.White;
             bidnumericUpDown.Location = new Point(88, 11);
@@ -173,7 +174,7 @@
             // 
             // blindnumericUpDown
             // 
-            blindnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            blindnumericUpDown.BackColor = Color.FromArgb(62, 6, 95);
             blindnumericUpDown.DecimalPlaces = 3;
             blindnumericUpDown.ForeColor = Color.White;
             blindnumericUpDown.Location = new Point(88, 48);
@@ -186,8 +187,9 @@
             // 
             // button3
             // 
-            button3.BackColor = SystemColors.ControlDarkDark;
+            button3.BackColor = Color.FromArgb(62, 6, 95);
             button3.FlatStyle = FlatStyle.Flat;
+            button3.ForeColor = Color.White;
             button3.Location = new Point(7, 111);
             button3.Name = "button3";
             button3.Size = new Size(75, 23);
@@ -217,16 +219,17 @@
             // 
             // apitextBox
             // 
-            apitextBox.BackColor = SystemColors.ControlDarkDark;
+            apitextBox.BackColor = Color.FromArgb(62, 6, 95);
             apitextBox.ForeColor = Color.White;
             apitextBox.Location = new Point(88, 19);
             apitextBox.Name = "apitextBox";
             apitextBox.Size = new Size(244, 23);
             apitextBox.TabIndex = 0;
+            apitextBox.TextChanged += apitextBox_TextChanged;
             // 
             // logtextBox
             // 
-            logtextBox.BackColor = SystemColors.ControlDarkDark;
+            logtextBox.BackColor = Color.FromArgb(62, 6, 95);
             logtextBox.Dock = DockStyle.Bottom;
             logtextBox.ForeColor = Color.White;
             logtextBox.Location = new Point(3, 54);
@@ -237,6 +240,7 @@
             logtextBox.Size = new Size(1079, 149);
             logtextBox.TabIndex = 13;
             logtextBox.TabStop = false;
+            logtextBox.TextChanged += logtextBox_TextChanged;
             // 
             // label7
             // 
@@ -249,17 +253,19 @@
             // 
             // wallettextBox
             // 
-            wallettextBox.BackColor = SystemColors.ControlDarkDark;
+            wallettextBox.BackColor = Color.FromArgb(62, 6, 95);
             wallettextBox.ForeColor = Color.White;
             wallettextBox.Location = new Point(88, 48);
             wallettextBox.Name = "wallettextBox";
             wallettextBox.Size = new Size(243, 23);
             wallettextBox.TabIndex = 1;
+            wallettextBox.TextChanged += wallettextBox_TextChanged;
             // 
             // button4
             // 
-            button4.BackColor = SystemColors.ControlDarkDark;
+            button4.BackColor = Color.FromArgb(62, 6, 95);
             button4.FlatStyle = FlatStyle.Flat;
+            button4.ForeColor = Color.White;
             button4.Location = new Point(1004, 22);
             button4.Name = "button4";
             button4.Size = new Size(75, 23);
@@ -280,13 +286,14 @@
             // 
             // passtextBox
             // 
-            passtextBox.BackColor = SystemColors.ControlDarkDark;
+            passtextBox.BackColor = Color.FromArgb(62, 6, 95);
             passtextBox.ForeColor = Color.White;
             passtextBox.Location = new Point(88, 77);
             passtextBox.Name = "passtextBox";
             passtextBox.Size = new Size(243, 23);
             passtextBox.TabIndex = 2;
             passtextBox.UseSystemPasswordChar = true;
+            passtextBox.TextChanged += passtextBox_TextChanged;
             // 
             // timer1
             // 
@@ -295,8 +302,9 @@
             // 
             // startbutton
             // 
-            startbutton.BackColor = SystemColors.ControlDarkDark;
+            startbutton.BackColor = Color.FromArgb(62, 6, 95);
             startbutton.FlatStyle = FlatStyle.Flat;
+            startbutton.ForeColor = Color.White;
             startbutton.Location = new Point(11, 333);
             startbutton.Name = "startbutton";
             startbutton.Size = new Size(90, 23);
@@ -307,8 +315,9 @@
             // 
             // stopbutton
             // 
-            stopbutton.BackColor = SystemColors.ControlDarkDark;
+            stopbutton.BackColor = Color.FromArgb(62, 6, 95);
             stopbutton.FlatStyle = FlatStyle.Flat;
+            stopbutton.ForeColor = Color.White;
             stopbutton.Location = new Point(107, 333);
             stopbutton.Name = "stopbutton";
             stopbutton.Size = new Size(75, 23);
@@ -328,7 +337,7 @@
             // 
             // intervalnumericUpDown
             // 
-            intervalnumericUpDown.BackColor = SystemColors.ControlDarkDark;
+            intervalnumericUpDown.BackColor = Color.FromArgb(62, 6, 95);
             intervalnumericUpDown.ForeColor = Color.White;
             intervalnumericUpDown.Location = new Point(88, 46);
             intervalnumericUpDown.Maximum = new decimal(new int[] { 1215752192, 23, 0, 0 });
@@ -338,6 +347,7 @@
             intervalnumericUpDown.TabIndex = 4;
             intervalnumericUpDown.TabStop = false;
             intervalnumericUpDown.Value = new decimal(new int[] { 600, 0, 0, 0 });
+            intervalnumericUpDown.ValueChanged += intervalnumericUpDown_ValueChanged;
             // 
             // label10
             // 
@@ -350,7 +360,7 @@
             // 
             // modecomboBox
             // 
-            modecomboBox.BackColor = SystemColors.ControlDarkDark;
+            modecomboBox.BackColor = Color.FromArgb(62, 6, 95);
             modecomboBox.FlatStyle = FlatStyle.Flat;
             modecomboBox.ForeColor = Color.White;
             modecomboBox.FormattingEnabled = true;
@@ -381,7 +391,7 @@
             walletgroupBox.Controls.Add(label7);
             walletgroupBox.Controls.Add(label8);
             walletgroupBox.Controls.Add(passtextBox);
-            walletgroupBox.ForeColor = Color.White;
+            walletgroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             walletgroupBox.Location = new Point(11, 12);
             walletgroupBox.Name = "walletgroupBox";
             walletgroupBox.Size = new Size(367, 149);
@@ -400,7 +410,7 @@
             groupBox2.Controls.Add(button8);
             groupBox2.Controls.Add(button1);
             groupBox2.Controls.Add(domainslistBox);
-            groupBox2.ForeColor = Color.White;
+            groupBox2.ForeColor = Color.FromArgb(142, 5, 194);
             groupBox2.Location = new Point(675, 12);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(421, 350);
@@ -410,9 +420,10 @@
             // 
             // removebutton
             // 
-            removebutton.BackColor = SystemColors.ControlDarkDark;
+            removebutton.BackColor = Color.FromArgb(62, 6, 95);
             removebutton.Enabled = false;
             removebutton.FlatStyle = FlatStyle.Flat;
+            removebutton.ForeColor = Color.White;
             removebutton.Location = new Point(114, 292);
             removebutton.Name = "removebutton";
             removebutton.Size = new Size(110, 23);
@@ -424,8 +435,9 @@
             // 
             // buttoncleardomains
             // 
-            buttoncleardomains.BackColor = SystemColors.ControlDarkDark;
+            buttoncleardomains.BackColor = Color.FromArgb(62, 6, 95);
             buttoncleardomains.FlatStyle = FlatStyle.Flat;
+            buttoncleardomains.ForeColor = Color.White;
             buttoncleardomains.Location = new Point(114, 321);
             buttoncleardomains.Name = "buttoncleardomains";
             buttoncleardomains.Size = new Size(110, 23);
@@ -437,8 +449,9 @@
             // 
             // addbutton
             // 
-            addbutton.BackColor = SystemColors.ControlDarkDark;
+            addbutton.BackColor = Color.FromArgb(62, 6, 95);
             addbutton.FlatStyle = FlatStyle.Flat;
+            addbutton.ForeColor = Color.White;
             addbutton.Location = new Point(114, 111);
             addbutton.Name = "addbutton";
             addbutton.Size = new Size(110, 23);
@@ -459,19 +472,21 @@
             // 
             // domaintextBox
             // 
-            domaintextBox.BackColor = SystemColors.ControlDarkDark;
+            domaintextBox.BackColor = Color.FromArgb(62, 6, 95);
             domaintextBox.ForeColor = Color.White;
             domaintextBox.Location = new Point(64, 82);
             domaintextBox.Name = "domaintextBox";
             domaintextBox.Size = new Size(160, 23);
             domaintextBox.TabIndex = 5;
             domaintextBox.TabStop = false;
+            domaintextBox.TextChanged += domaintextBox_TextChanged;
             domaintextBox.KeyPress += domaintextBox_KeyPress;
             // 
             // button8
             // 
-            button8.BackColor = SystemColors.ControlDarkDark;
+            button8.BackColor = Color.FromArgb(62, 6, 95);
             button8.FlatStyle = FlatStyle.Flat;
+            button8.ForeColor = Color.White;
             button8.Location = new Point(144, 22);
             button8.Name = "button8";
             button8.Size = new Size(80, 23);
@@ -492,7 +507,7 @@
             biddinggroupBox.Controls.Add(blindnumericUpDown);
             biddinggroupBox.Controls.Add(label2);
             biddinggroupBox.Controls.Add(label5);
-            biddinggroupBox.ForeColor = Color.White;
+            biddinggroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             biddinggroupBox.Location = new Point(11, 368);
             biddinggroupBox.Name = "biddinggroupBox";
             biddinggroupBox.Size = new Size(367, 197);
@@ -538,7 +553,7 @@
             // 
             // batchsizenumericud
             // 
-            batchsizenumericud.BackColor = SystemColors.ControlDarkDark;
+            batchsizenumericud.BackColor = Color.FromArgb(62, 6, 95);
             batchsizenumericud.ForeColor = Color.White;
             batchsizenumericud.Location = new Point(88, 17);
             batchsizenumericud.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
@@ -548,6 +563,7 @@
             batchsizenumericud.TabIndex = 3;
             batchsizenumericud.TabStop = false;
             batchsizenumericud.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            batchsizenumericud.ValueChanged += batchsizenumericud_ValueChanged;
             // 
             // settingsgroupBox
             // 
@@ -560,7 +576,7 @@
             settingsgroupBox.Controls.Add(label10);
             settingsgroupBox.Controls.Add(modecomboBox);
             settingsgroupBox.Controls.Add(label11);
-            settingsgroupBox.ForeColor = Color.White;
+            settingsgroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             settingsgroupBox.Location = new Point(11, 167);
             settingsgroupBox.Name = "settingsgroupBox";
             settingsgroupBox.Size = new Size(367, 106);
@@ -585,7 +601,7 @@
             groupBox3.Controls.Add(label15);
             groupBox3.Controls.Add(logtextBox);
             groupBox3.Controls.Add(button4);
-            groupBox3.ForeColor = Color.White;
+            groupBox3.ForeColor = Color.FromArgb(142, 5, 194);
             groupBox3.Location = new Point(12, 571);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(1085, 206);
@@ -605,7 +621,7 @@
             // 
             // loglinesnumeric
             // 
-            loglinesnumeric.BackColor = SystemColors.ControlDarkDark;
+            loglinesnumeric.BackColor = Color.FromArgb(62, 6, 95);
             loglinesnumeric.ForeColor = Color.White;
             loglinesnumeric.Location = new Point(878, 22);
             loglinesnumeric.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
@@ -614,6 +630,7 @@
             loglinesnumeric.Size = new Size(120, 23);
             loglinesnumeric.TabIndex = 18;
             loglinesnumeric.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            loglinesnumeric.ValueChanged += loglinesnumeric_ValueChanged;
             // 
             // label15
             // 
@@ -644,7 +661,7 @@
             groupBox1.Controls.Add(mainnetbutton);
             groupBox1.Controls.Add(ipporttextBox);
             groupBox1.Controls.Add(label14);
-            groupBox1.ForeColor = Color.White;
+            groupBox1.ForeColor = Color.FromArgb(142, 5, 194);
             groupBox1.Location = new Point(384, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(285, 149);
@@ -654,8 +671,9 @@
             // 
             // regtestbutton
             // 
-            regtestbutton.BackColor = SystemColors.ControlDarkDark;
+            regtestbutton.BackColor = Color.FromArgb(62, 6, 95);
             regtestbutton.FlatStyle = FlatStyle.Flat;
+            regtestbutton.ForeColor = Color.White;
             regtestbutton.Location = new Point(87, 111);
             regtestbutton.Name = "regtestbutton";
             regtestbutton.Size = new Size(75, 23);
@@ -666,8 +684,9 @@
             // 
             // mainnetbutton
             // 
-            mainnetbutton.BackColor = SystemColors.ControlDarkDark;
+            mainnetbutton.BackColor = Color.FromArgb(62, 6, 95);
             mainnetbutton.FlatStyle = FlatStyle.Flat;
+            mainnetbutton.ForeColor = Color.White;
             mainnetbutton.Location = new Point(6, 111);
             mainnetbutton.Name = "mainnetbutton";
             mainnetbutton.Size = new Size(75, 23);
@@ -678,13 +697,14 @@
             // 
             // ipporttextBox
             // 
-            ipporttextBox.BackColor = SystemColors.ControlDarkDark;
+            ipporttextBox.BackColor = Color.FromArgb(62, 6, 95);
             ipporttextBox.ForeColor = Color.White;
             ipporttextBox.Location = new Point(57, 14);
             ipporttextBox.Name = "ipporttextBox";
             ipporttextBox.Size = new Size(222, 23);
             ipporttextBox.TabIndex = 1;
             ipporttextBox.Text = "127.0.0.1:12039";
+            ipporttextBox.TextChanged += ipporttextBox_TextChanged;
             // 
             // label14
             // 
@@ -699,7 +719,7 @@
             // 
             ledgergroupBox.Controls.Add(label16);
             ledgergroupBox.Controls.Add(ledgercheckBox);
-            ledgergroupBox.ForeColor = Color.White;
+            ledgergroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             ledgergroupBox.Location = new Point(384, 167);
             ledgergroupBox.Name = "ledgergroupBox";
             ledgergroupBox.Size = new Size(285, 195);
@@ -741,7 +761,7 @@
             updategroupBox.Controls.Add(button5);
             updategroupBox.Controls.Add(dnslistBox);
             updategroupBox.Controls.Add(button2);
-            updategroupBox.ForeColor = Color.White;
+            updategroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             updategroupBox.Location = new Point(384, 368);
             updategroupBox.Name = "updategroupBox";
             updategroupBox.Size = new Size(712, 197);
@@ -751,7 +771,7 @@
             // 
             // dns4textBox
             // 
-            dns4textBox.BackColor = SystemColors.ControlDarkDark;
+            dns4textBox.BackColor = Color.FromArgb(62, 6, 95);
             dns4textBox.ForeColor = Color.White;
             dns4textBox.Location = new Point(87, 135);
             dns4textBox.Name = "dns4textBox";
@@ -761,7 +781,7 @@
             // 
             // dns3textBox
             // 
-            dns3textBox.BackColor = SystemColors.ControlDarkDark;
+            dns3textBox.BackColor = Color.FromArgb(62, 6, 95);
             dns3textBox.ForeColor = Color.White;
             dns3textBox.Location = new Point(87, 106);
             dns3textBox.Name = "dns3textBox";
@@ -771,7 +791,7 @@
             // 
             // dns2textBox
             // 
-            dns2textBox.BackColor = SystemColors.ControlDarkDark;
+            dns2textBox.BackColor = Color.FromArgb(62, 6, 95);
             dns2textBox.ForeColor = Color.White;
             dns2textBox.Location = new Point(87, 77);
             dns2textBox.Name = "dns2textBox";
@@ -781,7 +801,7 @@
             // 
             // dns1textBox
             // 
-            dns1textBox.BackColor = SystemColors.ControlDarkDark;
+            dns1textBox.BackColor = Color.FromArgb(62, 6, 95);
             dns1textBox.ForeColor = Color.White;
             dns1textBox.Location = new Point(87, 48);
             dns1textBox.Name = "dns1textBox";
@@ -829,7 +849,7 @@
             // 
             // dnstypecomboBox
             // 
-            dnstypecomboBox.BackColor = SystemColors.ControlDarkDark;
+            dnstypecomboBox.BackColor = Color.FromArgb(62, 6, 95);
             dnstypecomboBox.FlatStyle = FlatStyle.Flat;
             dnstypecomboBox.ForeColor = Color.White;
             dnstypecomboBox.FormattingEnabled = true;
@@ -852,8 +872,9 @@
             // 
             // button5
             // 
-            button5.BackColor = SystemColors.ControlDarkDark;
+            button5.BackColor = Color.FromArgb(62, 6, 95);
             button5.FlatStyle = FlatStyle.Flat;
+            button5.ForeColor = Color.White;
             button5.Location = new Point(391, 168);
             button5.Name = "button5";
             button5.Size = new Size(99, 23);
@@ -864,7 +885,7 @@
             // 
             // dnslistBox
             // 
-            dnslistBox.BackColor = SystemColors.ControlDarkDark;
+            dnslistBox.BackColor = Color.FromArgb(62, 6, 95);
             dnslistBox.Dock = DockStyle.Right;
             dnslistBox.ForeColor = Color.White;
             dnslistBox.FormattingEnabled = true;
@@ -873,11 +894,13 @@
             dnslistBox.Name = "dnslistBox";
             dnslistBox.Size = new Size(213, 175);
             dnslistBox.TabIndex = 38;
+            dnslistBox.SelectedIndexChanged += dnslistBox_SelectedIndexChanged;
             // 
             // button2
             // 
-            button2.BackColor = SystemColors.ControlDarkDark;
+            button2.BackColor = Color.FromArgb(62, 6, 95);
             button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = Color.White;
             button2.Location = new Point(391, 139);
             button2.Name = "button2";
             button2.Size = new Size(99, 23);
@@ -903,7 +926,7 @@
             Controls.Add(stopbutton);
             Controls.Add(startbutton);
             Controls.Add(groupBox2);
-            ForeColor = Color.White;
+            ForeColor = Color.FromArgb(142, 5, 194);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
