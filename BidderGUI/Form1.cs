@@ -843,6 +843,8 @@ namespace BidderGUI
         private void Form1_Load(object sender, EventArgs e)
         {
             addlog("For help contact Nathan.Woodburn/ or go to https://l.woodburn.au/discord");
+            addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
+            addlog("https://l.woodburn.au/support");
 
         }
 
