@@ -225,7 +225,6 @@
             apitextBox.Name = "apitextBox";
             apitextBox.Size = new Size(244, 23);
             apitextBox.TabIndex = 0;
-            apitextBox.TextChanged += apitextBox_TextChanged;
             // 
             // logtextBox
             // 
@@ -240,7 +239,6 @@
             logtextBox.Size = new Size(1079, 149);
             logtextBox.TabIndex = 13;
             logtextBox.TabStop = false;
-            logtextBox.TextChanged += logtextBox_TextChanged;
             // 
             // label7
             // 
@@ -259,7 +257,6 @@
             wallettextBox.Name = "wallettextBox";
             wallettextBox.Size = new Size(243, 23);
             wallettextBox.TabIndex = 1;
-            wallettextBox.TextChanged += wallettextBox_TextChanged;
             // 
             // button4
             // 
@@ -293,7 +290,6 @@
             passtextBox.Size = new Size(243, 23);
             passtextBox.TabIndex = 2;
             passtextBox.UseSystemPasswordChar = true;
-            passtextBox.TextChanged += passtextBox_TextChanged;
             // 
             // timer1
             // 
@@ -347,7 +343,6 @@
             intervalnumericUpDown.TabIndex = 4;
             intervalnumericUpDown.TabStop = false;
             intervalnumericUpDown.Value = new decimal(new int[] { 600, 0, 0, 0 });
-            intervalnumericUpDown.ValueChanged += intervalnumericUpDown_ValueChanged;
             // 
             // label10
             // 
@@ -479,7 +474,6 @@
             domaintextBox.Size = new Size(160, 23);
             domaintextBox.TabIndex = 5;
             domaintextBox.TabStop = false;
-            domaintextBox.TextChanged += domaintextBox_TextChanged;
             domaintextBox.KeyPress += domaintextBox_KeyPress;
             // 
             // button8
@@ -563,7 +557,6 @@
             batchsizenumericud.TabIndex = 3;
             batchsizenumericud.TabStop = false;
             batchsizenumericud.Value = new decimal(new int[] { 50, 0, 0, 0 });
-            batchsizenumericud.ValueChanged += batchsizenumericud_ValueChanged;
             // 
             // settingsgroupBox
             // 
@@ -630,7 +623,6 @@
             loglinesnumeric.Size = new Size(120, 23);
             loglinesnumeric.TabIndex = 18;
             loglinesnumeric.Value = new decimal(new int[] { 10, 0, 0, 0 });
-            loglinesnumeric.ValueChanged += loglinesnumeric_ValueChanged;
             // 
             // label15
             // 
@@ -704,7 +696,6 @@
             ipporttextBox.Size = new Size(222, 23);
             ipporttextBox.TabIndex = 1;
             ipporttextBox.Text = "127.0.0.1:12039";
-            ipporttextBox.TextChanged += ipporttextBox_TextChanged;
             // 
             // label14
             // 
@@ -894,7 +885,6 @@
             dnslistBox.Name = "dnslistBox";
             dnslistBox.Size = new Size(213, 175);
             dnslistBox.TabIndex = 38;
-            dnslistBox.SelectedIndexChanged += dnslistBox_SelectedIndexChanged;
             // 
             // button2
             // 
