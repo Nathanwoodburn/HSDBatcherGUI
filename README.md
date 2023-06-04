@@ -1,5 +1,5 @@
 # BidderGUI
-![image](https://github.com/Nathanwoodburn/HSDBidderGUI/blob/master/ledgerscreenshot.png)
+![image](https://github.com/Nathanwoodburn/HSDBidderGUI/blob/master/HSDBatcher-v4.1.png)
 
 Easy to use HSD Bidder built on C# .net framework  
 This version only works with HSD v5 or greater.  
