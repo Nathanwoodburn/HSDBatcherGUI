@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationIcon>GUIw.ico</ApplicationIcon>
+    <ApplicationIcon>HSDBatcher.ico</ApplicationIcon>
     <Title>HSD Batcher GUI</Title>
     <PackageProjectUrl>https://github.com/Nathanwoodburn/HSDBidderGUI</PackageProjectUrl>
     <PackageIcon>NJW Icon 512.png</PackageIcon>
@@ -17,7 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="GUIw.ico" />
+    <Content Include="HSDBatcher.ico" />
   </ItemGroup>
 
   <ItemGroup>
