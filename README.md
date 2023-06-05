@@ -69,7 +69,7 @@ Example `node bin/hsd-ledger sendraw --http-host 127.0.0.1 --api-key=1234 -w col
 
 
 ## Theme
-You can change the theme by editing the `theme.txt` file in %appdata%/HSDBidderGUI.
+You can change the theme by editing the `theme.txt` file in `%appdata%/HSDBidderGUI`.  
 Here is a list of options:
 
 ### background:
@@ -91,16 +91,14 @@ Options are:
 2. mica (styled like some newer windows apps)
 3. key (transparent with a key color)
      This will also make the transparent colour clickthroughable.
-     This requires transparency-key to be set
 4. percent (transparent with a percentage)
      This will affect all parts of the form.
-     Requires transparency-percent to be set
 
 ### transparency-key:
-Sets the key color for the form. Only used if transparent-mode is set to key.
-Can also be set to `main` or `alt` to use the main or alt background colors.
+Sets the key color for the form. Required if transparent-mode is set to key.  
+Can also be set to `main` or `alt` to use the main or alt background colors.  
 ! Warning if you set this to be black the menu options (Minimize, Close) will be a bit buggy.
 
 ### transparency-percent:
-Sets the transparency percentage for the form. Only used if transparent-mode is set to percent.
+Sets the transparency percentage for the form. Required if transparent-mode is set to percent.  
 0 is fully transparent and 100 is fully opaque.

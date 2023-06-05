@@ -1095,7 +1095,7 @@ namespace BidderGUI
             batchsizenumericud.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             intervalnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             regtestbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);            
+            mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button2.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button3.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
@@ -1148,7 +1148,7 @@ namespace BidderGUI
 
             // Transparancy
             applyTransparency(theme);
-            
+
 
         }
 
@@ -1160,19 +1160,15 @@ namespace BidderGUI
                 {
                     case "mica":
                         var accent = new AccentPolicy { AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND };
-
                         var accentStructSize = Marshal.SizeOf(accent);
-
                         var accentPtr = Marshal.AllocHGlobal(accentStructSize);
                         Marshal.StructureToPtr(accent, accentPtr, false);
-
                         var data = new WindowCompositionAttributeData
                         {
                             Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
                             SizeOfData = accentStructSize,
                             Data = accentPtr
                         };
-
                         User32.SetWindowCompositionAttribute(Handle, ref data);
                         Marshal.FreeHGlobal(accentPtr);
                         break;
@@ -1201,6 +1197,10 @@ namespace BidderGUI
                         if (theme.ContainsKey("transparency-percent"))
                         {
                             Opacity = Convert.ToDouble(theme["transparency-percent"]) / 100;
+                        }
+                        else
+                        {
+                            addlog("No transparency-percent found in theme file");
                         }
                         break;
                 }

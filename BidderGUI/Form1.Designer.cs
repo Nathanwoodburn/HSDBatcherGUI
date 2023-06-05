@@ -920,7 +920,7 @@
             Controls.Add(startbutton);
             Controls.Add(groupBox2);
             ForeColor = Color.FromArgb(142, 5, 194);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
