@@ -846,6 +846,7 @@ namespace BidderGUI
             addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
             addlog("https://l.woodburn.au/support");
 
+            UpdateTheme();
         }
 
         private void dnstypecomboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -986,5 +987,54 @@ namespace BidderGUI
             perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
             totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
         }
+
+        #region "Theming"
+        private void UpdateTheme()
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HSDBatcher\\";
+            // Check if file exists
+            if (!Directory.Exists(dir))
+            {
+                CreateConfig(dir);
+            }
+            if (!File.Exists(dir + "theme.txt"))
+            {
+                CreateConfig(dir);
+            }
+
+            // Read file
+            StreamReader sr = new StreamReader(dir + "theme.txt");
+            Dictionary<string, string> theme = new Dictionary<string, string>();
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                string[] split = line.Split(':');
+                theme.Add(split[0].Trim(), split[1].Trim());
+            }
+            sr.Dispose();
+            addlog("Loaded theme file");
+
+            // Apply theme
+            this.BackColor = ColorTranslator.FromHtml(theme["background"]);
+
+
+        }
+
+        private void CreateConfig(string dir)
+        {
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            StreamWriter sw = new StreamWriter(dir + "theme.txt");
+            sw.WriteLine("background: #000000");
+            sw.WriteLine("foreground: #8e05c2");
+            sw.WriteLine("background-alt: #3e065f");
+            sw.WriteLine("foreground-alt: #ffffff");
+            sw.Dispose();
+            addlog("Created theme file");
+        }
+        #endregion
+
     }
 }
