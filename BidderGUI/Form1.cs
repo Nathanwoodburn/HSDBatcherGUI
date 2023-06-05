@@ -1218,6 +1218,10 @@ namespace BidderGUI
             sw.WriteLine("foreground: #8e05c2");
             sw.WriteLine("background-alt: #3e065f");
             sw.WriteLine("foreground-alt: #ffffff");
+            sw.WriteLine("transparent-mode: off");
+            sw.WriteLine("transparency-key: main");
+            sw.WriteLine("transparency-percent: 90");
+
             sw.Dispose();
             addlog("Created theme file");
         }
