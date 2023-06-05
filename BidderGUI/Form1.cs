@@ -1012,7 +1012,6 @@ namespace BidderGUI
                 theme.Add(split[0].Trim(), split[1].Trim());
             }
             sr.Dispose();
-            addlog("Loaded theme file");
 
             if (!theme.ContainsKey("background") || !theme.ContainsKey("background-alt") || !theme.ContainsKey("foreground") || !theme.ContainsKey("foreground-alt"))
             {
