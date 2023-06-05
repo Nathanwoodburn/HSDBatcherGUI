@@ -1,13 +1,55 @@
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace BidderGUI
 {
     public partial class Form1 : Form
     {
+
+        internal enum AccentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_INVALID_STATE = 4
+        }
+
+        internal enum WindowCompositionAttribute
+        {
+            WCA_ACCENT_POLICY = 19
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct AccentPolicy
+        {
+            public AccentState AccentState;
+            public int AccentFlags;
+            public int GradientColor;
+            public int AnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
+        {
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
+
+        internal static class User32
+        {
+            [DllImport("user32.dll")]
+            internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        }
+
+
         public Form1()
         {
             InitializeComponent();
+
         }
 
         // Create http client to connect to the api
@@ -846,6 +888,7 @@ namespace BidderGUI
             addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
             addlog("https://l.woodburn.au/support");
 
+            UpdateTheme();
         }
 
         private void dnstypecomboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -986,5 +1029,203 @@ namespace BidderGUI
             perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
             totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
         }
+
+        #region "Theming"
+        private void UpdateTheme()
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HSDBatcher\\";
+            // Check if file exists
+            if (!Directory.Exists(dir))
+            {
+                CreateConfig(dir);
+            }
+            if (!File.Exists(dir + "theme.txt"))
+            {
+                CreateConfig(dir);
+            }
+
+            // Read file
+            StreamReader sr = new StreamReader(dir + "theme.txt");
+            Dictionary<string, string> theme = new Dictionary<string, string>();
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                string[] split = line.Split(':');
+                theme.Add(split[0].Trim(), split[1].Trim());
+            }
+            sr.Dispose();
+
+            if (!theme.ContainsKey("background") || !theme.ContainsKey("background-alt") || !theme.ContainsKey("foreground") || !theme.ContainsKey("foreground-alt"))
+            {
+                addlog("Theme file is missing key");
+                return;
+            }
+
+            // Apply theme
+            this.BackColor = ColorTranslator.FromHtml(theme["background"]);
+
+            // Foreground
+            this.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            // Need to specify this for each groupbox to override the black text
+            walletgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox1.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox2.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox3.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            settingsgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            ledgergroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            biddinggroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            updategroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+
+
+            // background-alt
+            apitextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            wallettextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns1textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns2textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns3textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns4textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            domainslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dnslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            logtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            passtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            ipporttextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            loglinesnumeric.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            bidnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            blindnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            batchsizenumericud.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            intervalnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            regtestbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button2.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button3.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button4.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button5.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button8.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            buttoncleardomains.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            modecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            domaintextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            removebutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dnstypecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            startbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            stopbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            addbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+
+            // Foreground-alt
+            apitextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            wallettextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns1textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns2textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns3textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns4textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            domainslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dnslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            logtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            passtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            ipporttextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            loglinesnumeric.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            bidnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            blindnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            batchsizenumericud.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            intervalnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            regtestbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            mainnetbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button1.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button2.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button3.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button4.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button5.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button8.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            buttoncleardomains.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            modecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            domaintextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            removebutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dnstypecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            startbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            stopbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            addbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+
+
+            // Transparancy
+            applyTransparency(theme);
+
+
+        }
+
+        private void applyTransparency(Dictionary<string, string> theme)
+        {
+            if (theme.ContainsKey("transparent-mode"))
+            {
+                switch (theme["transparent-mode"])
+                {
+                    case "mica":
+                        var accent = new AccentPolicy { AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND };
+                        var accentStructSize = Marshal.SizeOf(accent);
+                        var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+                        Marshal.StructureToPtr(accent, accentPtr, false);
+                        var data = new WindowCompositionAttributeData
+                        {
+                            Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                            SizeOfData = accentStructSize,
+                            Data = accentPtr
+                        };
+                        User32.SetWindowCompositionAttribute(Handle, ref data);
+                        Marshal.FreeHGlobal(accentPtr);
+                        break;
+                    case "key":
+                        if (theme.ContainsKey("transparency-key"))
+                        {
+                            switch (theme["transparency-key"])
+                            {
+                                case "alt":
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["background-alt"]);
+                                    break;
+                                case "main":
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["background"]);
+                                    break;
+                                default:
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["transparency-key"]);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            addlog("No transparency-key found in theme file");
+                        }
+                        break;
+                    case "percent":
+                        if (theme.ContainsKey("transparency-percent"))
+                        {
+                            Opacity = Convert.ToDouble(theme["transparency-percent"]) / 100;
+                        }
+                        else
+                        {
+                            addlog("No transparency-percent found in theme file");
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void CreateConfig(string dir)
+        {
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            StreamWriter sw = new StreamWriter(dir + "theme.txt");
+            sw.WriteLine("background: #000000");
+            sw.WriteLine("foreground: #8e05c2");
+            sw.WriteLine("background-alt: #3e065f");
+            sw.WriteLine("foreground-alt: #ffffff");
+            sw.WriteLine("transparent-mode: off");
+            sw.WriteLine("transparency-key: main");
+            sw.WriteLine("transparency-percent: 90");
+
+            sw.Dispose();
+            addlog("Created theme file");
+        }
+        #endregion
+
     }
 }

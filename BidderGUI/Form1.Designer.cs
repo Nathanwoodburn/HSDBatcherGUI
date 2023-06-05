@@ -378,7 +378,7 @@
             // 
             // walletgroupBox
             // 
-            walletgroupBox.BackColor = Color.Black;
+            walletgroupBox.BackColor = Color.Transparent;
             walletgroupBox.Controls.Add(wallettextBox);
             walletgroupBox.Controls.Add(button3);
             walletgroupBox.Controls.Add(label6);
@@ -396,7 +396,7 @@
             // 
             // groupBox2
             // 
-            groupBox2.BackColor = Color.Black;
+            groupBox2.BackColor = Color.Transparent;
             groupBox2.Controls.Add(removebutton);
             groupBox2.Controls.Add(buttoncleardomains);
             groupBox2.Controls.Add(addbutton);
@@ -492,7 +492,7 @@
             // 
             // biddinggroupBox
             // 
-            biddinggroupBox.BackColor = Color.Black;
+            biddinggroupBox.BackColor = Color.Transparent;
             biddinggroupBox.Controls.Add(totalcostlabel);
             biddinggroupBox.Controls.Add(perbidcostlabel);
             biddinggroupBox.Controls.Add(bidnumericUpDown);
@@ -560,7 +560,7 @@
             // 
             // settingsgroupBox
             // 
-            settingsgroupBox.BackColor = Color.Black;
+            settingsgroupBox.BackColor = Color.Transparent;
             settingsgroupBox.Controls.Add(label13);
             settingsgroupBox.Controls.Add(intervalnumericUpDown);
             settingsgroupBox.Controls.Add(batchsizenumericud);
@@ -588,7 +588,7 @@
             // 
             // groupBox3
             // 
-            groupBox3.BackColor = Color.Black;
+            groupBox3.BackColor = Color.Transparent;
             groupBox3.Controls.Add(skiperrorscheck);
             groupBox3.Controls.Add(loglinesnumeric);
             groupBox3.Controls.Add(label15);
@@ -649,6 +649,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.BackColor = Color.Transparent;
             groupBox1.Controls.Add(regtestbutton);
             groupBox1.Controls.Add(mainnetbutton);
             groupBox1.Controls.Add(ipporttextBox);
@@ -708,6 +709,7 @@
             // 
             // ledgergroupBox
             // 
+            ledgergroupBox.BackColor = Color.Transparent;
             ledgergroupBox.Controls.Add(label16);
             ledgergroupBox.Controls.Add(ledgercheckBox);
             ledgergroupBox.ForeColor = Color.FromArgb(142, 5, 194);
@@ -739,6 +741,7 @@
             // 
             // updategroupBox
             // 
+            updategroupBox.BackColor = Color.Transparent;
             updategroupBox.Controls.Add(dns4textBox);
             updategroupBox.Controls.Add(dns3textBox);
             updategroupBox.Controls.Add(dns2textBox);
@@ -917,7 +920,7 @@
             Controls.Add(startbutton);
             Controls.Add(groupBox2);
             ForeColor = Color.FromArgb(142, 5, 194);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "Form1";
