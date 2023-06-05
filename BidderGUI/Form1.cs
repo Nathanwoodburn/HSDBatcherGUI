@@ -1,13 +1,55 @@
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace BidderGUI
 {
     public partial class Form1 : Form
     {
+
+        internal enum AccentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_INVALID_STATE = 4
+        }
+
+        internal enum WindowCompositionAttribute
+        {
+            WCA_ACCENT_POLICY = 19
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct AccentPolicy
+        {
+            public AccentState AccentState;
+            public int AccentFlags;
+            public int GradientColor;
+            public int AnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
+        {
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
+
+        internal static class User32
+        {
+            [DllImport("user32.dll")]
+            internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        }
+
+
         public Form1()
         {
             InitializeComponent();
+
         }
 
         // Create http client to connect to the api
@@ -1104,7 +1146,65 @@ namespace BidderGUI
             addbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
 
 
+            // Transparancy
+            applyTransparency(theme);
+            
 
+        }
+
+        private void applyTransparency(Dictionary<string, string> theme)
+        {
+            if (theme.ContainsKey("transparent-mode"))
+            {
+                switch (theme["transparent-mode"])
+                {
+                    case "mica":
+                        var accent = new AccentPolicy { AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND };
+
+                        var accentStructSize = Marshal.SizeOf(accent);
+
+                        var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+                        Marshal.StructureToPtr(accent, accentPtr, false);
+
+                        var data = new WindowCompositionAttributeData
+                        {
+                            Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                            SizeOfData = accentStructSize,
+                            Data = accentPtr
+                        };
+
+                        User32.SetWindowCompositionAttribute(Handle, ref data);
+                        Marshal.FreeHGlobal(accentPtr);
+                        break;
+                    case "key":
+                        if (theme.ContainsKey("transparency-key"))
+                        {
+                            switch (theme["transparency-key"])
+                            {
+                                case "alt":
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["background-alt"]);
+                                    break;
+                                case "main":
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["background"]);
+                                    break;
+                                default:
+                                    this.TransparencyKey = ColorTranslator.FromHtml(theme["transparency-key"]);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            addlog("No transparency-key found in theme file");
+                        }
+                        break;
+                    case "percent":
+                        if (theme.ContainsKey("transparency-percent"))
+                        {
+                            Opacity = Convert.ToDouble(theme["transparency-percent"]) / 100;
+                        }
+                        break;
+                }
+            }
         }
 
         private void CreateConfig(string dir)
