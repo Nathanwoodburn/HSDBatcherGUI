@@ -1014,8 +1014,96 @@ namespace BidderGUI
             sr.Dispose();
             addlog("Loaded theme file");
 
+            if (!theme.ContainsKey("background") || !theme.ContainsKey("background-alt") || !theme.ContainsKey("foreground") || !theme.ContainsKey("foreground-alt"))
+            {
+                addlog("Theme file is missing key");
+                return;
+            }
+
             // Apply theme
             this.BackColor = ColorTranslator.FromHtml(theme["background"]);
+
+            // Foreground
+            this.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            // Need to specify this for each groupbox to override the black text
+            walletgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox1.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox2.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            groupBox3.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            settingsgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            ledgergroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            biddinggroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+            updategroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+
+
+            // background-alt
+            apitextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            wallettextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns1textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns2textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns3textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dns4textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            domainslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dnslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            logtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            passtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            ipporttextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            loglinesnumeric.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            bidnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            blindnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            batchsizenumericud.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            intervalnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            regtestbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);            
+            button1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button2.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button3.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button4.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button5.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            button8.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            buttoncleardomains.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            modecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            domaintextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            removebutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            dnstypecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            startbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            stopbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            addbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+
+            // Foreground-alt
+            apitextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            wallettextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns1textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns2textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns3textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dns4textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            domainslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dnslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            logtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            passtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            ipporttextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            loglinesnumeric.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            bidnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            blindnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            batchsizenumericud.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            intervalnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            regtestbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            mainnetbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button1.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button2.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button3.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button4.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button5.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            button8.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            buttoncleardomains.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            modecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            domaintextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            removebutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            dnstypecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            startbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            stopbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            addbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+
 
 
         }
