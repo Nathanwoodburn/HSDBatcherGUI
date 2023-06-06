@@ -1270,9 +1270,11 @@ namespace BidderGUI
                     }
                 }
             }
+            addlog("Loaded settings");
         }
         private void SaveSettings()
         {
+            addlog("Saving settings");
             // Write settings to file
             StreamWriter sw = new StreamWriter(dir + "settings.txt");
             sw.WriteLine("api: " + apitextBox.Text);
