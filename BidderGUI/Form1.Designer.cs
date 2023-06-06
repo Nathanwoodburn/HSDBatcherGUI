@@ -95,9 +95,9 @@
             dns1label = new Label();
             dnstypecomboBox = new ComboBox();
             label17 = new Label();
-            button5 = new Button();
+            buttonDeleteDNS = new Button();
             dnslistBox = new ListBox();
-            button2 = new Button();
+            buttonAddDNS = new Button();
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).BeginInit();
@@ -125,7 +125,7 @@
             button1.TabStop = false;
             button1.Text = "Import";
             button1.UseVisualStyleBackColor = false;
-            button1.Click += import_button_Click;
+            button1.Click += importDomains;
             // 
             // domainslistBox
             // 
@@ -197,7 +197,7 @@
             button3.TabStop = false;
             button3.Text = "Test";
             button3.UseVisualStyleBackColor = false;
-            button3.Click += test_button_Click;
+            button3.Click += testAPI;
             // 
             // label5
             // 
@@ -270,7 +270,7 @@
             button4.TabStop = false;
             button4.Text = "Clear";
             button4.UseVisualStyleBackColor = false;
-            button4.Click += clear_button_Click;
+            button4.Click += clearLog;
             // 
             // label8
             // 
@@ -294,7 +294,7 @@
             // timer1
             // 
             timer1.Interval = 1000;
-            timer1.Tick += batch_timer_Tick;
+            timer1.Tick += batchTick;
             // 
             // startbutton
             // 
@@ -307,7 +307,7 @@
             startbutton.TabIndex = 6;
             startbutton.Text = "Start";
             startbutton.UseVisualStyleBackColor = false;
-            startbutton.Click += start_button_Click;
+            startbutton.Click += startBatching;
             // 
             // stopbutton
             // 
@@ -320,7 +320,7 @@
             stopbutton.TabIndex = 7;
             stopbutton.Text = "Stop";
             stopbutton.UseVisualStyleBackColor = false;
-            stopbutton.Click += stop_button_Click;
+            stopbutton.Click += stopBatching;
             // 
             // label9
             // 
@@ -365,7 +365,6 @@
             modecomboBox.Size = new Size(141, 23);
             modecomboBox.TabIndex = 3;
             modecomboBox.Text = "BID";
-            modecomboBox.SelectedIndexChanged += modecomboBox_SelectedIndexChanged;
             // 
             // label11
             // 
@@ -426,7 +425,7 @@
             removebutton.TabStop = false;
             removebutton.Text = "Remove Selected";
             removebutton.UseVisualStyleBackColor = false;
-            removebutton.Click += removebutton_Click;
+            removebutton.Click += removeDomain;
             // 
             // buttoncleardomains
             // 
@@ -440,7 +439,7 @@
             buttoncleardomains.TabStop = false;
             buttoncleardomains.Text = "Clear All";
             buttoncleardomains.UseVisualStyleBackColor = false;
-            buttoncleardomains.Click += button_cleardomains_Click;
+            buttoncleardomains.Click += clearDomains;
             // 
             // addbutton
             // 
@@ -454,7 +453,7 @@
             addbutton.TabStop = false;
             addbutton.Text = "Add to list";
             addbutton.UseVisualStyleBackColor = false;
-            addbutton.Click += add_domain_button_Click;
+            addbutton.Click += addDomain;
             // 
             // label1
             // 
@@ -488,7 +487,7 @@
             button8.TabStop = false;
             button8.Text = "Export";
             button8.UseVisualStyleBackColor = false;
-            button8.Click += export_button_Click;
+            button8.Click += exportDomains;
             // 
             // biddinggroupBox
             // 
@@ -645,7 +644,7 @@
             // countdowntimer
             // 
             countdowntimer.Interval = 1000;
-            countdowntimer.Tick += countdowntimer_Tick;
+            countdowntimer.Tick += countdownTick;
             // 
             // groupBox1
             // 
@@ -752,9 +751,9 @@
             updategroupBox.Controls.Add(dns1label);
             updategroupBox.Controls.Add(dnstypecomboBox);
             updategroupBox.Controls.Add(label17);
-            updategroupBox.Controls.Add(button5);
+            updategroupBox.Controls.Add(buttonDeleteDNS);
             updategroupBox.Controls.Add(dnslistBox);
-            updategroupBox.Controls.Add(button2);
+            updategroupBox.Controls.Add(buttonAddDNS);
             updategroupBox.ForeColor = Color.FromArgb(142, 5, 194);
             updategroupBox.Location = new Point(384, 368);
             updategroupBox.Name = "updategroupBox";
@@ -864,18 +863,18 @@
             label17.TabIndex = 40;
             label17.Text = "Type:";
             // 
-            // button5
+            // buttonDeleteDNS
             // 
-            button5.BackColor = Color.FromArgb(62, 6, 95);
-            button5.FlatStyle = FlatStyle.Flat;
-            button5.ForeColor = Color.White;
-            button5.Location = new Point(391, 168);
-            button5.Name = "button5";
-            button5.Size = new Size(99, 23);
-            button5.TabIndex = 39;
-            button5.Text = "Delete Record";
-            button5.UseVisualStyleBackColor = false;
-            button5.Click += button5_Click;
+            buttonDeleteDNS.BackColor = Color.FromArgb(62, 6, 95);
+            buttonDeleteDNS.FlatStyle = FlatStyle.Flat;
+            buttonDeleteDNS.ForeColor = Color.White;
+            buttonDeleteDNS.Location = new Point(391, 168);
+            buttonDeleteDNS.Name = "buttonDeleteDNS";
+            buttonDeleteDNS.Size = new Size(99, 23);
+            buttonDeleteDNS.TabIndex = 39;
+            buttonDeleteDNS.Text = "Delete Record";
+            buttonDeleteDNS.UseVisualStyleBackColor = false;
+            buttonDeleteDNS.Click += removeDNS;
             // 
             // dnslistBox
             // 
@@ -889,18 +888,18 @@
             dnslistBox.Size = new Size(213, 175);
             dnslistBox.TabIndex = 38;
             // 
-            // button2
+            // buttonAddDNS
             // 
-            button2.BackColor = Color.FromArgb(62, 6, 95);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(391, 139);
-            button2.Name = "button2";
-            button2.Size = new Size(99, 23);
-            button2.TabIndex = 37;
-            button2.Text = "Add record";
-            button2.UseVisualStyleBackColor = false;
-            button2.Click += button2_Click;
+            buttonAddDNS.BackColor = Color.FromArgb(62, 6, 95);
+            buttonAddDNS.FlatStyle = FlatStyle.Flat;
+            buttonAddDNS.ForeColor = Color.White;
+            buttonAddDNS.Location = new Point(391, 139);
+            buttonAddDNS.Name = "buttonAddDNS";
+            buttonAddDNS.Size = new Size(99, 23);
+            buttonAddDNS.TabIndex = 37;
+            buttonAddDNS.Text = "Add record";
+            buttonAddDNS.UseVisualStyleBackColor = false;
+            buttonAddDNS.Click += addDNS;
             // 
             // Form1
             // 
@@ -925,6 +924,7 @@
             MaximizeBox = false;
             Name = "Form1";
             Text = "HSD Batcher GUI";
+            FormClosing += Form1_FormClosing;
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).EndInit();
@@ -1005,7 +1005,7 @@
         private CheckBox ledgercheckBox;
         private Label label16;
         private GroupBox updategroupBox;
-        private Button button2;
+        private Button buttonAddDNS;
         private TextBox dns1textBox;
         private Label dns4label;
         private Label dns3label;
@@ -1013,7 +1013,7 @@
         private Label dns1label;
         private ComboBox dnstypecomboBox;
         private Label label17;
-        private Button button5;
+        private Button buttonDeleteDNS;
         private ListBox dnslistBox;
         private TextBox dns4textBox;
         private TextBox dns3textBox;

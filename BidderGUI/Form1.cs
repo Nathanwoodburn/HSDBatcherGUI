@@ -7,104 +7,99 @@ namespace BidderGUI
 {
     public partial class Form1 : Form
     {
-
-        internal enum AccentState
-        {
-            ACCENT_DISABLED = 0,
-            ACCENT_ENABLE_GRADIENT = 1,
-            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-            ACCENT_ENABLE_BLURBEHIND = 3,
-            ACCENT_INVALID_STATE = 4
-        }
-
-        internal enum WindowCompositionAttribute
-        {
-            WCA_ACCENT_POLICY = 19
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct AccentPolicy
-        {
-            public AccentState AccentState;
-            public int AccentFlags;
-            public int GradientColor;
-            public int AnimationId;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct WindowCompositionAttributeData
-        {
-            public WindowCompositionAttribute Attribute;
-            public IntPtr Data;
-            public int SizeOfData;
-        }
-
-        internal static class User32
-        {
-            [DllImport("user32.dll")]
-            internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
-        }
-
-
-        public Form1()
-        {
-            InitializeComponent();
-
-        }
+        #region Init
 
         // Create http client to connect to the api
         HttpClient httpClient = new HttpClient();
         // Create a int to store the time since last batch
         int timetaken = 0;
-
-
-        private void import_button_Click(object sender, EventArgs e)
+        // Directory to store settings
+        string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HSDBatcher\\";
+        public Form1()
         {
-            // Import domains from text file
-
-            OpenFileDialog open = new OpenFileDialog();
-            if (open.ShowDialog() == DialogResult.OK)
-            {
-                refreshdomain(open.FileName);
-            }
-        }
-
-        void refreshdomain(string file)
-        {
-            // Add try to stop missing file errors
-            try
-            {
-                // Open file for reading
-                StreamReader filereader = new StreamReader(file);
-                // While more lines to read
-                while (!filereader.EndOfStream)
-                {
-                    // Add domain to list if it isn't already in the list
-                    string domain = filereader.ReadLine();
-                    if (!domainslistBox.Items.Contains(domain))
-                    {
-                        domainslistBox.Items.Add(domain);
-                    }
-                    else
-                    {
-
-                        addlog("Domain already in list: " + domain);
-                    }
-                }
-                filereader.Close();
-            }
-            // Log errors to log textbox
-            catch (Exception error)
-            {
-
-                addlog("Error: " + error.Message);
-            }
-            calculatecost();
+            InitializeComponent();
 
         }
-        // Test API
-        // Requires API key and wallet name. Password isn't used
-        async void test()
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            addlog("For help contact Nathan.Woodburn/ or go to https://l.woodburn.au/discord");
+            addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
+            addlog("https://l.woodburn.au/support");
+
+            UpdateTheme();
+            GetSettings();
+        }
+        #endregion
+        #region Start/Stop
+        private void stopBatching(object sender, EventArgs e)
+        {
+            //Stop timers
+            countdowntimer.Stop();
+            timer1.Stop();
+
+            // Make all fields editable and enabled
+            apitextBox.ReadOnly = false;
+            wallettextBox.ReadOnly = false;
+            passtextBox.ReadOnly = false;
+            batchsizenumericud.ReadOnly = false;
+            intervalnumericUpDown.ReadOnly = false;
+            modecomboBox.Enabled = true;
+            bidnumericUpDown.ReadOnly = false;
+            blindnumericUpDown.ReadOnly = false;
+
+            // Reset time label
+            timelabel.Text = "Time till next batch:";
+
+        }
+
+        private void startBatching(object sender, EventArgs e)
+        {
+            // Reset timers and start
+
+            timetaken = 0;
+            countdowntimer.Start();
+            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
+            timer1.Start();
+
+            // Make all fields uneditable
+            apitextBox.ReadOnly = true;
+            wallettextBox.ReadOnly = true;
+            passtextBox.ReadOnly = true;
+            batchsizenumericud.ReadOnly = true;
+            intervalnumericUpDown.ReadOnly = true;
+            modecomboBox.Enabled = false;
+            bidnumericUpDown.ReadOnly = true;
+            blindnumericUpDown.ReadOnly = true;
+
+            // Run first batch
+            sendtransaction();
+        }
+        #endregion
+        #region Timers
+        private async void batchTick(object sender, EventArgs e)
+        {
+            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
+            // reset time since last batch variable
+            timetaken = 0;
+            // Run send transaction function
+            sendtransaction();
+        }
+
+        private void countdownTick(object sender, EventArgs e)
+        {
+            // Add time since last batch
+            timetaken += 1;
+
+            // Calculate time to minutes and seconds
+            int timeleftsec = (int)intervalnumericUpDown.Value - timetaken;
+            TimeSpan time = TimeSpan.FromSeconds(timeleftsec);
+
+            // Update time label
+            timelabel.Text = "Time till next batch: " + time.ToString(@"mm\:ss");
+        }
+        #endregion
+        #region API calls
+        async void testAPI(object sender, EventArgs e)
         {
             // This will curl the below URL and return the result
             //curl http://x:api-key@127.0.0.1:12039/wallet/$id/account
@@ -129,101 +124,6 @@ namespace BidderGUI
 
                 addlog("Error: " + error.Message);
             }
-        }
-
-
-        private void test_button_Click(object sender, EventArgs e)
-        {
-            // Run test on test button click
-            test();
-        }
-
-        string getbid(bool convert = false)
-        {
-            // Convert bid numeric picker to string and replace commas with periods (used to fix local decimal seperator)
-
-            // Allow conversion to dollarydoos needed for some API calls
-            if (convert)
-            {
-                return (bidnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
-            }
-            else
-            {
-                return bidnumericUpDown.Value.ToString().Replace(",", ".");
-            }
-        }
-        string getblind(bool convert = false)
-        {
-            // Convert blind numeric picker to string and replace commas with periods (used to fix local decimal seperator)
-
-            // Allow conversion to dollarydoos needed for some API calls
-            if (convert)
-            {
-                return (blindnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
-            }
-            else
-            {
-                return blindnumericUpDown.Value.ToString().Replace(",", ".");
-            }
-        }
-        private void clear_button_Click(object sender, EventArgs e)
-        {
-            // Clear log
-            logtextBox.Text = "";
-        }
-
-        private void stop_button_Click(object sender, EventArgs e)
-        {
-            //Stop timers
-            countdowntimer.Stop();
-            timer1.Stop();
-
-            // Make all fields editable and enabled
-            apitextBox.ReadOnly = false;
-            wallettextBox.ReadOnly = false;
-            passtextBox.ReadOnly = false;
-            batchsizenumericud.ReadOnly = false;
-            intervalnumericUpDown.ReadOnly = false;
-            modecomboBox.Enabled = true;
-            bidnumericUpDown.ReadOnly = false;
-            blindnumericUpDown.ReadOnly = false;
-
-            // Reset time label
-            timelabel.Text = "Time till next batch:";
-
-        }
-
-        private void start_button_Click(object sender, EventArgs e)
-        {
-            // Reset timers and start
-
-            timetaken = 0;
-            countdowntimer.Start();
-            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
-            timer1.Start();
-
-            // Make all fields uneditable
-            apitextBox.ReadOnly = true;
-            wallettextBox.ReadOnly = true;
-            passtextBox.ReadOnly = true;
-            batchsizenumericud.ReadOnly = true;
-            intervalnumericUpDown.ReadOnly = true;
-            modecomboBox.Enabled = false;
-            bidnumericUpDown.ReadOnly = true;
-            blindnumericUpDown.ReadOnly = true;
-
-            // Run first batch
-            sendtransaction();
-        }
-
-
-        private async void batch_timer_Tick(object sender, EventArgs e)
-        {
-            timer1.Interval = (int)intervalnumericUpDown.Value * 1000;
-            // reset time since last batch variable
-            timetaken = 0;
-            // Run send transaction function
-            sendtransaction();
         }
         async void sendtransaction()
         {
@@ -648,127 +548,34 @@ namespace BidderGUI
                 stopbutton.PerformClick();
             }
         }
-
-        private void add_domain_button_Click(object sender, EventArgs e)
+        public async void ledger(string batch)
         {
-            // If there is a domain in the textbox and it is not already in the list
-            if (domaintextBox.Text != "" && !domainslistBox.Items.Contains(domaintextBox.Text))
-            {
-                // Add the domain to the list
-                domainslistBox.Items.Add(domaintextBox.Text);
-                domaintextBox.Text = "";
-            }
-            calculatecost();
+            await unlockwallet();
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
+            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+
+
+
+            // Log transaction attempt
+            addlog("Creating batch. . .");
+            string content = "{\"method\": \"createbatch\",\"params\":[ " + batch + "]}";
+            //addlog(content);
+            // Create the API call
+            request.Content = new StringContent(content);
+
+            // Send request
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            // Log response
+            addlog(responseBody);
+
+            addlog("Saved to clipboard.");
+            Clipboard.SetText(responseBody);
         }
-
-        private void clear_list_button_Click(object sender, EventArgs e)
-        {
-            // Clear the domain list
-            domainslistBox.Items.Clear();
-            removebutton.Enabled = false;
-        }
-
-        private void removebutton_Click(object sender, EventArgs e)
-        {
-            // Remove the selected domain from the list
-            try
-            {
-                domainslistBox.Items.Remove(domainslistBox.SelectedItem.ToString());
-                removebutton.Enabled = false;
-            }
-            catch (Exception ex)
-            {
-                addlog("Error: " + ex.Message);
-            }
-            calculatecost();
-
-        }
-
-        private void domainslistBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // If there is a domain selected in the list enable the remove button
-            removebutton.Enabled = true;
-        }
-
-        private void modecomboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-            /*
-            // If the mode is set to bid
-            if (modecomboBox.Text == "BID")
-            {
-                // Show the bid and blind bid fields
-                biddinggroupBox.Enabled = true;
-            }
-            if (modecomboBox.Text == "UPDATE")
-            {
-                // Show the DNS box
-                updategroupBox.Enabled = true;
-            }
-            */
-
-        }
-
-        private void export_button_Click(object sender, EventArgs e)
-        {
-            // If there are domains in the list
-            if (domainslistBox.Items.Count > 0)
-            {
-                // Create a new save file dialog
-                SaveFileDialog save = new SaveFileDialog();
-                save.Filter = "Text File|*.txt";
-
-                // If user saves file
-                if (save.ShowDialog() == DialogResult.OK)
-                {
-                    // Write domains to file
-                    try
-                    {
-                        // Create a new file stream
-                        StreamWriter writer = new StreamWriter(save.FileName);
-
-                        // For each file in the domain list box
-                        foreach (string domain in domainslistBox.Items.OfType<string>().ToArray())
-                        {
-                            // Write domain to file
-                            writer.WriteLine(domain);
-                        }
-                        // Close the file stream
-                        writer.Dispose();
-                    }
-                    // If there is an error
-                    catch (Exception ex)
-                    {
-                        // Log error
-                        addlog("Error: " + ex.Message);
-                    }
-                }
-            }
-        }
-
-        private void domaintextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // If the enter key is pressed
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                // Press the add domain button
-                addbutton.PerformClick();
-            }
-        }
-
-        private void countdowntimer_Tick(object sender, EventArgs e)
-        {
-            // Add time since last batch
-            timetaken += 1;
-
-            // Calculate time to minutes and seconds
-            int timeleftsec = (int)intervalnumericUpDown.Value - timetaken;
-            TimeSpan time = TimeSpan.FromSeconds(timeleftsec);
-
-            // Update time label
-            timelabel.Text = "Time till next batch: " + time.ToString(@"mm\:ss");
-        }
-
+        #endregion
+        #region Networks
         private void mainnetbutton_Click(object sender, EventArgs e)
         {
             // Set the API URL to mainnet
@@ -780,13 +587,8 @@ namespace BidderGUI
             // Set the API URL to regtest
             ipporttextBox.Text = "127.0.0.1:14039";
         }
-
-        private void button_cleardomains_Click(object sender, EventArgs e)
-        {
-            domainslistBox.Items.Clear();
-            calculatecost();
-        }
-        int oldtime = 0;
+        #endregion
+        #region Logging
         public bool Checkerrors(string log, string[] domains)
         {
             log = log.ToLower();
@@ -856,41 +658,190 @@ namespace BidderGUI
 
             logtextBox.Text = string.Join(Environment.NewLine, newlines) + Environment.NewLine + log;
         }
-        public async void ledger(string batch)
+        private void clearLog(object sender, EventArgs e)
         {
-            await unlockwallet();
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text);
-            request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-
-
-
-            // Log transaction attempt
-            addlog("Creating batch. . .");
-            string content = "{\"method\": \"createbatch\",\"params\":[ " + batch + "]}";
-            //addlog(content);
-            // Create the API call
-            request.Content = new StringContent(content);
-
-            // Send request
-            HttpResponseMessage response = await httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-            string responseBody = await response.Content.ReadAsStringAsync();
-
-            // Log response
-            addlog(responseBody);
-
-            addlog("Saved to clipboard.");
-            Clipboard.SetText(responseBody);
+            // Clear log
+            logtextBox.Text = "";
         }
-        private void Form1_Load(object sender, EventArgs e)
+        #endregion
+        #region Domain List
+        private void importDomains(object sender, EventArgs e)
         {
-            addlog("For help contact Nathan.Woodburn/ or go to https://l.woodburn.au/discord");
-            addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
-            addlog("https://l.woodburn.au/support");
+            // Import domains from text file
 
-            UpdateTheme();
+            OpenFileDialog open = new OpenFileDialog();
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                refreshdomain(open.FileName);
+            }
         }
 
+        void refreshdomain(string file)
+        {
+            // Add try to stop missing file errors
+            try
+            {
+                // Open file for reading
+                StreamReader filereader = new StreamReader(file);
+                // While more lines to read
+                while (!filereader.EndOfStream)
+                {
+                    // Add domain to list if it isn't already in the list
+                    string domain = filereader.ReadLine();
+                    if (!domainslistBox.Items.Contains(domain))
+                    {
+                        domainslistBox.Items.Add(domain);
+                    }
+                    else
+                    {
+
+                        addlog("Domain already in list: " + domain);
+                    }
+                }
+                filereader.Close();
+            }
+            // Log errors to log textbox
+            catch (Exception error)
+            {
+
+                addlog("Error: " + error.Message);
+            }
+            calculatecost();
+
+        }
+        private void addDomain(object sender, EventArgs e)
+        {
+            // If there is a domain in the textbox and it is not already in the list
+            if (domaintextBox.Text != "" && !domainslistBox.Items.Contains(domaintextBox.Text))
+            {
+                // Add the domain to the list
+                domainslistBox.Items.Add(domaintextBox.Text);
+                domaintextBox.Text = "";
+            }
+            calculatecost();
+        }
+
+        private void removeDomain(object sender, EventArgs e)
+        {
+            // Remove the selected domain from the list
+            try
+            {
+                domainslistBox.Items.Remove(domainslistBox.SelectedItem.ToString());
+                removebutton.Enabled = false;
+            }
+            catch (Exception ex)
+            {
+                addlog("Error: " + ex.Message);
+            }
+            calculatecost();
+        }
+
+
+        private void domainslistBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // If there is a domain selected in the list enable the remove button
+            removebutton.Enabled = true;
+        }
+
+        private void exportDomains(object sender, EventArgs e)
+        {
+            // If there are domains in the list
+            if (domainslistBox.Items.Count > 0)
+            {
+                // Create a new save file dialog
+                SaveFileDialog save = new SaveFileDialog();
+                save.Filter = "Text File|*.txt";
+
+                // If user saves file
+                if (save.ShowDialog() == DialogResult.OK)
+                {
+                    // Write domains to file
+                    try
+                    {
+                        // Create a new file stream
+                        StreamWriter writer = new StreamWriter(save.FileName);
+
+                        // For each file in the domain list box
+                        foreach (string domain in domainslistBox.Items.OfType<string>().ToArray())
+                        {
+                            // Write domain to file
+                            writer.WriteLine(domain);
+                        }
+                        // Close the file stream
+                        writer.Dispose();
+                    }
+                    // If there is an error
+                    catch (Exception ex)
+                    {
+                        // Log error
+                        addlog("Error: " + ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void domaintextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // If the enter key is pressed
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                // Press the add domain button
+                addbutton.PerformClick();
+            }
+        }
+        private void clearDomains(object sender, EventArgs e)
+        {
+            domainslistBox.Items.Clear();
+            calculatecost();
+        }
+
+        #endregion
+        #region Bid/Blind
+
+        private void bidnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+        private void blindnumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            calculatecost();
+        }
+        public void calculatecost()
+        {
+            decimal perdomain = (blindnumericUpDown.Value + bidnumericUpDown.Value);
+            perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
+            totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
+        }
+        string getbid(bool convert = false)
+        {
+            // Convert bid numeric picker to string and replace commas with periods (used to fix local decimal seperator)
+
+            // Allow conversion to dollarydoos needed for some API calls
+            if (convert)
+            {
+                return (bidnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
+            }
+            else
+            {
+                return bidnumericUpDown.Value.ToString().Replace(",", ".");
+            }
+        }
+        string getblind(bool convert = false)
+        {
+            // Convert blind numeric picker to string and replace commas with periods (used to fix local decimal seperator)
+
+            // Allow conversion to dollarydoos needed for some API calls
+            if (convert)
+            {
+                return (blindnumericUpDown.Value * 1000000).ToString().Replace(",", ".");
+            }
+            else
+            {
+                return blindnumericUpDown.Value.ToString().Replace(",", ".");
+            }
+        }
+        #endregion
+        #region DNS
         private void dnstypecomboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (dnstypecomboBox.Text)
@@ -926,7 +877,7 @@ namespace BidderGUI
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void addDNS(object sender, EventArgs e)
         {
             if (dnstypecomboBox.Text == "NS")
             {
@@ -1002,7 +953,7 @@ namespace BidderGUI
             return true;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void removeDNS(object sender, EventArgs e)
         {
             try
             {
@@ -1014,26 +965,10 @@ namespace BidderGUI
             }
         }
 
-        private void bidnumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            calculatecost();
-        }
-
-        private void blindnumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            calculatecost();
-        }
-        public void calculatecost()
-        {
-            decimal perdomain = (blindnumericUpDown.Value + bidnumericUpDown.Value);
-            perbidcostlabel.Text = perdomain.ToString() + " HNS per domain";
-            totalcostlabel.Text = (perdomain * domainslistBox.Items.Count).ToString() + " HNS total";
-        }
-
-        #region "Theming"
+        #endregion
+        #region Theming
         private void UpdateTheme()
         {
-            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\HSDBatcher\\";
             // Check if file exists
             if (!Directory.Exists(dir))
             {
@@ -1097,10 +1032,10 @@ namespace BidderGUI
             regtestbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button2.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            buttonAddDNS.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button3.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button4.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button5.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+            buttonDeleteDNS.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             button8.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             buttoncleardomains.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
             modecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
@@ -1131,10 +1066,10 @@ namespace BidderGUI
             regtestbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             mainnetbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             button1.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button2.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            buttonAddDNS.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             button3.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             button4.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button5.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+            buttonDeleteDNS.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             button8.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             buttoncleardomains.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
             modecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
@@ -1225,7 +1160,151 @@ namespace BidderGUI
             sw.Dispose();
             addlog("Created theme file");
         }
+
+        // Required for mica effect
+        internal enum AccentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_INVALID_STATE = 4
+        }
+
+        internal enum WindowCompositionAttribute
+        {
+            WCA_ACCENT_POLICY = 19
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct AccentPolicy
+        {
+            public AccentState AccentState;
+            public int AccentFlags;
+            public int GradientColor;
+            public int AnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
+        {
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
+
+        internal static class User32
+        {
+            [DllImport("user32.dll")]
+            internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        }
+        #endregion
+        #region Settings
+        private void GetSettings()
+        {
+            if (!File.Exists(dir + "settings.txt"))
+            {
+                return;
+            }
+            StreamReader sr = new StreamReader(dir + "settings.txt");
+            Dictionary<string, string> settings = new Dictionary<string, string>();
+            while (!sr.EndOfStream)
+            {
+                string line = sr.ReadLine();
+                if (line.Contains(":"))
+                {
+                    string[] split = line.Split(':');
+                    settings.Add(split[0].Trim(), split[1].Trim());
+                }
+            }
+            sr.Close();
+            foreach (KeyValuePair<string, string> setting in settings)
+            {
+                switch (setting.Key)
+                {
+                    case "api":
+                        apitextBox.Text = setting.Value;
+                        break;
+                    case "ip":
+                        ipporttextBox.Text = setting.Value;
+                        break;
+                    case "wallet":
+                        wallettextBox.Text = setting.Value;
+                        break;
+                    case "pass":
+                        passtextBox.Text = setting.Value;
+                        break;
+                    case "loglines":
+                        loglinesnumeric.Value = Convert.ToInt32(setting.Value);
+                        break;
+                    case "batchsize":
+                        batchsizenumericud.Value = Convert.ToInt32(setting.Value);
+                        break;
+                    case "interval":
+                        intervalnumericUpDown.Value = Convert.ToInt32(setting.Value);
+                        break;
+                    case "mode":
+                        modecomboBox.SelectedIndex = Convert.ToInt32(setting.Value);
+                        break;
+                    case "blind":
+                        blindnumericUpDown.Value = Convert.ToDecimal(setting.Value);
+                        break;
+                    case "bid":
+                        bidnumericUpDown.Value = Convert.ToDecimal(setting.Value);
+                        break;
+                    case "dns":
+                        string[] dns = setting.Value.Split('\\');
+                        foreach (string domain in dns)
+                        {
+                            if (domain != "")
+                            {
+                                dnslistBox.Items.Add(domain.Replace("?", ":"));
+                            }
+                        }
+                        break;
+                }
+                if (setting.Key.Contains("domain")){
+                    if (setting.Value.Trim() != "")
+                    {
+                        domainslistBox.Items.Add(setting.Value.Trim());
+                    }
+                }
+            }
+        }
+        private void SaveSettings()
+        {
+            // Write settings to file
+            StreamWriter sw = new StreamWriter(dir + "settings.txt");
+            sw.WriteLine("api: " + apitextBox.Text);
+            sw.WriteLine("ip: " + ipporttextBox.Text);
+            sw.WriteLine("wallet: " + wallettextBox.Text);
+            sw.WriteLine("pass: " + passtextBox.Text);
+            sw.WriteLine("loglines: " + loglinesnumeric.Value);
+            sw.WriteLine("batchsize: " + batchsizenumericud.Value);
+            sw.WriteLine("interval: " + intervalnumericUpDown.Value);
+            sw.WriteLine("mode: " + modecomboBox.SelectedIndex);
+            sw.WriteLine("blind: " + blindnumericUpDown.Value);
+            sw.WriteLine("bid: " + bidnumericUpDown.Value);
+            string dns = "";
+            foreach (string domain in dnslistBox.Items)
+            {
+                dns += domain.Replace(":","?") + "\\";
+            }
+            sw.WriteLine("dns: " + dns);
+            int domaincount = 0;
+            foreach (string domain in domainslistBox.Items)
+            {
+                sw.WriteLine("domain" + domaincount + ": " + domain);
+                domaincount++;
+            }
+
+            sw.Dispose();
+        }
         #endregion
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettings(); 
+        }
     }
 }
