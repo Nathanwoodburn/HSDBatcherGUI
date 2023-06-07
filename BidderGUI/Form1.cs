@@ -615,7 +615,7 @@ namespace BidderGUI
             {
                 if (skiperrorscheck.Checked)
                 {
-                    StreamWriter streamWriter = new StreamWriter(Environment.CurrentDirectory + "\\log.txt", true);
+                    StreamWriter streamWriter = new StreamWriter(dir + "log.txt", true);
                     foreach (string domain in domains)
                     {
                         domainslistBox.Items.Remove(domain);
@@ -623,7 +623,7 @@ namespace BidderGUI
                     }
                     streamWriter.Close();
                     streamWriter.Dispose();
-                    addlog("Added log at: " + Environment.CurrentDirectory + "\\log.txt");
+                    addlog("Added log at: " + dir + "log.txt");
                 }
                 else
                 {
@@ -1200,6 +1200,10 @@ namespace BidderGUI
         }
         #endregion
         #region Settings
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveSettings();
+        }
         private void GetSettings()
         {
             if (!File.Exists(dir + "settings.txt"))
@@ -1263,7 +1267,8 @@ namespace BidderGUI
                         }
                         break;
                 }
-                if (setting.Key.Contains("domain")){
+                if (setting.Key.Contains("domain"))
+                {
                     if (setting.Value.Trim() != "")
                     {
                         domainslistBox.Items.Add(setting.Value.Trim());
@@ -1290,7 +1295,7 @@ namespace BidderGUI
             string dns = "";
             foreach (string domain in dnslistBox.Items)
             {
-                dns += domain.Replace(":","?") + "\\";
+                dns += domain.Replace(":", "?") + "\\";
             }
             sw.WriteLine("dns: " + dns);
             int domaincount = 0;
@@ -1304,9 +1309,5 @@ namespace BidderGUI
         }
         #endregion
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            SaveSettings(); 
-        }
     }
 }

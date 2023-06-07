@@ -606,9 +606,9 @@
             skiperrorscheck.AutoSize = true;
             skiperrorscheck.Location = new Point(10, 22);
             skiperrorscheck.Name = "skiperrorscheck";
-            skiperrorscheck.Size = new Size(230, 19);
+            skiperrorscheck.Size = new Size(217, 19);
             skiperrorscheck.TabIndex = 19;
-            skiperrorscheck.Text = "Skip Errors (will log them to /errors.txt)";
+            skiperrorscheck.Text = "Skip Errors (will log them to /log.txt)";
             skiperrorscheck.UseVisualStyleBackColor = true;
             // 
             // loglinesnumeric
