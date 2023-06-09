@@ -1,12 +1,19 @@
+# **NEW WALLET**
+FireWallet is a new wallet for Handshake.  
+It runs on Windows (using .net framework).  
+It includes the same functionality as this Batcher tool and much more.
+You can have a look at it [here](https://github.com/Nathanwoodburn/FireWallet/)
+
+
 # BidderGUI
-![image](https://github.com/Nathanwoodburn/HSDBidderGUI/blob/master/HSDBatcher-v4.1.png)
+![image](https://github.com/Nathanwoodburn/HSDBatcherGUI/blob/master/HSDBatcher-v4.1.png)
 
 Watch this video for a short intro on how this tool works:
 [https://youtu.be/w8NUjOqySiM](https://youtu.be/w8NUjOqySiM)
 
 Easy to use HSD Bidder built on C# .net framework  
 This version only works with HSD v5 or greater.  
-If you have below this version use [this release](https://github.com/Nathanwoodburn/HSDBidderGUI/releases/tag/1.1.0.0)
+If you have below this version use [this release](https://github.com/Nathanwoodburn/HSDBatcherGUI/releases/tag/1.1.0.0)
 
 To use this you need to be running a HSD node (either Full or SPV).  
 Bob comes with this node built in.

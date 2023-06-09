@@ -121,7 +121,6 @@ namespace BidderGUI
             // Log errors to log textbox
             catch (Exception error)
             {
-
                 addlog("Error: " + error.Message);
             }
         }
