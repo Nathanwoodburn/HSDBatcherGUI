@@ -98,6 +98,9 @@
             buttonDeleteDNS = new Button();
             dnslistBox = new ListBox();
             buttonAddDNS = new Button();
+            groupBoxTransfer = new GroupBox();
+            textBoxAddress = new TextBox();
+            label18 = new Label();
             ((System.ComponentModel.ISupportInitialize)bidnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)blindnumericUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)intervalnumericUpDown).BeginInit();
@@ -111,6 +114,7 @@
             groupBox1.SuspendLayout();
             ledgergroupBox.SuspendLayout();
             updategroupBox.SuspendLayout();
+            groupBoxTransfer.SuspendLayout();
             SuspendLayout();
             // 
             // button1
@@ -359,12 +363,13 @@
             modecomboBox.FlatStyle = FlatStyle.Flat;
             modecomboBox.ForeColor = Color.White;
             modecomboBox.FormattingEnabled = true;
-            modecomboBox.Items.AddRange(new object[] { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "UPDATE", "RENEW" });
+            modecomboBox.Items.AddRange(new object[] { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "UPDATE", "RENEW", "TRANSFER" });
             modecomboBox.Location = new Point(88, 75);
             modecomboBox.Name = "modecomboBox";
             modecomboBox.Size = new Size(141, 23);
             modecomboBox.TabIndex = 3;
             modecomboBox.Text = "BID";
+            modecomboBox.SelectedIndexChanged += modecomboBox_SelectedIndexChanged;
             // 
             // label11
             // 
@@ -901,12 +906,42 @@
             buttonAddDNS.UseVisualStyleBackColor = false;
             buttonAddDNS.Click += addDNS;
             // 
+            // groupBoxTransfer
+            // 
+            groupBoxTransfer.Controls.Add(label18);
+            groupBoxTransfer.Controls.Add(textBoxAddress);
+            groupBoxTransfer.ForeColor = Color.FromArgb(142, 5, 194);
+            groupBoxTransfer.Location = new Point(383, 368);
+            groupBoxTransfer.Name = "groupBoxTransfer";
+            groupBoxTransfer.Size = new Size(713, 197);
+            groupBoxTransfer.TabIndex = 32;
+            groupBoxTransfer.TabStop = false;
+            groupBoxTransfer.Text = "Transfer";
+            groupBoxTransfer.Visible = false;
+            // 
+            // textBoxAddress
+            // 
+            textBoxAddress.Location = new Point(66, 21);
+            textBoxAddress.Name = "textBoxAddress";
+            textBoxAddress.Size = new Size(189, 23);
+            textBoxAddress.TabIndex = 0;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(10, 24);
+            label18.Name = "label18";
+            label18.Size = new Size(50, 15);
+            label18.TabIndex = 1;
+            label18.Text = "Send to:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(1108, 789);
+            Controls.Add(groupBoxTransfer);
             Controls.Add(updategroupBox);
             Controls.Add(ledgergroupBox);
             Controls.Add(groupBox1);
@@ -947,6 +982,8 @@
             ledgergroupBox.PerformLayout();
             updategroupBox.ResumeLayout(false);
             updategroupBox.PerformLayout();
+            groupBoxTransfer.ResumeLayout(false);
+            groupBoxTransfer.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1020,5 +1057,8 @@
         private TextBox dns2textBox;
         private Label totalcostlabel;
         private Label perbidcostlabel;
+        private GroupBox groupBoxTransfer;
+        private Label label18;
+        private TextBox textBoxAddress;
     }
 }

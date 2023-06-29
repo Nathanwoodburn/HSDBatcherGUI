@@ -25,7 +25,6 @@ namespace BidderGUI
             addlog("For help contact Nathan.Woodburn/ or go to https://l.woodburn.au/discord");
             addlog("If this application helps, please consider supporting me to help pay for costs in developing other projects");
             addlog("https://l.woodburn.au/support");
-
             UpdateTheme();
             GetSettings();
         }
@@ -129,131 +128,134 @@ namespace BidderGUI
             // Send a batch of transactions
 
             // Check the selected mode is legit
-            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "RENEW", "UPDATE" };
+            string[] modes = { "OPEN", "BID", "REVEAL", "REDEEM", "REGISTER", "RENEW", "UPDATE", "TRANSFER" };
 
-            if (modes.Contains(modecomboBox.Text))
+            // If the mode is not in the list
+            if (!modes.Contains(modecomboBox.Text))
             {
-                // If there is only 1 domain left in the list
-                // Send a single transaction
-                if (domainslistBox.Items.Count == 1)
+                addlog("Invalid Mode. Cancelled Sending");
+                stopbutton.PerformClick();
+            }
+            // If there is only 1 domain left in the list
+            // Send a single transaction
+            if (domainslistBox.Items.Count == 1)
+            {
+                // Get domain
+                string domain = domainslistBox.Items[0].ToString();
+                // Log transaction attempt
+                addlog("Sending " + modecomboBox.Text + " for: " + domain);
+
+
+                // Select mode
+                if (modecomboBox.Text == "BID")
                 {
-                    // Get domain
-                    string domain = domainslistBox.Items[0].ToString();
-                    // Log transaction attempt
-                    addlog("Sending " + modecomboBox.Text + " for: " + domain);
+                    // Create API call
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true) + "}";
+                    request.Content = new StringContent(curltext);
 
-
-                    // Select mode
-                    if (modecomboBox.Text == "BID")
-                    {
-                        // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/bid");
-                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"bid\":" + getbid(true) + ",\"lockup\":" + getblind(true) + "}";
-                        request.Content = new StringContent(curltext);
-
-                        // Send request
-                        sendapicall(request, domain);
-
-                    }
-                    else if (modecomboBox.Text == "REGISTER")
-                    {
-                        // Use UPDATE for REGISTER
-
-                        // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/update");
-                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"data\": {\"records\":[]}}";
-                        request.Content = new StringContent(curltext);
-
-                        // Send request
-                        sendapicall(request, domain);
-
-                    }
-                    else
-                    {
-                        // Create API call
-                        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
-                        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
-                        string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
-                        request.Content = new StringContent(curltext);
-
-                        // Send request
-                        sendapicall(request, domain);
-                    }
-                }
-                // If there is more than 1 domain left in the list
-                // Send a batch of transactions
-                else if (domainslistBox.Items.Count > 1)
-                {
-                    // Get the top batch of domains
-                    string[] domains = domainslistBox.Items.OfType<string>().ToArray();
-                    domains = domains.Take((int)batchsizenumericud.Value).ToArray();
-
-                    // Select mode
-                    if (modecomboBox.Text == "BID")
-                    {
-                        // Send API call
-                        sendbatchbid(domains);
-                    }
-                    else if (modecomboBox.Text == "REGISTER")
-                    {
-                        // Send API call
-                        sendbatchupdate(domains);
-                    }
-                    else if (modecomboBox.Text == "UPDATE")
-                    {
-                        // Generate records
-                        string records = "";
-                        string TXTs = "";
-                        foreach (string record in dnslistBox.Items.OfType<string>().ToArray())
-                        {
-                            if (record.Contains("{")) // Is not a TXT record
-                            {
-                                records = records + record + ",";
-                            }
-                            else
-                            {
-                                TXTs = TXTs + "\"" + record + "\",";
-                            }
-                        }
-                        if (records != "")
-                        {
-                            records = records.Substring(0, records.Length - 1);
-                        }
-                        if (TXTs != "")
-                        {
-                            records = records + ",{\"type\": \"TXT\",\"txt\": [" + TXTs.Substring(0, TXTs.Length - 1) + "]}";
-                        }
-
-
-                        // Send API call
-                        sendbatchupdate(domains, records);
-                    }
-                    else
-                    {
-                        // Send API call
-                        sendbatch(domains, modecomboBox.Text);
-                    }
+                    // Send request
+                    sendapicall(request, domain);
 
                 }
-                // If there are no domains left in the list
+                else if (modecomboBox.Text == "REGISTER")
+                {
+                    // Use UPDATE for REGISTER
+
+                    // Create API call
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/update");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"data\": {\"records\":[]}}";
+                    request.Content = new StringContent(curltext);
+
+                    // Send request
+                    sendapicall(request, domain);
+
+                }
+                else if (modecomboBox.Text == "TRANSFER")
+                {
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/transfer");
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true,\"address\":\"" + textBoxAddress.Text + "\"}";
+                    request.Content = new StringContent(curltext);
+                    sendapicall(request, domain);
+                }
                 else
                 {
-                    // Log error
-                    addlog("No Domains Found. Cancelled Sending");
-                    // Stop timers
-                    stopbutton.PerformClick();
+                    // Create API call
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, "http://" + ipporttextBox.Text + "/wallet/" + wallettextBox.Text + "/" + modecomboBox.Text.ToLower());
+                    request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(System.Text.ASCIIEncoding.ASCII.GetBytes("x:" + apitextBox.Text)));
+                    string curltext = "{\"passphrase\":\"" + passtextBox.Text + "\",\"name\":\"" + domain + "\",\"broadcast\":true,\"sign\":true}";
+                    request.Content = new StringContent(curltext);
 
+                    // Send request
+                    sendapicall(request, domain);
                 }
             }
-            // If the selected mode is not legit
+            // If there is more than 1 domain left in the list
+            // Send a batch of transactions
+            else if (domainslistBox.Items.Count > 1)
+            {
+                // Get the top batch of domains
+                string[] domains = domainslistBox.Items.OfType<string>().ToArray();
+                domains = domains.Take((int)batchsizenumericud.Value).ToArray();
+
+                // Select mode
+                if (modecomboBox.Text == "BID")
+                {
+                    // Send API call
+                    sendbatchbid(domains);
+                }
+                else if (modecomboBox.Text == "REGISTER")
+                {
+                    // Send API call
+                    sendbatchupdate(domains);
+                }
+                else if (modecomboBox.Text == "UPDATE")
+                {
+                    // Generate records
+                    string records = "";
+                    string TXTs = "";
+                    foreach (string record in dnslistBox.Items.OfType<string>().ToArray())
+                    {
+                        if (record.Contains("{")) // Is not a TXT record
+                        {
+                            records = records + record + ",";
+                        }
+                        else
+                        {
+                            TXTs = TXTs + "\"" + record + "\",";
+                        }
+                    }
+                    if (records != "")
+                    {
+                        records = records.Substring(0, records.Length - 1);
+                    }
+                    if (TXTs != "")
+                    {
+                        records = records + ",{\"type\": \"TXT\",\"txt\": [" + TXTs.Substring(0, TXTs.Length - 1) + "]}";
+                    }
+
+
+                    // Send API call
+                    sendbatchupdate(domains, records);
+                }
+                else
+                {
+                    // Send API call
+                    sendbatch(domains, modecomboBox.Text);
+                }
+
+            }
+            // If there are no domains left in the list
             else
             {
                 // Log error
-                addlog("Invalid Mode. Cancelled Sending");
+                addlog("No Domains Found. Cancelled Sending");
                 // Stop timers
                 stopbutton.PerformClick();
+
             }
         }
 
@@ -341,9 +343,19 @@ namespace BidderGUI
         {
             // Create the batch for the API call
             string batch = "[";
-            foreach (string domain in domains)
+            if (modecomboBox.Text == "TRANSFER")
             {
-                batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
+                foreach (string domain in domains)
+                {
+                    batch = batch + "[\"TRANSFER\", \"" + domain + "\", \""+textBoxAddress.Text+"\"], ";
+                }
+            }
+            else
+            {
+                foreach (string domain in domains)
+                {
+                    batch = batch + "[\"" + method + "\", \"" + domain + "\"], ";
+                }
             }
             // Finish the JSON by removing the last comma and adding a closing bracket
             batch = batch.Substring(0, batch.Length - 2) + "]";
@@ -1001,89 +1013,29 @@ namespace BidderGUI
             // Foreground
             this.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
             // Need to specify this for each groupbox to override the black text
-            walletgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            groupBox1.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            groupBox2.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            groupBox3.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            settingsgroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            ledgergroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            biddinggroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
-            updategroupBox.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
 
-
-            // background-alt
-            apitextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            wallettextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dns1textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dns2textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dns3textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dns4textBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            domainslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dnslistBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            logtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            passtextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            ipporttextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            loglinesnumeric.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            bidnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            blindnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            batchsizenumericud.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            intervalnumericUpDown.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            regtestbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            mainnetbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            buttonAddDNS.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button3.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button4.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            buttonDeleteDNS.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            button8.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            buttoncleardomains.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            modecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            domaintextBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            removebutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            dnstypecomboBox.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            startbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            stopbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-            addbutton.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
-
-            // Foreground-alt
-            apitextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            wallettextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dns1textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dns2textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dns3textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dns4textBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            domainslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dnslistBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            logtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            passtextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            ipporttextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            loglinesnumeric.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            bidnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            blindnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            batchsizenumericud.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            intervalnumericUpDown.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            regtestbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            mainnetbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button1.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            buttonAddDNS.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button3.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button4.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            buttonDeleteDNS.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            button8.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            buttoncleardomains.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            modecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            domaintextBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            removebutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            dnstypecomboBox.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            startbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            stopbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-            addbutton.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
-
+            foreach (Control c in this.Controls)
+            {
+                if (c is GroupBox)
+                {
+                    c.ForeColor = ColorTranslator.FromHtml(theme["foreground"]);
+                    foreach (Control c1 in c.Controls)
+                    {
+                        if (c1 is TextBox || c1 is ListBox || c1 is NumericUpDown || c1 is Button || c1 is ComboBox)
+                        {
+                            c1.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+                            c1.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+                        }
+                    }
+                } else if (c is TextBox || c is ListBox || c is NumericUpDown || c is Button || c is ComboBox)
+                {
+                    c.ForeColor = ColorTranslator.FromHtml(theme["foreground-alt"]);
+                    c.BackColor = ColorTranslator.FromHtml(theme["background-alt"]);
+                }
+            }
 
             // Transparancy
             applyTransparency(theme);
-
-
         }
 
         private void applyTransparency(Dictionary<string, string> theme)
@@ -1308,5 +1260,16 @@ namespace BidderGUI
         }
         #endregion
 
+        private void modecomboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (modecomboBox.Text == "TRANSFER")
+            {
+                groupBoxTransfer.Show();
+            }
+            else
+            {
+                groupBoxTransfer.Hide();
+            }
+        }
     }
 }
